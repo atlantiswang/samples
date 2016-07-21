@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tray", "tray.vcproj", "{67CD6C0E-FBFD-4A70-8720-5E2C44D08F39}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tray_win32", "..\tray_win32\tray_win32.vcproj", "{DDB6CC85-920B-47E9-ABB3-F5FFC6872E48}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{67CD6C0E-FBFD-4A70-8720-5E2C44D08F39}.Debug|Win32.ActiveCfg = Debug|Win32
+		{67CD6C0E-FBFD-4A70-8720-5E2C44D08F39}.Debug|Win32.Build.0 = Debug|Win32
+		{67CD6C0E-FBFD-4A70-8720-5E2C44D08F39}.Release|Win32.ActiveCfg = Release|Win32
+		{67CD6C0E-FBFD-4A70-8720-5E2C44D08F39}.Release|Win32.Build.0 = Release|Win32
+		{DDB6CC85-920B-47E9-ABB3-F5FFC6872E48}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DDB6CC85-920B-47E9-ABB3-F5FFC6872E48}.Debug|Win32.Build.0 = Debug|Win32
+		{DDB6CC85-920B-47E9-ABB3-F5FFC6872E48}.Release|Win32.ActiveCfg = Release|Win32
+		{DDB6CC85-920B-47E9-ABB3-F5FFC6872E48}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

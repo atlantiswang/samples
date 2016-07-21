@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSP_sign_verify", "CSP_sign_verify\CSP_sign_verify.vcproj", "{E28BF494-4CA5-4D89-84AE-AF57C1E50824}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSP_encrypt_decrypt", "CSP_encrypt_decrypt\CSP_encrypt_decrypt.vcproj", "{504E72FE-FDA5-4C20-9362-BEB79EB4E1D8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CryptUI", "CryptUI\CryptUI.vcproj", "{74AB9D67-F815-44BF-BFAF-6C1D6D40765A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSP_P7", "CSP_P7\CSP_P7.vcproj", "{D52151AC-E634-4A69-96BD-EA1D06FFAB48}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSP_aes", "CSP_aes\CSP_aes.vcproj", "{08F63AF1-D0C1-4C7D-8CF4-0B9B6E5E0BBE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSP_cert", "CSP_cert\CSP_cert.vcproj", "{86423C6A-3743-42D1-A474-605FF6F37928}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E28BF494-4CA5-4D89-84AE-AF57C1E50824}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E28BF494-4CA5-4D89-84AE-AF57C1E50824}.Debug|Win32.Build.0 = Debug|Win32
+		{E28BF494-4CA5-4D89-84AE-AF57C1E50824}.Release|Win32.ActiveCfg = Release|Win32
+		{E28BF494-4CA5-4D89-84AE-AF57C1E50824}.Release|Win32.Build.0 = Release|Win32
+		{504E72FE-FDA5-4C20-9362-BEB79EB4E1D8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{504E72FE-FDA5-4C20-9362-BEB79EB4E1D8}.Debug|Win32.Build.0 = Debug|Win32
+		{504E72FE-FDA5-4C20-9362-BEB79EB4E1D8}.Release|Win32.ActiveCfg = Release|Win32
+		{504E72FE-FDA5-4C20-9362-BEB79EB4E1D8}.Release|Win32.Build.0 = Release|Win32
+		{74AB9D67-F815-44BF-BFAF-6C1D6D40765A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{74AB9D67-F815-44BF-BFAF-6C1D6D40765A}.Debug|Win32.Build.0 = Debug|Win32
+		{74AB9D67-F815-44BF-BFAF-6C1D6D40765A}.Release|Win32.ActiveCfg = Release|Win32
+		{74AB9D67-F815-44BF-BFAF-6C1D6D40765A}.Release|Win32.Build.0 = Release|Win32
+		{D52151AC-E634-4A69-96BD-EA1D06FFAB48}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D52151AC-E634-4A69-96BD-EA1D06FFAB48}.Debug|Win32.Build.0 = Debug|Win32
+		{D52151AC-E634-4A69-96BD-EA1D06FFAB48}.Release|Win32.ActiveCfg = Release|Win32
+		{D52151AC-E634-4A69-96BD-EA1D06FFAB48}.Release|Win32.Build.0 = Release|Win32
+		{08F63AF1-D0C1-4C7D-8CF4-0B9B6E5E0BBE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{08F63AF1-D0C1-4C7D-8CF4-0B9B6E5E0BBE}.Debug|Win32.Build.0 = Debug|Win32
+		{08F63AF1-D0C1-4C7D-8CF4-0B9B6E5E0BBE}.Release|Win32.ActiveCfg = Release|Win32
+		{08F63AF1-D0C1-4C7D-8CF4-0B9B6E5E0BBE}.Release|Win32.Build.0 = Release|Win32
+		{86423C6A-3743-42D1-A474-605FF6F37928}.Debug|Win32.ActiveCfg = Debug|Win32
+		{86423C6A-3743-42D1-A474-605FF6F37928}.Debug|Win32.Build.0 = Debug|Win32
+		{86423C6A-3743-42D1-A474-605FF6F37928}.Release|Win32.ActiveCfg = Release|Win32
+		{86423C6A-3743-42D1-A474-605FF6F37928}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
