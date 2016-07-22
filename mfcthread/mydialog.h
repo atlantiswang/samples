@@ -1,21 +1,21 @@
 #pragma once
 
 
-// CMyDialog ¶Ô»°¿ò
+// CMyDialog å¯¹è¯æ¡†
 
 class CMyDialog : public CDialog
 {
 	DECLARE_DYNAMIC(CMyDialog)
 
 public:
-	CMyDialog(CWnd* pParent = NULL);   // ±ê×¼¹¹Ôìº¯Êı
+	CMyDialog(CWnd* pParent = NULL);   // æ ‡å‡†æ„é€ å‡½æ•°
 	virtual ~CMyDialog();
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 	enum { IDD = IDD_DIALOG_UI };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
 
 	DECLARE_MESSAGE_MAP()
 };
