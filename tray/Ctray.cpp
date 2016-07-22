@@ -1,8 +1,8 @@
 #include "StdAfx.h"
-#include "Ctray.h"
+#include "ctray.h"
 #include "resource.h"
 
-Ctray::Ctray(void)
+CTray::CTray(void)
 { 
 	m_tray.cbSize = sizeof(NOTIFYICONDATA);
 	m_tray.uID	  = IDR_MAINFRAME;
@@ -12,12 +12,12 @@ Ctray::Ctray(void)
 	m_tray.uFlags = NIF_ICON|NIF_MESSAGE|NIF_TIP;
 }
 
-Ctray::~Ctray(void)
+CTray::~CTray(void)
 {
 	Shell_NotifyIcon(NIM_DELETE, &m_tray);
 }
 
-void Ctray::modifytray(WCHAR *ptitle, WCHAR *pinfo)
+void CTray::modifytray(WCHAR *ptitle, WCHAR *pinfo)
 {
 	m_tray.uFlags |= NIF_INFO;
 	wcscpy_s(m_tray.szInfoTitle, 64, ptitle);
@@ -26,13 +26,13 @@ void Ctray::modifytray(WCHAR *ptitle, WCHAR *pinfo)
 	Shell_NotifyIcon(NIM_MODIFY, &m_tray);
 }
 
-void Ctray::init()
+void CTray::init()
 {
 	m_tray.hWnd = AfxGetMainWnd()->GetSafeHwnd();
 	addtray();
 }
 
-bool Ctray::addtray()
+bool CTray::addtray()
 {
 	return Shell_NotifyIcon(NIM_ADD, &m_tray);
 }

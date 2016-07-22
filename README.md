@@ -1,7 +1,9 @@
 #vs bat
+@echo off
+
 rem set environment
 
-call "d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\vcvars32.bat"
+call "d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\vcvars32.bat" > log.txt
 
 rem solution
 
@@ -12,7 +14,7 @@ rem project
 
 rem sometimes people delete the .sln
 
-devenv "d:\test\solution\mfc\mfc.vcxproj" /build "debug|win32"
+devenv "d:\test\solution\mfc\mfc.vcxproj" /build "debug|win32" >> log.txt && type log.txt
 
 pause
 
