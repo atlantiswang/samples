@@ -11,11 +11,11 @@
 //               platform. Tested on Windows/Linux/Irix
 //
 // YUHZ[2/15/2007]
-// �ο�SIMPLEINI��ʵ�֣������¸Ľ�
-// 1������ʱ��Ҫ��֤��λ�õĲ���
-// 2�����KEY=VALUE��ʹ��MAP�����ִ��Ч�� 
+// 参考SIMPLEINI的实现，做如下改进
+// 1、保存时，要保证行位置的不变
+// 2、针对KEY=VALUE，使用MAP，提高执行效率 
 // YUHZ[2/16/2007] 
-// �����˶�COMMENT�Ĵ�����������һ��С�鷳���ƿ��ˡ� 
+// 增加了对COMMENT的处理，遇到了一点小麻烦，绕开了。 
 //////////////////////////////////////////////////////////////////////
  
 #ifndef CIniFile_H
@@ -43,7 +43,7 @@ using namespace std;
 #define APP _declspec(dllimport)
 #endif
 
-// VALUE��󳤶ȣ���EFFICTIVE C++�Ľ��飬��ΪCONST����
+// VALUE最大长度，按EFFICTIVE C++的建议，改为CONST定义
 const int MAX_VALUEDATA = 2048;
  
 class APP CIniFile  
@@ -61,7 +61,7 @@ public:
 			, sComment("")
 			, nOrder(a_nOrder)
 		{}
-		// YUHZ[2/15/2007] ���������븳ֵ��Ҫ����
+		// YUHZ[2/15/2007] 拷贝构造与赋值需要定义
 		Entry(const Entry & rhs) 
 		{ 
 			operator = (rhs);
@@ -108,7 +108,7 @@ public:
 	typedef std::map<Entry, TKeyValue, Entry::KeyOrder> TSection;
  
 	/** 
-	����ʱ��Ϊ���ּ���˳����Ҫ�������Ͷ���
+	保存时，为保持加载顺序，需要以下类型定义
 	*/
 	typedef std::list<Entry> TNamesDepend;
  
@@ -184,23 +184,23 @@ private:
 		same order that they are loaded/added.
 	 */
 	int m_nOrder;
-	// YUHZ[2/15/2007] ��ʱ�ռ�ע��
+	// YUHZ[2/15/2007] 临时收集注释
 	string m_sTmpComment;
  
 	string CheckCase( string s) const;
-	// YUHZ[2/15/2007] �����������̣�ֻ��д�ļ������У�Ϊ������׼��ʱʹ�á� 
+	// YUHZ[2/15/2007] 以下两个过程，只在写文件过程中，为排序做准备时使用。 
 	void GetAllSections(TNamesDepend & a_names) const;
 	void GetAllKeyValues(TNamesDepend & a_names, const TKeyValue & a_keyval) const;
 };
 //////////////////////////////////////////////////////////////////////////
-// ��ʵ���ñ�׼C���������Կ�ƽ̨������ǿ�󣬻������á�
+// 该实现用标准C＋＋，可以跨平台，功能强大，基本可用。
 // yuhz: [10/24/2003] TODO:
-// 1������ʱ��Ҫ��֤��λ�õĲ��䣬��Ҫ����Ϊ���ڵ�ʵ���У�ע�ͺ�����
-// �Ƿֿ���ŵġ�����ʱ��ֻ�ܽ�ע�ͼ��е�ǰ�档��������һ����¼�е�VECTOR���з�Ϊ3��
-// ���С�ע�͡�SECTION�� �е�VECTOR�пɱ����е�����ID��һ������ָ�롣��SECTIONͬ��������
-// ���С�ע�͡����ã�KEY��VALUE�������������Ƶķ��������������MAP��ʾ��������
-// 2�� ��VECTOR�������õ���RESIZE��������֪�ǲ�����PUSH��BACK��������Ч��
-// ���ã�KEY��VALUE����MAP��ʾ������?
-// 3�� ��дV��һ���б�Ҫ����Ϊ����������STRING����Ҫ����������������ѿ���
-// ���⣬�������һ���Զ��������Ķ�д���ܣ�DELPHI����һ��ʵ�֡�  
+// 1　保存时，要保证行位置的不变，主要是因为现在的实现中，注释和设置
+// 是分开存放的。保存时，只能将注释集中到前面。可以设置一个记录行的VECTOR，行分为3类
+// 空行、注释、SECTION。 行的VECTOR中可保存行的类型ID和一个对象指针。对SECTION同样有三类
+// 空行、注释、设置（KEY＝VALUE）。可以用相似的方法解决。设置用MAP表示更合理。
+// 2　 对VECTOR的增加用的是RESIZE（），不知是不是用PUSH＿BACK（）更有效？
+// 设置（KEY＝VALUE）用MAP表示更合理?
+// 3　 读写V不一定有必要，因为可以先生成STRING。不要象现在这样代码很难看。
+// 另外，最好增加一个对二进制流的读写功能，DELPHI中有一个实现。  
 #endif
