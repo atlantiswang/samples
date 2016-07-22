@@ -23,3 +23,7 @@ pause
 ## -u只操作加入版本库文件，如果.gitignore写的足够好，就不用此参数了
 
 git add . -u
+
+## git对大小写敏感
+
+git config core.ignorecase false
