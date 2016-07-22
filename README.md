@@ -10,11 +10,17 @@ rem solution
 rem devenv d:\test\solution\solution.sln /rebuild "release|win32"
 
 
-rem project
-
-rem sometimes people delete the .sln
+rem project, sometimes the project will build solution also,so use msbuild is better
 
 devenv "d:\test\solution\mfc\mfc.vcxproj" /build "debug|win32" >> log.txt && type log.txt
+
+rem use msbuild e.g.
+
+<font color=#FF7F50>msbuild d:\test\solution\console2\console2.vcxproj /t:rebuild /p:Configuration=Release /p:Platform=x64</font>
+
+msbuild d:\test\solution\mfc\mfc.sln /t:rebuild /p:Configuration=Release /p:Platform=x64
+
+makensis "d:\work\haiguanpingce\三所版本\华泰\节点-操作系统安全加固系统软件V1.0-完整.nsi"
 
 pause
 
