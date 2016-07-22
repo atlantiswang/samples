@@ -1,4 +1,4 @@
-// Exception.cpp : ¶¨Òå¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
+// Exception.cpp : å®šä¹‰æ§åˆ¶å°åº”ç”¨ç¨‹åºçš„å…¥å£ç‚¹ã€‚
 //
 
 #include "stdafx.h"
@@ -12,7 +12,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		puts("input a, b:");
 		scanf("%d%d", &a, &b);
 		if(!b)
-			throw ClientException("Òì³£");
+			throw ClientException("å¼‚å¸¸");
 	}
 	catch(exception &ex)
 	{
