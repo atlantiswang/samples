@@ -8,7 +8,7 @@ HANDLE g_hPipe = INVALID_HANDLE_VALUE;
 int main()  
 {  
 	char buffer[1024];  
-	DWORD ReadNum;  
+	DWORD WriteNum;  
 
 	printf("test client.\n");  
 
@@ -23,12 +23,11 @@ int main()
 
 	while(1)  
 	{  
-		if(ReadFile(g_hPipe, buffer, sizeof(buffer), &ReadNum, NULL) == FALSE)  
+		scanf("%s", buffer);
+		if(WriteFile(g_hPipe, "hello", strlen(buffer), &WriteNum, NULL) == FALSE)  
 		{  
 			break;  
-		}  
-		buffer[ReadNum] = 0;  
-		printf("%s\n", buffer);  
+		}
 	}  
 out:  
 	printf("Close pipe.\n");  
