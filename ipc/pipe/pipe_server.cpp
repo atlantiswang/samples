@@ -8,7 +8,7 @@ HANDLE g_hPipe = INVALID_HANDLE_VALUE;
 int main()
 {
 	char buffer[1024];
-	DWORD WriteNum;
+	DWORD ReadNum;
 
 	printf("test server.\n");
 	g_hPipe = CreateNamedPipe(PIPE_NAME, PIPE_ACCESS_DUPLEX, \
@@ -29,12 +29,13 @@ int main()
 
 	while(1)
 	{
-		scanf("%s", &buffer);
-		if(WriteFile(g_hPipe, buffer, (DWORD)strlen(buffer), &WriteNum, NULL) == FALSE)
+		if(ReadFile(g_hPipe, buffer, sizeof(buffer), &ReadNum, NULL) == FALSE)
 		{
 			printf("Write failed!\n");
 			break;
 		}
+		buffer[ReadNum] = 0;
+		printf(buffer);
 	}
 
 out:

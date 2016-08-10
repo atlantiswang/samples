@@ -20,7 +20,7 @@ rem use msbuild e.g.
 
 msbuild d:\test\solution\mfc\mfc.sln /t:rebuild /p:Configuration=Release /p:Platform=x64
 
-makensis "d:\work\haiguanpingce\三所版本\华泰\节点-操作系统安全加固系统软件V1.0-完整.nsi"
+makensis "d:\work\haiguanpingce\xxx.nsi"
 
 pause
 

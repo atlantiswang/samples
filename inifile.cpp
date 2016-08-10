@@ -11,9 +11,9 @@
 //               platform.
 //
 // YUHZ[2/15/2007]
-// ²Î¿¼SIMPLEINIµÄÊµÏÖ£¬×öÈçÏÂ¸Ä½ø
-// 1¡¢±£´æÊ±£¬Òª±£Ö¤ĞĞÎ»ÖÃµÄ²»±ä
-// 2¡¢Õë¶ÔKEY=VALUE£¬Ê¹ÓÃMAP£¬Ìá¸ßÖ´ĞĞĞ§ÂÊ 
+// å‚è€ƒSIMPLEINIçš„å®ç°ï¼Œåšå¦‚ä¸‹æ”¹è¿›
+// 1ã€ä¿å­˜æ—¶ï¼Œè¦ä¿è¯è¡Œä½ç½®çš„ä¸å˜
+// 2ã€é’ˆå¯¹KEY=VALUEï¼Œä½¿ç”¨MAPï¼Œæé«˜æ‰§è¡Œæ•ˆç‡ 
 //////////////////////////////////////////////////////////////////////
 
 // Local Includes
@@ -40,7 +40,7 @@ using namespace std;
 #define iniEOL '\r' << endl
 #define NEWLINE   "\n"
 #endif
-// YUHZ[2/15/2007] ¾¡Á¿Ê¹ÓÃ³õÊ¼»¯ÁĞ±í½øĞĞ¹¹Ôì 
+// YUHZ[2/15/2007] å°½é‡ä½¿ç”¨åˆå§‹åŒ–åˆ—è¡¨è¿›è¡Œæ„é€  
 CIniFile::CIniFile( string const iniPath)
 : path(iniPath)
 , caseInsensitive(true)
@@ -55,7 +55,7 @@ bool CIniFile::ReadFile()
 	// a few bugs with ifstream. So ... fstream used.
 	fstream f;
 	string   line;
-	string   keyname = ""; // YUHZ[2/15/2007] ¸³³õÖµ 
+	string   keyname = ""; // YUHZ[2/15/2007] èµ‹åˆå€¼ 
 	string   valuename, value;
 	string::size_type pLeft, pRight;
 
@@ -77,7 +77,7 @@ bool CIniFile::ReadFile()
 		{
 			// Check that the user hasn't openned a binary file by checking the first
 			// character of each line!
-			// YUHZ[2/15/2007] ÕâÒ»ÅĞ¶Ï£¬ÏŞÖÆÊ¹ÓÃÖĞÎÄµÄKEY¡£ 
+			// YUHZ[2/15/2007] è¿™ä¸€åˆ¤æ–­ï¼Œé™åˆ¶ä½¿ç”¨ä¸­æ–‡çš„KEYã€‚ 
 			if ( !isprint( line[0]))
 			{
 				printf( "Failing on char %d\n", line[0]);
@@ -102,7 +102,7 @@ bool CIniFile::ReadFile()
 					value = line.substr( pLeft + 1);
 					if (!SetValue( keyname, valuename, value, true))
 					{
-						// YUHZ[2/15/2007]ÈçÃ»ÓĞSECTION£¬Èç¹ûÉèÖÃÁË¶à´ÎÍ¬Ò»¸öKEY£¬Ö»±£Áô×îºóÒ»´ÎµÄVALUE 
+						// YUHZ[2/15/2007]å¦‚æ²¡æœ‰SECTIONï¼Œå¦‚æœè®¾ç½®äº†å¤šæ¬¡åŒä¸€ä¸ªKEYï¼Œåªä¿ç•™æœ€åä¸€æ¬¡çš„VALUE 
 						cerr << "Failing on [" << keyname << "] --> " << valuename << " = " << value << endl;
 						f.close();
 						return false;
@@ -114,12 +114,12 @@ bool CIniFile::ReadFile()
 					m_sTmpComment += line.substr( pLeft) + NEWLINE;
 					break;
 
-				default: cerr << "ÊÀ½çÄ©ÈÕ"  << endl; // YUHZ[2/15/2007] ²»¿ÉÄÜµ½´Ë 
+				default: cerr << "ä¸–ç•Œæœ«æ—¥"  << endl; // YUHZ[2/15/2007] ä¸å¯èƒ½åˆ°æ­¤ 
 				}
 			}
 		}
 		else
-		{ // YUHZ[2/15/2007] ¿ÕĞĞÒ²±£Áô£¬ÒÔ±£³Ö¸ñÊ½ÉÏµÄÒ»ÖÂ 
+		{ // YUHZ[2/15/2007] ç©ºè¡Œä¹Ÿä¿ç•™ï¼Œä»¥ä¿æŒæ ¼å¼ä¸Šçš„ä¸€è‡´ 
 			m_sTmpComment += NEWLINE;
 		}
 	}
@@ -159,11 +159,11 @@ bool CIniFile::WriteFile()
 		f << "[ " << i->sName << " ]" << iniEOL;
 		// YUHZ[2/15/2007] KEY=VALUE s
 		TSection::const_iterator iSection = m_Sections.find(i->sName);
-		// YUHZ[2/15/2007] ÏÂÃæµÄÅĞ¶ÏÓ¦¸Ã×ÜÊÇ³ÉÁ¢ 
+		// YUHZ[2/15/2007] ä¸‹é¢çš„åˆ¤æ–­åº”è¯¥æ€»æ˜¯æˆç«‹ 
 		if (iSection != m_Sections.end())
 		{
 			const TKeyValue & oKeyVal = iSection->second;
-			// YUHZ[2/15/2007] Ò²ĞèÒªÅÅĞò 
+			// YUHZ[2/15/2007] ä¹Ÿéœ€è¦æ’åº 
 			TNamesDepend oKey;
 			GetAllKeyValues(oKey, oKeyVal);
 #if defined(_MSC_VER) && _MSC_VER <= 1200
@@ -176,7 +176,7 @@ bool CIniFile::WriteFile()
 			{
 
 				TKeyValue::const_iterator iKeyval = oKeyVal.find(iKey->sName);
-				// YUHZ[2/15/2007] ÆäÊµ£¬ÏÂÃæµÄÅĞ¶ÏÓ¦¸Ã×ÜÊÇ³ÉÁ¢ 
+				// YUHZ[2/15/2007] å…¶å®ï¼Œä¸‹é¢çš„åˆ¤æ–­åº”è¯¥æ€»æ˜¯æˆç«‹ 
 				if(iKeyval != oKeyVal.end())
 				{
 					// YUHZ[2/15/2007] Key comment
@@ -194,7 +194,7 @@ bool CIniFile::WriteFile()
 	return true;
 }
 
-// YUHZ[2/15/2007] Ôö¼ÓÒ»¸öSECTION£¬Èç¹ûÖ¸¶¨µÄSECTIONÒÑ¾­´æÔÚ£¬Ôò²»×öÈÎºÎ¶¯×÷¡£·µ»ØÄ¿Ç°ÓĞ¶àÉÙ¸öSECTION 
+// YUHZ[2/15/2007] å¢åŠ ä¸€ä¸ªSECTIONï¼Œå¦‚æœæŒ‡å®šçš„SECTIONå·²ç»å­˜åœ¨ï¼Œåˆ™ä¸åšä»»ä½•åŠ¨ä½œã€‚è¿”å›ç›®å‰æœ‰å¤šå°‘ä¸ªSECTION 
 unsigned CIniFile::AddSection( string const keyname)
 {
 	// check for existence of the section first 
@@ -211,12 +211,12 @@ unsigned CIniFile::AddSection( string const keyname)
 		TSection::value_type oEntry(oKey, TKeyValue());
 		typedef TSection::iterator SectionIterator;
 		std::pair<SectionIterator,bool> i =	m_Sections.insert(oEntry);
-		// YUHZ[2/15/2007] ¿ÉÒÔ¸ù¾İiÅĞ¶Ï²åÈëÊÇ·ñ³É¹¦£¬µ«ÎªÊ²Ã´»á²»³É¹¦ÄØ£¿ 
+		// YUHZ[2/15/2007] å¯ä»¥æ ¹æ®iåˆ¤æ–­æ’å…¥æ˜¯å¦æˆåŠŸï¼Œä½†ä¸ºä»€ä¹ˆä¼šä¸æˆåŠŸå‘¢ï¼Ÿ 
 	}
 	return m_Sections.size() - 1;
 }
 
-// YUHZ[2/15/2007] ·µ»ØÖ¸¶¨µÄSECTIONÖĞÓĞ¶àÉÙ¸öKEY=VALUE¶Ô 
+// YUHZ[2/15/2007] è¿”å›æŒ‡å®šçš„SECTIONä¸­æœ‰å¤šå°‘ä¸ªKEY=VALUEå¯¹ 
 unsigned CIniFile::NumKeyValues( string const keyname)
 {
 	TSection::const_iterator iSection = m_Sections.find(keyname);
@@ -224,11 +224,11 @@ unsigned CIniFile::NumKeyValues( string const keyname)
 	return 0;
 }
 
-// YUHZ[2/15/2007] ¸ù¾İ²ÎÊı£¬¿ÉÒÔÔö¼Ó
+// YUHZ[2/15/2007] æ ¹æ®å‚æ•°ï¼Œå¯ä»¥å¢åŠ 
 bool CIniFile::SetValue( string const keyname, string const valuename, string const value, bool const create)
 {
 	// check for existence of the section first 
-	// YUHZ[2/15/2007] ´Ë´¦ÓĞÒ»¸öÒşº¬µÄEntryµÄ¹¹Ôì 
+	// YUHZ[2/15/2007] æ­¤å¤„æœ‰ä¸€ä¸ªéšå«çš„Entryçš„æ„é€  
 	TSection::iterator iSection = m_Sections.find(keyname);
 	// if not found return false
 	if (iSection == m_Sections.end()) return false;
@@ -276,12 +276,12 @@ bool CIniFile::SetValueF( string const keyname, string const valuename, double c
 	return SetValue( keyname, valuename, svalue, create);
 }
 
-// YUHZ[2/15/2007] Èç¹ûÕÒ²»µ½£¬¾Í·µ»ØÈ±Ê¡Öµ 
+// YUHZ[2/15/2007] å¦‚æœæ‰¾ä¸åˆ°ï¼Œå°±è¿”å›ç¼ºçœå€¼ 
 string CIniFile::GetValue( string const keyname, string const valuename, string const defValue) const
 {
 	// check for existence of the section first 
-	// YUHZ[2/15/2007] ²»ÖªÎªºÎfind()×Ü·µ»Øconst_iterator£¿Í¬ÑùµÄ´úÂëÔÚSetValue()ÖĞ¾Í¿ÉÒÔ£¿
-	// YUHZ[2/16/2007] ¿´¿´º¯Êı¶¨Òå×îºó£¬¾ÍÖªµÀÉÏÃæµÄÎÊÌâ³öÔÚºÎ´¦ÁË£¬£») 
+	// YUHZ[2/15/2007] ä¸çŸ¥ä¸ºä½•find()æ€»è¿”å›const_iteratorï¼ŸåŒæ ·çš„ä»£ç åœ¨SetValue()ä¸­å°±å¯ä»¥ï¼Ÿ
+	// YUHZ[2/16/2007] çœ‹çœ‹å‡½æ•°å®šä¹‰æœ€åï¼Œå°±çŸ¥é“ä¸Šé¢çš„é—®é¢˜å‡ºåœ¨ä½•å¤„äº†ï¼Œï¼›) 
 	TSection::const_iterator iSection = m_Sections.find(keyname);
 	// if not found return false
 	if (iSection == m_Sections.end()) return defValue;
@@ -310,7 +310,7 @@ double CIniFile::GetValueF(string const keyname, string const valuename, double 
 	return atof( GetValue( keyname, valuename, svalue).c_str()); 
 }
 
-// YUHZ[2/15/2007] É¾³ıÒ»¸öKEY=VALUE¶Ô 
+// YUHZ[2/15/2007] åˆ é™¤ä¸€ä¸ªKEY=VALUEå¯¹ 
 bool CIniFile::DeleteValue( string const keyname, string const valuename)
 {
 	TSection::iterator iSection = m_Sections.find(keyname);
@@ -325,7 +325,7 @@ bool CIniFile::DeleteValue( string const keyname, string const valuename)
 	return true;
 }
 
-// YUHZ[2/15/2007] É¾³ıÕû¸öSECTION 
+// YUHZ[2/15/2007] åˆ é™¤æ•´ä¸ªSECTION 
 bool CIniFile::DeleteSection( string const keyname)
 {
 	TSection::iterator iSection = m_Sections.find(keyname);
@@ -374,11 +374,11 @@ bool     CIniFile::SetSectionComment( string const keyname, string const comment
 	// if not found return false
 	if (iSection == m_Sections.end()) return false;
 	//	iSection->first.sComment = comment;
-	// YUHZ[2/16/2007] ÉÏÃæµÄ×ö·¨ÊÇÒìÏëÌì¿ª£¬ÒòÎªMAPÊÇ²»ÔÊĞíĞŞ¸ÄKEYµÄ(const)£¬Ö»ÄÜĞŞ¸ÄVALUE¡£ËùÒÔ£¬ÒªÁíÏë°ì·¨
+	// YUHZ[2/16/2007] ä¸Šé¢çš„åšæ³•æ˜¯å¼‚æƒ³å¤©å¼€ï¼Œå› ä¸ºMAPæ˜¯ä¸å…è®¸ä¿®æ”¹KEYçš„(const)ï¼Œåªèƒ½ä¿®æ”¹VALUEã€‚æ‰€ä»¥ï¼Œè¦å¦æƒ³åŠæ³•
 	Entry oKey(iSection->first);
 	oKey.sComment = comment + NEWLINE;
 	TSection::value_type oEntry(oKey, iSection->second);
-	// YUHZ[2/16/2007] ´Ë´¦×¢Òâ£¬ÒªÏÈÉ¾³ı£¬·ñÔò»á²åÈëÊ§°Ü! 
+	// YUHZ[2/16/2007] æ­¤å¤„æ³¨æ„ï¼Œè¦å…ˆåˆ é™¤ï¼Œå¦åˆ™ä¼šæ’å…¥å¤±è´¥! 
 	m_Sections.erase(iSection);
 	typedef TSection::iterator SectionIterator;
 	std::pair<SectionIterator,bool> i =	m_Sections.insert(oEntry);
