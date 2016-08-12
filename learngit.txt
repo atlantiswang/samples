@@ -1,3 +1,4 @@
   someone say the email difference, the github won't show my submit today ,so I change my email same to github for a text.
   also I add multi-user but have ssh-agent bash first, ssh-add ~... second...
 I think multi-user have no use, in prime,I think multi-user have own email so I can show difference email.but I find it don't have today.
+  this is fork
