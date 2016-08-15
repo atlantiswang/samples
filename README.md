@@ -1,4 +1,6 @@
-#vs bat
+#vs
+
+##vs bat
 @echo off
 
 rem set environment
@@ -23,6 +25,15 @@ msbuild d:\test\solution\mfc\mfc.sln /t:rebuild /p:Configuration=Release /p:Plat
 makensis "d:\work\haiguanpingce\xxx.nsi"
 
 pause
+
+##vs debug
+
+* remote debug:  
+* Remote Command: path
+* Working Directory: path without programm name
+* Remote Server Name: computer name or IP
+
+* when a thread is debug, others also run slowly.
 
 #git command
 
