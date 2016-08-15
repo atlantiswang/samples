@@ -46,3 +46,5 @@ git rebase -i HEAD^^^合并最后三次提交，将pick改为s,修改git commit�
 ## git下载远程分支
 
 git checkout --track origin/develop   git checkout -b develop origin/develop
+
+git merge --no-ff branchname//this is a good habit
