@@ -37,9 +37,11 @@ pause
 
 #git command
 
-## -u只操作加入版本库文件，如果.gitignore写的足够好，就不用此参数了
+## git add
 
-git add . -u
+- git add -a 暂存 所有文件（增加，修改，删除）
+- git add -u 暂存修改和删除的文件
+- git add . 不包括已删除的文件
 
 ## git对大小写敏感
 
@@ -59,3 +61,17 @@ git rebase -i HEAD^^^合并最后三次提交，将pick改为s,修改git commit�
 git checkout --track origin/develop   git checkout -b develop origin/develop
 
 git merge --no-ff branchname//this is a good habit
+
+# LINUX
+
+- mingw:（Minimalist GNU for Windows）是windows下的Linux环境，在bash中进入windows目录下，输入: /盘符
+
+# BOOST
+- boost库命令规则：
+- libboost_atomic-vc100-mt-sgd-1_57
+- libboost:是否为静态库 bjam（b2）编译选项：link=static/shared
+- atomic:库的名字  --with-atomic
+- vc100:使用的编译器版本  --toolset=msvc-10.0
+- mt:线程类型 threading=multi
+- s: runtime类型 runtime-link=static
+- gd: debug or release debug/release
