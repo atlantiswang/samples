@@ -1,6 +1,16 @@
 // SockSvr.cpp : Defines the entry point for the console application.
 //
-
+/*
+	send可以循环判断是否发送完全
+	int nleft = nsize;
+	while(nleft > 0)
+	{
+		int nsend = send(socket, psend, nleft, 0);	
+		nleft -= nsend;
+		psend += nsend;
+	}
+	
+ */
 #include "stdafx.h"
 #include <WINSOCK2.H>
 #pragma  comment(lib,"ws2_32.lib")
