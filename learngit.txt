@@ -2,4 +2,5 @@
   also, I add coding.net for my remote storage because it has app.
   also I add multi-user but have ssh-agent bash first, ssh-add ~... second...
 I think multi-user have no use, in prime,I think multi-user have own email so I can show difference email.but I find it don't have today.
-  this is fork
+  this is fork.
+  checkout develop branch, in order to test ff merge.
