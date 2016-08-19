@@ -3,5 +3,7 @@
   also I add multi-user but have ssh-agent bash first, ssh-add ~... second...
 I think multi-user have no use, in prime,I think multi-user have own email so I can show difference email.but I find it don't have today.
   this is fork.
-  checkout develop branch, in order to test ff merge. when not use --no-ff,it show a fast foward merge,this time. when I use --no-ff, can see the develop branch.
+  checkout develop branch, in order to test ff merge. when not use --no-ff,it show a fast foward merge,this time. when I use --no-ff, can see the develop branch. when I push ,I find github not show, so check email not correct, correct it.
+  well, when I correct the email address,it doesn't show also,why?
+
 
