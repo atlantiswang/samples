@@ -82,9 +82,9 @@ private:
 /*
  * ptr_array
 
- * only one type
+ * template type
 
- * assignment not shared
+ * can shared
 
  */
 template <typename T>
@@ -149,10 +149,10 @@ public:
 	{
 		return m_p;	
 	}
-	//ÒÔÏÂµÄÔËËã·û»áĞŞ¸Äm_pµÄÖµ£¬Îö¹¹Ê±»á·¢Éú´íÎó£¬¹Ê²»public¡£
+	//ä»¥ä¸‹çš„è¿ç®—ç¬¦ä¼šä¿®æ”¹m_pçš„å€¼ï¼Œææ„æ—¶ä¼šå‘ç”Ÿé”™è¯¯ï¼Œæ•…ä¸publicã€‚
 	T *getptr(){ return m_p; }
 private:
-	//ºó×º
+	//åç¼€
 	T *operator ++(int)
 	{
 		return m_p++;
@@ -161,7 +161,7 @@ private:
 	{
 		return m_p--;
 	}
-	//Ç°×º
+	//å‰ç¼€
 	T *operator ++()
 	{
 		return ++m_p;
