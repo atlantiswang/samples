@@ -149,10 +149,10 @@ public:
 	{
 		return m_p;	
 	}
-	//ä»¥ä¸‹çš„è¿ç®—ç¬¦ä¼šä¿®æ”¹m_pçš„å€¼ï¼Œææ„æ—¶ä¼šå‘ç”Ÿé”™è¯¯ï¼Œæ•…ä¸publicã€‚
+	//ÒÔÏÂµÄÔËËã·û»áĞŞ¸Äm_pµÄÖµ£¬Îö¹¹Ê±»á·¢Éú´íÎó£¬¹Ê²»public¡£
 	T *getptr(){ return m_p; }
 private:
-	//åç¼€
+	//ºó×º
 	T *operator ++(int)
 	{
 		return m_p++;
@@ -161,7 +161,7 @@ private:
 	{
 		return m_p--;
 	}
-	//å‰ç¼€
+	//Ç°×º
 	T *operator ++()
 	{
 		return ++m_p;
