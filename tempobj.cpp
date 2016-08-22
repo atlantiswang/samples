@@ -11,9 +11,10 @@ public:
 		this->m_ = other.m_;
 		puts("copy construct");
 	}
-	void operator = (const temp &other)
+	temp& operator = (const temp &other)
 	{
 		this->m_ = other.m_;
+		return *this;
 		puts("assign");
 	}
 	~temp()
