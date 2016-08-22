@@ -74,18 +74,20 @@ int Bigint::getlength() const
 {
 	return strlen(m_pnum);
 }
-
+/*
+	ä¸ºäº†å®ç°"è¿é”èµ‹å€¼", èµ‹å€¼æ“ä½œç¬¦å¿…é¡»è¿”å›ä¸€ä¸ªreferenceæŒ‡å‘æ“ä½œç¬¦çš„å·¦ä¾§å®å‚
+ */
 Bigint& Bigint::operator = (const Bigint& num)
 {
 #if 1
 	/*
-	 *	exception safety£¨Òì³£°²È«ĞÔ£©ÍùÍù×Ô¶¯»ñµÃ¡°×ÔÎÒ¸³Öµ°²È«¡±µÄ»Ø±¨¡£
+	 *	exception safetyï¼ˆå¼‚å¸¸å®‰å…¨æ€§ï¼‰å¾€å¾€è‡ªåŠ¨è·å¾—â€œè‡ªæˆ‘èµ‹å€¼å®‰å…¨â€çš„å›æŠ¥ã€‚
 
-	 *	Òò´ËÓúÀ´Óú¶àµÄÈË¶Ô¡°×ÔÎÒ¸³Öµ¡±µÄ´¦ÀíÌ¬¶ÈÉÏÊÇÇãÏò²»È¥¹ÜËü£¬°Ñ½¹µã·ÅÔÚ
+	 *	å› æ­¤æ„ˆæ¥æ„ˆå¤šçš„äººå¯¹â€œè‡ªæˆ‘èµ‹å€¼â€çš„å¤„ç†æ€åº¦ä¸Šæ˜¯å€¾å‘ä¸å»ç®¡å®ƒï¼ŒæŠŠç„¦ç‚¹æ”¾åœ¨
 
-	 *	ÊµÏÖexception safety£¨Òì³£°²È«ĞÔ£©£¨Ìõ¿î 29£©ÉÏ¡£
+	 *	å®ç°exception safetyï¼ˆå¼‚å¸¸å®‰å…¨æ€§ï¼‰ï¼ˆæ¡æ¬¾ 29ï¼‰ä¸Šã€‚
 
-	 *											-------¡¶effective c++¡·Ìõ¿î 10
+	 *											-------ã€Šeffective c++ã€‹æ¡æ¬¾ 10
 	 */
 	char *pold = m_pnum;
 	int nlen = strlen(num.getptr());
@@ -118,7 +120,7 @@ Bigint operator+(const Bigint& num1,
 	const Bigint &maxint = nlen1>=nlen2?num1:num2;
 	const Bigint &minint = nlen1>=nlen2?num2:num1;
 
-	//ÉêÇëµÄ×Ö½ÚÊıÓÀÔ¶±È×î³¤µÄÊı¶à1.µ«¼ÆËãµÄÊ±ºò°´²»½øÎ»¼ÆËã
+	//ç”³è¯·çš„å­—èŠ‚æ•°æ°¸è¿œæ¯”æœ€é•¿çš„æ•°å¤š1.ä½†è®¡ç®—çš„æ—¶å€™æŒ‰ä¸è¿›ä½è®¡ç®—
 	//memory leak
 	ptr_array<char> ptr(new char[maxint.getlength()+1+1]);
 	Bigint temp = ptr.getptr();
