@@ -5,7 +5,7 @@
 
 rem set environment
 
-call "d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\vcvars32.bat" > log.txt
+%comspec% /k ""d:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"" x86 > log.txt
 
 rem solution
 

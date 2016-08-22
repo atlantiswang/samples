@@ -82,9 +82,9 @@ private:
 /*
  * ptr_array
 
- * only one type
+ * template type
 
- * assignment not shared
+ * can shared
 
  */
 template <typename T>
