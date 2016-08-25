@@ -1,40 +1,12 @@
 // UserChangePassword.cpp : 定义控制台应用程序的入口点。
 //
 
-#include "stdafx.h"
+#include <windows.h>
 #include <string>
 #include <lm.h>
+#include <Iptypes.h>
+#include <iphlpapi.h>
 using namespace std;
-
-#if 0
-void ChangePassword(int argc, _TCHAR* argv[])
-{
-	DWORD dwError = 0;
-	NET_API_STATUS nStatus;
-	//
-	// All parameters are required.
-	//
-	if (argc != 5)
-	{
-		fwprintf(stderr, L"Usage: %s \\\\ServerName UserName OldPassword NewPassword\n", argv[0]);
-		exit(1);
-	}
-	//
-	// Call the NetUserChangePassword function.
-	//
-	nStatus = NetUserChangePassword(argv[1], argv[2], argv[3], argv[4]);
-	//
-	// If the call succeeds, inform the user.
-	//
-	if (nStatus == NERR_Success)
-		fwprintf(stderr, L"User password has been changed successfully\n");
-	//
-	// Otherwise, print the system error.
-	//
-	else
-		fprintf(stderr, "A system error has occurred: %d\n", nStatus);
-}
-#endif
 
 void GetInfo(char *strDns)
 {
@@ -78,11 +50,6 @@ void GetInfo(char *strDns)
 	}
 }
 
-
-
-
-#include <Iptypes.h>
-#include <iphlpapi.h>
 typedef struct tagNetworkCfg 
 {
 	char szIP[18];
@@ -207,13 +174,11 @@ bool GetNetworkCfg(NetworkCfg *cfg)
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	
-//	ChangePassword(argc, argv);
-	/*ERROR_CANT_ACCESS_DOMAIN_INFO*/
-//	GetInfo();
-//	testNetUserEnum(argc, argv);
+//	GetInfo("127.0.0.1");
+
 // 	NetworkCfg cfg;
 // 	GetNetworkCfg(&cfg);
+
 	char strDns[128] = {0};
 	FIXED_INFO *fi = (FIXED_INFO *)GlobalAlloc(GPTR,sizeof( FIXED_INFO));
 	ULONG ulOutBufLen = sizeof(FIXED_INFO);
@@ -232,6 +197,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	strcpy(strDns,fi->DnsServerList.IpAddress.String);
 	char UserName[128] = {0};
 	DWORD dwLen = 128;
+	//GetUserNameEx(NameSamCompatible, szFullName, &dwLen);带域名的当前用户名
 	GetUserName((LPSTR)UserName, &dwLen);
 	puts(UserName);
 	wchar_t strwDns[128] = {0};
@@ -253,7 +219,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 		
 	puts(strDns);
-//	GetInfo("127.0.0.1");
+
 	////////////////////////////
 	system("pause");
 	return 0;
