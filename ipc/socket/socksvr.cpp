@@ -11,8 +11,9 @@
 	}
 	
  */
-#include "stdafx.h"
 #include <WINSOCK2.H>
+#include <windows.h>
+#include <stdio.h>
 #pragma  comment(lib,"ws2_32.lib")
 //TCP·þÎñÆ÷¶Ë
 void TCPServer()
