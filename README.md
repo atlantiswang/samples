@@ -1,5 +1,4 @@
 #vs
-
 ##vs bat
 * @echo off
 * rem set environment
