@@ -31,8 +31,7 @@
 
 ## git修改commit
 - git使用amend选项提供了最后一次commit的反悔。但是对于历史提交呢，就必须使用rebase了。
-- git rebase -i HEAD~3 //修改当前版本的倒数第三次状态。
-- 如果修改哪个就把哪行的pick改成edit,然后退出。git log查看最后一次提交变成修改的那个，再git commit --amend来对commit进行修改。修改完了之后，要回来，使用git rebase --continue
+- git rebase -i HEAD~3 //修改当前版本的倒数第三次状态。如果修改哪个就把哪行的pick改成edit,然后退出。git log查看最后一次提交变成   修改的那个，再git commit --amend来对commit进行修改。修改完了之后，要回来，使用git rebase --continue
 - git rebase -i HEAD^^^合并最后三次提交，将pick改为s,修改git commit内容为一个，OK
 
 ## git下载远程分支
