@@ -20,6 +20,9 @@
 * Remote Server Name: computer name or IP
 * when a thread is debug, others also run slowly.
 
+# qt
+* 添加qt依赖库： windeployqt xxx.exe
+
 #git command
 ## git add
 - git add -a 暂存 所有文件（增加，修改，删除）
