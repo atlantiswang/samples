@@ -56,6 +56,10 @@ public:
 		m_pcount = new int(1);
 	}
 	
+	T *get() const
+	{
+		return m_p;
+	}
 	T &operator *()
 	{
 		return *m_p;
@@ -181,6 +185,45 @@ private:
 	}
 private:
 	int *m_pcount;
+	T *m_p;
+};
+
+/* ptr_weak (share solution)[9/5/2016 wh]
+   ptr_weak 关键是要找出需要设置为弱指针的指针。弱指针不增加引用计数
+   在析构时也不做delete操作。
+ */
+template<typename T>
+class ptr_weak
+{
+public:
+	ptr_weak(T *p = NULL)
+	{
+		m_p = p;
+	}
+	~ptr_weak()
+	{
+		puts("~ptr_weak do nothing");
+		m_p = NULL;
+	}
+	T *get()
+	{
+		return m_p;
+	}
+	ptr<T> lock() const
+	{
+		return ptr<T>(*this);
+	}
+	template<typename Y>
+	ptr_weak &operator = (const ptr<Y> &other)
+	{
+		if (other.get() == m_p)
+		{
+			return *this;
+		}
+		m_p = other.get();
+		return *this;
+	}
+private:
 	T *m_p;
 };
 
