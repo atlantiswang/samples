@@ -41,7 +41,7 @@
 ## git下载远程分支
 - git checkout --track origin/develop   git checkout -b develop origin/develop
 - git merge --no-ff branchname//this is a good habit
-
+ 
 # LINUX
 - mingw:（Minimalist GNU for Windows）是windows下的Linux环境，在bash中进入windows目录下，输入: /盘符
 
@@ -54,3 +54,9 @@
 - mt:线程类型 threading=multi
 - s: runtime类型 runtime-link=static
 - gd: debug or release debug/release
+
+# coded format BOM(FEFF)
+- UCS中有一个叫做"zero width no-break space"的编码：FEFF，此编码在UCS中是不存在的字符，我们使用它在开关来表明
+UCS的字节序，帮FEFF是大端，FFFE是小端（微软一般就用小端）。而UTF-8没有字节
+但也使用了BOM来表示此为UTF-8编码。FEFF的UTF-8编码为1110 1111（EF）1011 1011（BB） 1011 1111（BF）
+即EFBBBF。
