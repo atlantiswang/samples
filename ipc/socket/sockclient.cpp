@@ -19,16 +19,48 @@ void TCPClient()
 	svrAddr.sin_port=htons(5678);
 	//此处ip为服务器的ip
 	svrAddr.sin_addr.S_un.S_addr=inet_addr("127.0.0.1");
-	connect(hSockClient,(SOCKADDR*)&svrAddr,
-		sizeof(svrAddr));
+	connect(hSockClient,(SOCKADDR*)&svrAddr,sizeof(svrAddr));
 	//数据收发
+	int err;
+	unsigned long ul=1;
+	//异步操作
+	ioctlsocket(hSockClient,FIONBIO,(unsigned long *)&ul);
 	char szSend[]="hello,i am a client!";
-	send(hSockClient,szSend,strlen(szSend),0);
-	//然后接收数据
-	char szRecv[256]={0};
-	int nRecv=recv(hSockClient,szRecv,256,0);
-	printf("%s\n",szRecv);
-	printf("DataLen:%d\n",nRecv);
+	while(getchar())
+	{
+		send(hSockClient,szSend,strlen(szSend),0);
+		//然后接收数据
+		char szRecv[256]={0};
+		int nRecv;
+		while(true)
+		{
+			Sleep(400);
+			nRecv=recv(hSockClient,szRecv,256,0);
+			if (nRecv == SOCKET_ERROR)
+			{
+				err = WSAGetLastError();
+				if (err == WSAEWOULDBLOCK)
+				{
+					continue;
+				}
+				else if(err == WSAETIMEDOUT)
+				{
+					puts("time out");
+				}
+				else if(err == WSAENETDOWN)
+				{
+					puts("connect down");
+				}
+				else break;
+			}
+			else if(nRecv > 0)
+			{
+				printf("%s\n",szRecv);
+				printf("DataLen:%d\n",nRecv);
+				break;
+			}
+		}	
+	}
 	closesocket(hSockClient);
 }
 void UDPClient()
@@ -64,4 +96,3 @@ int main(int argc, char* argv[])
 	WSACleanup();
 	return 0;
 }
-

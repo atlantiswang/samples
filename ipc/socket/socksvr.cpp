@@ -11,10 +11,43 @@
 	}
 	
  */
+#include <stdafx.h>
 #include <WINSOCK2.H>
 #include <windows.h>
+#include <process.h>
 #include <stdio.h>
 #pragma  comment(lib,"ws2_32.lib")
+static unsigned int g_clientno = 0;
+
+typedef struct _param{
+	SOCKET clientsocket;
+	SOCKADDR_IN clientaddr;
+	unsigned int clientno;
+}PARAM, *PPARAM;
+
+void __cdecl clientpro(void *pParam)
+{
+	PARAM para = *(PPARAM)pParam;
+	//接收数据
+	while(true){
+		//接收数据
+		char szRecv[256]={0};
+		int nRecv;
+		if(nRecv=recv(para.clientsocket,szRecv,256,0)==SOCKET_ERROR)
+		{
+			system("cls");
+			closesocket(para.clientsocket);
+			return ;
+		}
+		char *ClientIP=inet_ntoa(para.clientaddr.sin_addr);
+		printf("--------------------------\n%d:%s:%s\n",para.clientno,ClientIP,szRecv);
+		printf("DataLen:%d\n",nRecv);
+		//发送数据
+		getchar();
+		char szSend[]="hello,i am a Server";
+		send(para.clientsocket,szSend,strlen(szSend),0);
+	}
+}
 //TCP服务器端
 void TCPServer()
 {
@@ -34,22 +67,13 @@ void TCPServer()
 		sizeof(svrAddr));
 	listen(hSockSvr,5);
 	printf("等待客户端连接...\n");
-	SOCKADDR_IN clientAddr={0};
-	int nLen=sizeof(clientAddr);
+	PARAM para = {0};
+	int nLen=sizeof(para.clientaddr);
 	////////////////////////////////////
-	while(1){
-	SOCKET hClientSock=
-		accept(hSockSvr,(SOCKADDR*)&clientAddr,&nLen);
-	//接收数据
-	char szRecv[256]={0};
-	int nRecv=recv(hClientSock,szRecv,256,0);
-	char *ClientIP=inet_ntoa(clientAddr.sin_addr);
-	printf("%s:%s\n",ClientIP,szRecv);
-	printf("DataLen:%d\n",nRecv);
-	//发送数据
-	char szSend[]="hello,i am a Server";
-	send(hClientSock,szSend,strlen(szSend),0);
-	closesocket(hClientSock);
+	while(true){
+		para.clientsocket = accept(hSockSvr,(SOCKADDR*)&para.clientaddr,&nLen);
+		para.clientno = g_clientno++;
+		_beginthread(clientpro, 0, &para);
 	}
 	closesocket(hSockSvr);
 }
@@ -96,4 +120,3 @@ int main(int argc, char* argv[])
 	WSACleanup();
 	return 0;
 }
-
