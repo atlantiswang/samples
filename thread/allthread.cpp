@@ -17,6 +17,15 @@
   3. AfxBeginThread: UINT __cdecl threadpro(LPVOID pParam)|AfxBeginThread(RUNTIME_CALSS(threadclass))
 
   CreateThread:the base method invoked,but isn't safe,the other two add security.
+  ----------------------------------------------------------------------------------
+  CreateThread后要调用 CloseHandle()
+  ClostThread是关闭内核对象：使其引用计数减1，如果为0就删除内核对象。
+  而ExitThread\TerminateThread都是结束一个线程的，线程内部也可以通过return 等方式退出。
+  由于内核对象是资源，所以如果不再想通过内核对象对线程操作时就Close掉，以免浪费资源，但不会影响线程的执行
+  只是我们无法再操作这个线程。
+  _beginthread/_beginthreadex
+  内部都会自动调用_endthread/_endthreadex（结束线程使用，自杀用）。此函数的作用是释放beginthread创建的内部数据。
+  而且_endthread还可以自动调用CloseHandle。而_endthreadex不会，需要用CloseHandle。
  */
 
 #include <stdio.h>
