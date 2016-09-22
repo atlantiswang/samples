@@ -13,23 +13,23 @@ void TCPClient()
 	{
 		return;
 	}
-	//∞Û∂®IPµÿ÷∑∫Õ∂Àø⁄
+	//ÁªëÂÆöIPÂú∞ÂùÄÂíåÁ´ØÂè£
 	SOCKADDR_IN svrAddr={0};
 	svrAddr.sin_family=AF_INET;
 	svrAddr.sin_port=htons(5678);
-	//¥À¥¶ipŒ™∑˛ŒÒ∆˜µƒip
+	//Ê≠§Â§Ñip‰∏∫ÊúçÂä°Âô®ÁöÑip
 	svrAddr.sin_addr.S_un.S_addr=inet_addr("127.0.0.1");
 	connect(hSockClient,(SOCKADDR*)&svrAddr,sizeof(svrAddr));
-	// ˝æ› ’∑¢
+	//Êï∞ÊçÆÊî∂Âèë
 	int err;
 	unsigned long ul=1;
-	//“Ï≤Ω≤Ÿ◊˜
+	//ÂºÇÊ≠•Êìç‰Ωú
 	ioctlsocket(hSockClient,FIONBIO,(unsigned long *)&ul);
 	char szSend[]="hello,i am a client!";
 	while(getchar())
 	{
 		send(hSockClient,szSend,strlen(szSend),0);
-		//»ª∫ÛΩ” ’ ˝æ›
+		//ÁÑ∂ÂêéÊé•Êî∂Êï∞ÊçÆ
 		char szRecv[256]={0};
 		int nRecv;
 		while(true)
@@ -41,6 +41,7 @@ void TCPClient()
 				err = WSAGetLastError();
 				if (err == WSAEWOULDBLOCK)
 				{
+                                        Sleep(5*1000);
 					continue;
 				}
 				else if(err == WSAETIMEDOUT)
@@ -51,7 +52,11 @@ void TCPClient()
 				{
 					puts("connect down");
 				}
-				else break;
+				else
+                                {
+                                        closesocket(hSockClient);
+                                        return ;
+                                }
 			}
 			else if(nRecv > 0)
 			{
@@ -59,6 +64,11 @@ void TCPClient()
 				printf("DataLen:%d\n",nRecv);
 				break;
 			}
+                        else if(nRecv == 0)
+                        {
+                                closesocket(hSockClient);
+                                return ;
+                        }
 		}	
 	}
 	closesocket(hSockClient);
@@ -73,18 +83,18 @@ void UDPClient()
 	svrAddr.sin_family=AF_INET;
 	svrAddr.sin_port=htons(5679);
 	svrAddr.sin_addr.S_un.S_addr=inet_addr("172.17.1.251");
-	// ˝æ› ’∑¢
+	//Êï∞ÊçÆÊî∂Âèë
 	char szSend[]="hello,i am a UDPclient";
 	int nLen=sizeof(svrAddr);
 	sendto(hSockClient,szSend,strlen(szSend),0,
 		(SOCKADDR*)&svrAddr,nLen);
-	//Ω” ’ ˝æ›
+	//Êé•Êî∂Êï∞ÊçÆ
 	char szRecv[256]={0};
 	recvfrom(hSockClient,szRecv,sizeof(szRecv),0,
 		(SOCKADDR*)&svrAddr,&nLen);
 	char *IP=inet_ntoa(svrAddr.sin_addr);
 	printf("%s:%s\n",IP,szRecv);
-	//πÿ±’
+	//ÂÖ≥Èó≠
 	closesocket(hSockClient);
 }
 int main(int argc, char* argv[])

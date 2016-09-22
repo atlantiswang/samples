@@ -26,26 +26,28 @@ typedef struct _param{
 }PARAM, *PPARAM;
 
 void __cdecl clientpro(void *pParam)
+//DWORD __stdcall clientpro(LPARAM pParam)
 {
-	PARAM para = *(PPARAM)pParam;
+//	PARAM para = *(PPARAM)pParam;
 	//接收数据
 	while(true){
 		//接收数据
 		char szRecv[256]={0};
-		int nRecv;
-		if(nRecv=recv(para.clientsocket,szRecv,256,0)==SOCKET_ERROR)
+		int nRecv = recv(PPARAM(pParam)->clientsocket,szRecv,256,0);
+		if(nRecv == SOCKET_ERROR)
 		{
 			system("cls");
-			closesocket(para.clientsocket);
+			closesocket(PPARAM(pParam)->clientsocket);
+			delete pParam;
 			return ;
 		}
-		char *ClientIP=inet_ntoa(para.clientaddr.sin_addr);
-		printf("--------------------------\n%d:%s:%s\n",para.clientno,ClientIP,szRecv);
+		char *ClientIP=inet_ntoa(PPARAM(pParam)->clientaddr.sin_addr);
+		printf("--------------------------\n%d:%s:%s\n",PPARAM(pParam)->clientno,ClientIP,szRecv);
 		printf("DataLen:%d\n",nRecv);
 		//发送数据
-		getchar();
+		//getchar();
 		char szSend[]="hello,i am a Server";
-		send(para.clientsocket,szSend,strlen(szSend),0);
+		send(PPARAM(pParam)->clientsocket,szSend,strlen(szSend),0);
 	}
 }
 //TCP服务器端
@@ -67,13 +69,15 @@ void TCPServer()
 		sizeof(svrAddr));
 	listen(hSockSvr,5);
 	printf("等待客户端连接...\n");
-	PARAM para = {0};
-	int nLen=sizeof(para.clientaddr);
+	//////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////
 	while(true){
-		para.clientsocket = accept(hSockSvr,(SOCKADDR*)&para.clientaddr,&nLen);
-		para.clientno = g_clientno++;
-		_beginthread(clientpro, 0, &para);
+ 		PPARAM pPara = new PARAM;
+		memset(pPara, 0, sizeof(PARAM));
+ 		int nLen=sizeof(pPara->clientaddr);
+		pPara->clientsocket = accept(hSockSvr,(SOCKADDR*)&pPara->clientaddr,&nLen);
+		pPara->clientno = g_clientno++;
+		_beginthread(clientpro, 0, pPara);
 	}
 	closesocket(hSockSvr);
 }
