@@ -23,7 +23,9 @@
 # qt
 * 添加qt依赖库： windeployqt xxx.exe
 
-#git command
+#git
+
+git的分支不是用来做定制的。而是用来帮助协同工作的。版本定制请在代码中使用宏开关。这样才能更高效地利用git且减少工作量。
 * git add
  - git add -a 暂存 所有文件（增加，修改，删除）
  - git add -u 暂存修改和删除的文件
