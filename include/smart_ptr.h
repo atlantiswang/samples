@@ -35,7 +35,7 @@ public:
 	{
 		if(this == &other_ptr)
 			return *this;
-		
+		//自己的引用要减1，指向的引用加1.
 		delcount();
 		m_p = other_ptr.m_p;
 		(*other_ptr.m_pcount)++;
