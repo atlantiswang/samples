@@ -1,4 +1,4 @@
-﻿//常见的异常类
+//常见的异常类
 #ifndef EXCEPTION_H
 #define EXCEPTION_H
 #include <exception>
@@ -12,6 +12,10 @@ using namespace std;
  * 一个析构函数 virtual
  * 一个what()函数,子类通过重写的方式可以访问到子类扩展的成员
  * virtual const char * __CLR_OR_THIS_CALL what() const;
+ 
+ * 在windows下还有结构化异常，支持C/C++，但不是C++标准异常的子集或父集：
+   __try __except | __try __finally & __leave
+   但由于是MicroSoft的，所以不具有移植性。
  */
 //客户端异常类 由于本异常类没有使用到exception的成员的作用。故可以不继承自exception
 class ClientException : public exception

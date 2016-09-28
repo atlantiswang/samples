@@ -18,7 +18,7 @@ BOOL Is64BitOS()
 	return FALSE;
 }
 
-BOOL Is64BitPorcess(DWORD dwProcessID)
+BOOL Is64BitProcess(DWORD dwProcessID)
 {
 	if (!Is64BitOS())
 	{
@@ -56,7 +56,7 @@ int main()
 		puts("input prcess id:");
 		unsigned int nid;
 		scanf("%d", &nid);
-		if(Is64BitPorcess(nid) == TRUE)
+		if(Is64BitProcess(nid) == TRUE)
 		{
 			puts("is 64 bit");
 		}
