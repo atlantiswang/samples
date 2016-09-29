@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "exception.h"
+#include "myexception.h"
 
 int _tmain(int argc, _TCHAR* argv[])
 {

@@ -13,8 +13,16 @@ using namespace std;
  * 一个what()函数,子类通过重写的方式可以访问到子类扩展的成员
  * virtual const char * __CLR_OR_THIS_CALL what() const;
  
- * 在windows下还有结构化异常，支持C/C++，但不是C++标准异常的子集或父集：
-   __try __except | __try __finally & __leave
+ how to use C++ exception:
+ first: create a myexception header file myexception.h
+	use #include <exception> to include stdanddard exception.
+ second: write my own exception class inherit from exception.
+ third: when you need throw or cath exception in you cpp file. include the myexception.h
+ over.
+ -------------------------------------------------------------------
+ 
+ * 在windows下还有结构化异常（SEH），也支持C/C++，但不是C++标准异常的子集或父集：
+   SEH :__try __except (异常处理)| __try __finally & __leave(结束处理)
    但由于是MicroSoft的，所以不具有移植性。
  */
 //客户端异常类 由于本异常类没有使用到exception的成员的作用。故可以不继承自exception
