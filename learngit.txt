@@ -5,5 +5,7 @@ I think multi-user have no use, in prime,I think multi-user have own email so I 
   this is fork.
   checkout develop branch, in order to test ff merge. when not use --no-ff,it show a fast foward merge,this time. when I use --no-ff, can see the develop branch. when I push ,I find github not show, so check email not correct, correct it.
   well, when I correct the email address,it doesn't show also,why?when changed the response name remote,can I need change local?
+  
+  how about change my email address to test?
 
 
