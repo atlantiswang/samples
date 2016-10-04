@@ -19,7 +19,7 @@ template <typename T>
 class ptr
 {
 public:
-	ptr(T *p = NULL):m_p(p), m_pcount(new int(1))
+	ptr(T *p = NULL):m_p(p), m_pcount(m_p?new int(1):NULL)
 	{
 		puts("ptr invoked");
 	}
@@ -36,7 +36,7 @@ public:
 		if(this == &other_ptr)
 			return *this;
 		//自己的引用要减1，指向的引用加1.
-		delcount();
+		release();
 		m_p = other_ptr.m_p;
 		(*other_ptr.m_pcount)++;
 		m_pcount = other_ptr.m_pcount;
@@ -44,16 +44,14 @@ public:
 	}
 
 	~ptr(){
-		delcount();
-		m_p = NULL;
-		m_pcount = NULL;
+		release();
 		puts("~ptr invoked");
 	}
 	void release()
 	{
 		delcount();
 		m_p = NULL;
-		m_pcount = new int(1);
+		m_pcount = NULL;
 	}
 	
 	T *get() const
@@ -73,6 +71,7 @@ private:
 	{
 		if(--(*m_pcount) == 0)
 		{
+			//C++ has ability to distinguish a point is null, so need not judge
 			delete m_p;
 			delete m_pcount;
 		}
@@ -95,7 +94,7 @@ template <typename T>
 class ptr_array
 {
 public:
-	ptr_array(T *p = NULL):m_p(p), m_pcount(new int(1))
+	ptr_array(T *p = NULL):m_p(p), m_pcount(m_p?new int(1):NULL)
 	{
 		puts("ptr_array invoked");
 	}
@@ -113,7 +112,7 @@ public:
 		if(this == &other_ptr)
 			return *this;
 
-		delcount();
+		release();
 		m_p = other_ptr.m_p;
 		(*other_ptr.m_pcount)++;
 		m_pcount = other_ptr.m_pcount;
@@ -121,7 +120,7 @@ public:
 	}
 
 	~ptr_array(){
-		delcount();
+		release();
 		m_p = NULL;
 		m_pcount = NULL;
 		puts("~ptr_array invoked");
@@ -130,7 +129,7 @@ public:
 	{
 		delcount()
 		m_p = NULL;
-		m_pcount = new int(1);
+		m_pcount = NULL;
 	}
 
 	T &operator [] (int index) const
