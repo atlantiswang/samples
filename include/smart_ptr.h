@@ -121,8 +121,6 @@ public:
 
 	~ptr_array(){
 		release();
-		m_p = NULL;
-		m_pcount = NULL;
 		puts("~ptr_array invoked");
 	}
 	void release()
