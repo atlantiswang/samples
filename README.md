@@ -41,7 +41,7 @@ git的分支不是用来做定制的。而是用来帮助协同工作的。版�
  - ![](https://github.com/atlantiswang/picture/blob/master/rebase.png)
 
 * git下载远程分支
- - git checkout --track origin/develop   git checkout -b develop origin/develop
+ - git checkout --track origin/develop | git checkout -b develop origin/develop
  - git merge --no-ff branchname//this is a good habit
  
 # LINUX
