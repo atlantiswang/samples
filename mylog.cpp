@@ -1,9 +1,13 @@
 #include "stdafx.h"
 #include "mylog.h"
 #include <time.h>
+#include <memory>
+#include <vld.h>
 
+//此处使用的全局变量线程不安全，需要改进，暂时不要使用FUN_IN功能
 int g_fun_level = 1;
 
+//最终的日志输出口
 void msglog::log(const char *pszlog)
 {
 	time_t t;
@@ -12,8 +16,8 @@ void msglog::log(const char *pszlog)
 	struct tm* time_s;
 	time_s = localtime(&t);
 
-	char logs[10240] = {0};
-	sprintf(logs, "%02d/%02d %02d:%02d:%02d [%d--%d] %s", 
+	std::shared_ptr<char> logs(new char[strlen(pszlog)+1+256]);
+	sprintf(logs.get(), "%02d/%02d %02d:%02d:%02d [%d--%d] %s", 
 		time_s->tm_mday, time_s->tm_mon + 1, time_s->tm_hour, time_s->tm_min, time_s->tm_sec,
 		GetCurrentProcessId(), GetCurrentThreadId(), pszlog);
 
@@ -21,7 +25,7 @@ void msglog::log(const char *pszlog)
 	OutputDebugStringA(pszlog);
 	puts(pszlog);
 #endif
-
+	
 #ifdef LOG_TO_FILE
 	char szfilename[128] = {0};
 	GetTempPathA(128, szfilename);
@@ -29,7 +33,7 @@ void msglog::log(const char *pszlog)
 	FILE *m_fp;
 	m_fp = fopen(szfilename, "a");
 
-	fwrite(logs, 1, strlen(logs), m_fp);
+	fwrite(logs.get(), 1, strlen(logs.get()), m_fp);
 	fputs("\n\n", m_fp);
 	fclose(m_fp);
 	m_fp = NULL;
