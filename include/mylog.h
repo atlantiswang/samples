@@ -18,9 +18,9 @@
 #define LOG_FILE_NAME "host_log.txt"
 
 /*
-ÓĞĞ©ÉùÃ÷Ò»¸öthreadmutexÀà²¢²»ÊÇRAII
-¶øÊÇÎªÁË¼æÈİ²»Í¬µÄÆ½Ì¨ »ò ·½±ã¹ÜÀí³ÉÔ±º¯ÊıµÄ ¶àÏß³Ì°²È«
-ÔÚ´Ë´¦ÊÇÎªÁËÊµÏÖRAII
+æœ‰äº›å£°æ˜ä¸€ä¸ªthreadmutexç±»å¹¶ä¸æ˜¯RAII
+è€Œæ˜¯ä¸ºäº†å…¼å®¹ä¸åŒçš„å¹³å° æˆ– æ–¹ä¾¿ç®¡ç†æˆå‘˜å‡½æ•°çš„ å¤šçº¿ç¨‹å®‰å…¨
+åœ¨æ­¤å¤„æ˜¯ä¸ºäº†å®ç°RAII
 */
 class threadmutex
 {
@@ -58,7 +58,7 @@ private:
 	HANDLE m_console_handle;
 };
 
-//´Ë´¦ÎªlogµÄ½Ó¿Ú
+//æ­¤å¤„ä¸ºlogçš„æ¥å£
 #if (defined LOG_TO_FILE) || (defined LOG_TO_STD)
 	#define FUN_IN(fun_name) get_log_instance();stackclass sclss_##fun_name(#fun_name)
 	#define LOG_INF(loginfo) get_log_instance().logstring loginfo
