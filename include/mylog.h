@@ -1,13 +1,11 @@
 #ifndef _MYLOG_H
 #define _MYLOG_H
 /*
- * LOG_INF(("this is num :%d", 100));
-
- * FUN_IN(funname); add()auto
+ * FUN_IN(funname);
 
  * LOG_BIN("instruct:", p, nlen);
  
- * log for error need add file and line information
+ * LOG_INF(("this is num :%d", 100));
  */
 #include <Windows.h>
 #include <stdlib.h>
