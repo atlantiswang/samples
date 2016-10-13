@@ -2,14 +2,16 @@
 #include "mylog.h"
 #include <time.h>
 #include <memory>
-#include <vld.h>
-
-//此处使用的全局变量线程不安全，需要改进，暂时不要使用FUN_IN功能
-int g_fun_level = 1;
-
+#include <map>
+//在.h文件中无法访问static 静态变量，而又不能声明在.h文件中
+//故欲访问static ,只能让声明与实现分开。
+static CRITICAL_SECTION gs_mutex;
+static CRITICAL_SECTION gs_fun_mutex;
+static std::map<unsigned, int> gs_level;
 //最终的日志输出口
-void msglog::log(const char *pszlog)
+void msglog::log(const char *pszlog, unsigned short color)
 {
+	threadmutex raii_lock;
 	time_t t;
 	time(&t);
 
@@ -22,14 +24,16 @@ void msglog::log(const char *pszlog)
 		GetCurrentProcessId(), GetCurrentThreadId(), pszlog);
 
 #ifdef LOG_TO_STD
-	OutputDebugStringA(pszlog);
-	puts(pszlog);
+	OutputDebugStringA(logs.get());//(pszlog);
+
+	SetConsoleTextAttribute(m_console_handle, color);
+	puts(logs.get());//(pszlog);
 #endif
 	
 #ifdef LOG_TO_FILE
-	char szfilename[128] = {0};
-	GetTempPathA(128, szfilename);
-	strcat_s(szfilename, 128, LOG_FILE_NAME);
+	char szfilename[MAX_PATH] = {0};
+	GetTempPathA(MAX_PATH, szfilename);
+	strcat_s(szfilename, MAX_PATH, LOG_FILE_NAME);
 	FILE *m_fp;
 	m_fp = fopen(szfilename, "a");
 
@@ -40,15 +44,28 @@ void msglog::log(const char *pszlog)
 #endif
 }
 
-stackclass::stackclass(const char *fun_name):m_strlog(fun_name),m_level(g_fun_level++)
+stackclass::stackclass(const char *fun_name):m_strlog(fun_name)
 {
+	m_thread_id = GetCurrentThreadId();
+	EnterCriticalSection(&gs_fun_mutex);
+	std::map<unsigned, int>::iterator it = gs_level.find(m_thread_id);
+
+	if (it != gs_level.end())
+	{
+		gs_level[m_thread_id]++;
+	}else{
+		gs_level[m_thread_id] = 0;
+	}
+	LeaveCriticalSection(&gs_fun_mutex);
+	m_level = gs_level[m_thread_id];
+
 	char szTab[128] = {0};
 	char szTemp[128] = {0};
 	for(int i = 0; i < m_level; ++i)
 		strcat(szTab, "   ");
 	sprintf(szTemp, "FUN %s-> %s()", szTab, m_strlog.c_str());
 
-	get_log_instance().log(szTemp);
+	get_log_instance().log(szTemp, m_thread_id/16);
 }
 
 stackclass::~stackclass()
@@ -59,8 +76,14 @@ stackclass::~stackclass()
 	for(int i = 0; i < m_level; ++i)
 		strcat(szTab, "   ");
 	sprintf(szTemp, "FUN %s<- %s()", szTab, m_strlog.c_str());
-	get_log_instance().log(szTemp);
-	g_fun_level--;
+	get_log_instance().log(szTemp, m_thread_id/16);
+
+	EnterCriticalSection(&gs_fun_mutex);
+	if(--gs_level[m_thread_id] == -1)
+	{
+		gs_level.erase(gs_level.find(m_thread_id));
+	}
+	LeaveCriticalSection(&gs_fun_mutex);
 }
 
 void msglog::logstring(const char *szformat, ...)
@@ -93,8 +116,32 @@ void msglog::logbinary(char *strinfo, const char *pbyte, int nlen)
 	log(pbuff);
 }
 
+
+threadmutex::threadmutex()
+{
+	EnterCriticalSection(&gs_mutex);
+}
+
+threadmutex::~threadmutex()
+{
+	LeaveCriticalSection(&gs_mutex);
+}
+
 msglog &get_log_instance()
 {
 	static msglog gs_log;
 	return gs_log;
+}
+
+msglog::msglog()
+{
+	InitializeCriticalSection(&gs_mutex);
+	InitializeCriticalSection(&gs_fun_mutex);
+	m_console_handle = GetStdHandle(STD_OUTPUT_HANDLE);
+}
+msglog::~msglog()
+{
+	DeleteCriticalSection(&gs_mutex);
+	DeleteCriticalSection(&gs_fun_mutex);
+	CloseHandle(m_console_handle);
 }
