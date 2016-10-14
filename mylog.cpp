@@ -28,6 +28,7 @@ void msglog::log(const char *pszlog, unsigned short color)
 
 	SetConsoleTextAttribute(m_console_handle, color);
 	puts(logs.get());//(pszlog);
+	SetConsoleTextAttribute(m_console_handle, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
 #endif
 	
 #ifdef LOG_TO_FILE
