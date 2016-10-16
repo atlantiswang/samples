@@ -46,7 +46,7 @@ void msglog::log(const char *pszlog, unsigned short color)
 }
 
 stackclass::stackclass(const char *fun_name):m_strlog(fun_name)
-{
+{	
 	m_thread_id = GetCurrentThreadId();
 	EnterCriticalSection(&gs_fun_mutex);
 	std::map<unsigned, int>::iterator it = gs_level.find(m_thread_id);
@@ -90,12 +90,28 @@ stackclass::~stackclass()
 void msglog::logstring(const char *szformat, ...)
 {	
 	va_list valist;
-	char szbuff[128] = {0};
+	char szbuff[1024] = {0};
 	va_start(valist, szformat);
 	_vsnprintf(szbuff, 128, szformat, valist);
 	va_end(valist);
+
 	log(szbuff);
 }
+
+void msglog::logstring(const wchar_t *szformat, ...)
+{	
+	va_list valist;
+	wchar_t szbuff[1024] = {0};
+	va_start(valist, szformat);
+	_vsnwprintf(szbuff, 128, szformat, valist);
+	va_end(valist);
+
+	char ansi_buff[1024] = {0};
+	WideCharToMultiByte(CP_ACP, 0, szbuff, 1024, ansi_buff, 1024, NULL, NULL);
+
+	log(ansi_buff);
+}
+
 
 void msglog::logbinary(char *strinfo, const char *pbyte, int nlen)
 {

@@ -5,7 +5,7 @@
 
  * LOG_BIN("instruct:", p, nlen);
  
- * LOG_INF(("this is num :%d", 100));
+ * LOG_INF(("this is num :%d", 100)); or  LOG_INF((L"this is num :%d--%s", 100, L"mylog"));
  */
 #include <Windows.h>
 #include <stdlib.h>
@@ -17,7 +17,7 @@
 
 /*
 有些声明一个threadmutex类并不是RAII
-而是为了兼容不同的平台 或 方便管理成员函数的 多线程安全
+而是为了兼容不同的平台，方便管理成员函数多线程安全
 在此处是为了实现RAII
 */
 class threadmutex
@@ -28,6 +28,7 @@ public:
 };
 
 typedef std::string stringa;
+
 class stackclass
 {
 public:
@@ -47,6 +48,7 @@ public:
 	enum {COLUMN = 16};
 	void logbinary(char *strinfo, const char *pbyte, int nlen);
 	void logstring(const char *szformat, ...);
+	void logstring(const wchar_t *szformat, ...);
 	void log(const char *pszlog, unsigned short color = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
 	friend msglog& get_log_instance();
 private: 
