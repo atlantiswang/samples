@@ -13,8 +13,8 @@
 #include <string>
 #include <string.h>
 
-#define LOG_FILE_NAME "host_log.txt"
-
+#define LOG_FILE_NAME "TNCPolicy.txt"
+#define MAX_FILE_SIZE 30*1024*1024
 /*
 有些声明一个threadmutex类并不是RAII
 而是为了兼容不同的平台，方便管理成员函数多线程安全

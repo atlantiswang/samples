@@ -1,14 +1,14 @@
-#include "stdafx.h"
 #include "mylog.h"
 #include <time.h>
 #include <memory>
 #include <map>
-//ÔÚ.hÎÄ¼şÖĞÎŞ·¨·ÃÎÊstatic ¾²Ì¬±äÁ¿£¬¶øÓÖ²»ÄÜÉùÃ÷ÔÚ.hÎÄ¼şÖĞ
-//¹ÊÓû·ÃÎÊstatic ,Ö»ÄÜÈÃÉùÃ÷ÓëÊµÏÖ·Ö¿ª¡£
+#include <sys/stat.h>
+//åœ¨.hæ–‡ä»¶ä¸­æ— æ³•è®¿é—®static é™æ€å˜é‡ï¼Œè€Œåˆä¸èƒ½å£°æ˜åœ¨.hæ–‡ä»¶ä¸­
+//æ•…æ¬²è®¿é—®static ,åªèƒ½è®©å£°æ˜ä¸å®ç°åˆ†å¼€ã€‚
 static CRITICAL_SECTION gs_mutex;
 static CRITICAL_SECTION gs_fun_mutex;
 static std::map<unsigned, int> gs_level;
-//×îÖÕµÄÈÕÖ¾Êä³ö¿Ú
+//æœ€ç»ˆçš„æ—¥å¿—è¾“å‡ºå£
 void msglog::log(const char *pszlog, unsigned short color)
 {
 	threadmutex raii_lock;
@@ -35,9 +35,17 @@ void msglog::log(const char *pszlog, unsigned short color)
 	char szfilename[MAX_PATH] = {0};
 	GetTempPathA(MAX_PATH, szfilename);
 	strcat_s(szfilename, MAX_PATH, LOG_FILE_NAME);
+
+	struct stat st;
+	stat(szfilename, &st);
+	if(st.st_size > MAX_FILE_SIZE)
+	{
+		remove(szfilename);
+		Sleep(400);
+	}
+
 	FILE *m_fp;
 	m_fp = fopen(szfilename, "a");
-
 	fwrite(logs.get(), 1, strlen(logs.get()), m_fp);
 	fputs("\n\n", m_fp);
 	fclose(m_fp);
@@ -66,7 +74,7 @@ stackclass::stackclass(const char *fun_name):m_strlog(fun_name)
 		strcat(szTab, "   ");
 	sprintf(szTemp, "FUN %s-> %s()", szTab, m_strlog.c_str());
 
-	get_log_instance().log(szTemp, m_thread_id/16);
+	get_log_instance().log(szTemp, m_thread_id%14 + 2);
 }
 
 stackclass::~stackclass()
@@ -77,7 +85,7 @@ stackclass::~stackclass()
 	for(int i = 0; i < m_level; ++i)
 		strcat(szTab, "   ");
 	sprintf(szTemp, "FUN %s<- %s()", szTab, m_strlog.c_str());
-	get_log_instance().log(szTemp, m_thread_id/16);
+	get_log_instance().log(szTemp, m_thread_id%14 + 2);
 
 	EnterCriticalSection(&gs_fun_mutex);
 	if(--gs_level[m_thread_id] == -1)
