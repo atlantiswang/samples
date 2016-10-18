@@ -3,12 +3,11 @@
 #include <memory>
 #include <map>
 #include <sys/stat.h>
-//在.h文件中无法访问static 静态变量，而又不能声明在.h文件中
-//故欲访问static ,只能让声明与实现分开。
+
 static CRITICAL_SECTION gs_mutex;
 static CRITICAL_SECTION gs_fun_mutex;
 static std::map<unsigned, int> gs_level;
-//最终的日志输出口
+
 void msglog::log(const char *pszlog, unsigned short color)
 {
 	threadmutex raii_lock;
@@ -100,7 +99,7 @@ void msglog::logstring(const char *szformat, ...)
 	va_list valist;
 	char szbuff[1024] = {0};
 	va_start(valist, szformat);
-	_vsnprintf(szbuff, 128, szformat, valist);
+	_vsnprintf(szbuff, 1024, szformat, valist);
 	va_end(valist);
 
 	log(szbuff);
@@ -111,13 +110,15 @@ void msglog::logstring(const wchar_t *szformat, ...)
 	va_list valist;
 	wchar_t szbuff[1024] = {0};
 	va_start(valist, szformat);
-	_vsnwprintf(szbuff, 128, szformat, valist);
+	_vsnwprintf(szbuff, 1024, szformat, valist);
 	va_end(valist);
 
-	char ansi_buff[1024] = {0};
-	WideCharToMultiByte(CP_ACP, 0, szbuff, 1024, ansi_buff, 1024, NULL, NULL);
+	int heapLen = WideCharToMultiByte(CP_ACP, 0, szbuff, -1, NULL, 0, NULL, NULL);
+	char *ansi_buff = new char[heapLen];
+	WideCharToMultiByte(CP_ACP, 0, szbuff, -1, ansi_buff, heapLen, NULL, NULL);
 
 	log(ansi_buff);
+	delete [] ansi_buff;
 }
 
 
@@ -139,6 +140,7 @@ void msglog::logbinary(char *strinfo, const char *pbyte, int nlen)
 
 	log(strinfo);
 	log(pbuff);
+	delete [] pbuff;
 }
 
 
