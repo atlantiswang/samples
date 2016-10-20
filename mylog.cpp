@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "mylog.h"
 #include <time.h>
 #include <memory>
@@ -14,9 +15,8 @@ void msglog::log(const char *pszlog, unsigned short color)
 	time_t t;
 	time(&t);
 
-	struct tm* time_s;
-	time_s = localtime(&t);
-
+	tm* time_s = localtime(&t);
+	int n = strlen(pszlog);
 	std::shared_ptr<char> logs(new char[strlen(pszlog)+1+256]);
 	sprintf(logs.get(), "%02d/%02d %02d:%02d:%02d [%d--%d] %s", 
 		time_s->tm_mday, time_s->tm_mon + 1, time_s->tm_hour, time_s->tm_min, time_s->tm_sec,
@@ -121,26 +121,64 @@ void msglog::logstring(const wchar_t *szformat, ...)
 	delete [] ansi_buff;
 }
 
-
-void msglog::logbinary(char *strinfo, const char *pbyte, int nlen)
+const void *msglog::ctrltopoint(const unsigned char *p, int nlen)
 {
-	int oldlen = nlen;
-	nlen = nlen*3 +nlen/COLUMN;
-	char *pbuff = new char[nlen+1];
-	memset(pbuff, 0, nlen);
-	for(int i = 0, j = 0; i < nlen && j < oldlen; i+= 3, j++)
+	unsigned char *temp = new unsigned char[nlen];
+	memcpy(temp, p, nlen);
+	for (int i = 0; i < nlen; ++i)
 	{
-		sprintf(pbuff + i, "%02X ", pbyte[j]);
-		if ((j+1)%16 == 0)
-		{
-			sprintf(pbuff + i + 2, "\r\n");
-			i++;
+		if (p[i] == 0)
+		{	
+			temp[i] = '.';
 		}
 	}
+	return temp;
+}
 
-	log(strinfo);
-	log(pbuff);
-	delete [] pbuff;
+void msglog::logbinary(char *strinfo, const unsigned char *pbyte, int nlen)
+{
+	int num = nlen, rowlen = nlen/COLUMN+(bool)(nlen%COLUMN), 
+		infolen = strlen(strinfo) + 2, bytelen = rowlen*(COLUMN*3), 
+		regionlen = rowlen*REGION, textlen = nlen + rowlen * 2;
+	nlen = infolen + bytelen + regionlen + textlen;
+
+	std::shared_ptr<char> pbuff(new char[nlen+1]);
+	memset(pbuff.get(), 0, nlen+1);
+
+	strcpy(pbuff.get(), strinfo);
+	strcat(pbuff.get(), "\r\n");
+	
+	for(int bindex = infolen, index = 0; index < num;)
+	{
+		int a = TOTALCOLUMN;
+		switch ((bindex - infolen)%TOTALCOLUMN)
+		{
+		case 48:
+			{
+				strncat(pbuff.get() + bindex, "       ", REGION);
+				bindex += REGION;
+				break;
+			}
+		case 52:
+			{
+				const void *p = ctrltopoint(pbyte+index-COLUMN, COLUMN);
+				memcpy(pbuff.get() + bindex, p, COLUMN);
+				delete [] p;
+				
+				bindex += COLUMN;
+				strcat(pbuff.get() + bindex, "\r\n");
+				bindex += 2;
+				break;
+			}
+		default:
+			{
+				sprintf(pbuff.get() + bindex, "%02X ", pbyte[index]);
+				bindex += 3;
+				index += 1;
+			}
+		}
+	}
+	log(pbuff.get());
 }
 
 
