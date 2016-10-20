@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "mylog.h"
 #include <time.h>
 #include <memory>
@@ -148,7 +147,8 @@ void msglog::logbinary(char *strinfo, const unsigned char *pbyte, int nlen)
 	strcpy(pbuff.get(), strinfo);
 	strcat(pbuff.get(), "\r\n");
 	
-	for(int bindex = infolen, index = 0; index < num;)
+	int bindex = infolen, index = 0;
+	while(index < num)
 	{
 		int a = TOTALCOLUMN;
 		switch ((bindex - infolen)%TOTALCOLUMN)
@@ -178,6 +178,18 @@ void msglog::logbinary(char *strinfo, const unsigned char *pbyte, int nlen)
 			}
 		}
 	}
+	
+	int remainlen = COLUMN*3 - (bindex - infolen) % TOTALCOLUMN;
+	strncat(pbuff.get() + bindex, ".. .. .. .. .. .. .. .. .. .. .. .. .. .. .. ..", remainlen);
+	bindex += remainlen;
+	strncat(pbuff.get() + bindex, "            ", REGION);
+	bindex += REGION;
+	int tailen = index % COLUMN;
+	tailen = tailen?tailen:COLUMN;
+	const void *p = ctrltopoint(pbyte+index-tailen, tailen);
+	memcpy(pbuff.get() + bindex, p, tailen);
+	delete [] p;
+
 	log(pbuff.get());
 }
 
