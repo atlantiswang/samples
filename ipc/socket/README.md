@@ -10,20 +10,27 @@ WSAGetLastError也获取其状态。
  
            /* Watch stdin (fd 0) to see when it has input. */
            FD_ZERO(&rfds);
-           FD_SET(0, &rfds);
+           FD_SET(socket, &rfds);
+		   /*FD_CLR 与 FD_SET相反*/
  
            /* Wait up to five seconds. */
            tv.tv_sec = 5;
            tv.tv_usec = 0;
  
            /*注意这里的二三四参数，不同的阻塞函数对应不同的*/
-           retval = select(1, &rfds, NULL, NULL, &tv);
+           retval = select(0, &rfds, NULL, NULL, &tv);
            /* Don’t rely on the value of tv now! */
  
            if (retval == -1)
                perror("select()");
-           else if (retval)
-               printf("Data is available now.\n");
-               /* FD_ISSET(0, &rfds) will be true. */
-           else
+           else if (retval == 0)
                printf("No data within five seconds.\n");
+           else /*大于0*/
+		   {
+			   printf("Data is available now.\n");
+		       if(FD_ISSET(socket, &rfds))
+			   /* 如果只有一个socket就不用这一步了（既然大于0了就说明唯一的这一个准备好了）*/
+			   {
+					printf("socket is ready");
+			   }
+		   }

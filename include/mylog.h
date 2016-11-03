@@ -13,7 +13,6 @@
 #include <string>
 #include <string.h>
 
-#define LOG_FILE_NAME "host_log.txt"
 #define MAX_FILE_SIZE 30*1024*1024
 
 class threadmutex
@@ -35,6 +34,7 @@ private:
 	int m_level;
 	int m_thread_id;
 	stringa m_strlog;
+	stringa m_filename;
 };
 
 
@@ -51,6 +51,7 @@ private:
 	msglog();
 	~msglog();
 	const void *ctrltopoint(const unsigned char *p, int nlen);
+	stringa &getfilename();
 private:
 	HANDLE m_console_handle;
 };

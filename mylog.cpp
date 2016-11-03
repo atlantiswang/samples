@@ -36,7 +36,7 @@ void msglog::log(const char *pszlog, unsigned short color)
 
 	struct stat st;
 	stat(szfilename, &st);
-	if(st.st_size > MAX_FILE_SIZE)
+	if(st.st_size > m_filename.c_str())
 	{
 		remove(szfilename);
 		Sleep(400);
@@ -210,11 +210,21 @@ msglog &get_log_instance()
 	return gs_log;
 }
 
+stringa &msglog::getfilename()
+{
+	char name[MAX_PATH] = {0};
+	GetModuleFileNameA(NULL, name, MAX_PATH);
+	strcpy(name, strrchr(name, '\\') + 1);
+	strcpy(strrchr(name, '.') + 1, "log");
+	return (stringa)name;
+}
+
 msglog::msglog()
 {
 	InitializeCriticalSection(&gs_mutex);
 	InitializeCriticalSection(&gs_fun_mutex);
 	m_console_handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	m_filename = getfilename();
 }
 msglog::~msglog()
 {
