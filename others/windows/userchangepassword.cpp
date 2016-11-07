@@ -1,11 +1,17 @@
 // UserChangePassword.cpp : 定义控制台应用程序的入口点。
+// USE MBCS
 //
 
 #include <windows.h>
+#include <tchar.h>
 #include <string>
 #include <lm.h>
 #include <Iptypes.h>
 #include <iphlpapi.h>
+
+#pragma comment(lib, "Netapi32.lib")
+#pragma comment(lib, "Iphlpapi.lib")
+
 using namespace std;
 
 void GetInfo(char *strDns)
@@ -174,11 +180,13 @@ bool GetNetworkCfg(NetworkCfg *cfg)
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	//1
 //	GetInfo("127.0.0.1");
-
-// 	NetworkCfg cfg;
-// 	GetNetworkCfg(&cfg);
-
+	//2
+	NetworkCfg cfg;
+	GetNetworkCfg(&cfg);
+	//3
+#if 0
 	char strDns[128] = {0};
 	FIXED_INFO *fi = (FIXED_INFO *)GlobalAlloc(GPTR,sizeof( FIXED_INFO));
 	ULONG ulOutBufLen = sizeof(FIXED_INFO);
@@ -217,9 +225,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		MessageBoxW(NULL, name, NULL, MB_OK);
 	}
-		
+
 	puts(strDns);
 
+#endif	
 	////////////////////////////
 	system("pause");
 	return 0;
