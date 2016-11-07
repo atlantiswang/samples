@@ -14,13 +14,13 @@
 - 跨进程的  
       只要带有name的就可以跨进程：信号，事件，互斥。他们的名字前面加入"Global\" 或"Local\"可以表明是哪个会话。（信号有有待验证）
 	  
-# 线程通信
+## 线程通信
 - 全局变量  
 - PostThreadMessage  
   目标线程使用GetMessage()方法来接收消息。  
   使用这个方法时，目标线程必须已经有自己的消息队列。否则会返回ERROR_INVALID_THREAD_ID错误，可以用PeekMessage()给线程创建消息队列  
   
-# 进程间通信（IPC）
+## 进程间通信（IPC）
 - 共享内存
 - socket
 - 管道
