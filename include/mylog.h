@@ -34,7 +34,6 @@ private:
 	int m_level;
 	int m_thread_id;
 	stringa m_strlog;
-	stringa m_filename;
 };
 
 
@@ -54,6 +53,7 @@ private:
 	stringa &getfilename();
 private:
 	HANDLE m_console_handle;
+	stringa m_filename;
 };
 
 #if (defined LOG_TO_FILE) || (defined LOG_TO_STD)

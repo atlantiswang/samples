@@ -1,12 +1,17 @@
+#include "stdafx.h"
 #include "mylog.h"
 #include <time.h>
 #include <memory>
 #include <map>
 #include <sys/stat.h>
 
-static CRITICAL_SECTION gs_mutex;
+static HANDLE gs_mutex;
 static CRITICAL_SECTION gs_fun_mutex;
-static std::map<unsigned, int> gs_level;
+
+#pragma data_seg(".Shared")
+std::map<unsigned, int> gs_level;
+#pragma data_seg()
+#pragma comment(linker, "/Section:.Shared,RWS")
 
 void msglog::log(const char *pszlog, unsigned short color)
 {
@@ -28,15 +33,15 @@ void msglog::log(const char *pszlog, unsigned short color)
 	puts(logs.get());//(pszlog);
 	SetConsoleTextAttribute(m_console_handle, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
 #endif
-	
+
 #ifdef LOG_TO_FILE
 	char szfilename[MAX_PATH] = {0};
 	GetTempPathA(MAX_PATH, szfilename);
-	strcat_s(szfilename, MAX_PATH, LOG_FILE_NAME);
+	strcat_s(szfilename, MAX_PATH, m_filename.c_str());
 
 	struct stat st;
 	stat(szfilename, &st);
-	if(st.st_size > m_filename.c_str())
+	if(st.st_size > MAX_FILE_SIZE)
 	{
 		remove(szfilename);
 		Sleep(400);
@@ -146,7 +151,7 @@ void msglog::logbinary(char *strinfo, const unsigned char *pbyte, int nlen)
 
 	strcpy(pbuff.get(), strinfo);
 	strcat(pbuff.get(), "\r\n");
-	
+
 	int bindex = infolen, index = 0;
 	while(index < num)
 	{
@@ -164,7 +169,7 @@ void msglog::logbinary(char *strinfo, const unsigned char *pbyte, int nlen)
 				const void *p = ctrltopoint(pbyte+index-COLUMN, COLUMN);
 				memcpy(pbuff.get() + bindex, p, COLUMN);
 				delete [] p;
-				
+
 				bindex += COLUMN;
 				strcat(pbuff.get() + bindex, "\r\n");
 				bindex += 2;
@@ -178,7 +183,7 @@ void msglog::logbinary(char *strinfo, const unsigned char *pbyte, int nlen)
 			}
 		}
 	}
-	
+
 	int remainlen = COLUMN*3 - (bindex - infolen) % TOTALCOLUMN;
 	strncat(pbuff.get() + bindex, ".. .. .. .. .. .. .. .. .. .. .. .. .. .. .. ..", remainlen);
 	bindex += remainlen;
@@ -196,12 +201,12 @@ void msglog::logbinary(char *strinfo, const unsigned char *pbyte, int nlen)
 
 threadmutex::threadmutex()
 {
-	EnterCriticalSection(&gs_mutex);
+	WaitForSingleObject(gs_mutex, 10000);
 }
 
 threadmutex::~threadmutex()
 {
-	LeaveCriticalSection(&gs_mutex);
+	ReleaseMutex(gs_mutex);
 }
 
 msglog &get_log_instance()
@@ -221,14 +226,18 @@ stringa &msglog::getfilename()
 
 msglog::msglog()
 {
-	InitializeCriticalSection(&gs_mutex);
 	InitializeCriticalSection(&gs_fun_mutex);
 	m_console_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	m_filename = getfilename();
+	gs_mutex = CreateMutexA(NULL, FALSE, m_filename.c_str());
+	if (gs_mutex == NULL)
+	{
+		puts("create mutex failed");
+	}
 }
 msglog::~msglog()
 {
-	DeleteCriticalSection(&gs_mutex);
+	CloseHandle(gs_mutex);
 	DeleteCriticalSection(&gs_fun_mutex);
 	CloseHandle(m_console_handle);
 }
