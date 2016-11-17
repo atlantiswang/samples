@@ -15,12 +15,6 @@
 
 #define MAX_FILE_SIZE 30*1024*1024
 
-class threadmutex
-{
-public:
-	threadmutex();
-	~threadmutex();
-};
 
 typedef std::string stringa;
 

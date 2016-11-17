@@ -13,9 +13,51 @@ std::map<unsigned, int> gs_level;
 #pragma data_seg()
 #pragma comment(linker, "/Section:.Shared,RWS")
 
+enum{CRITICAL, MUTEX};
+class threadmutex
+{
+public:
+	threadmutex(bool bMutex = CRITICAL):m_bMutex(bMutex),m_locked(false){Lock();}
+	~threadmutex(){UnLock();}
+	
+	void Lock(){
+		if(m_locked == false)
+		{
+			if(m_bMutex == true)
+			{
+				WaitForSingleObject(gs_mutex, 10000);
+			}
+			else
+			{
+				EnterCriticalSection(&gs_fun_mutex);
+			}
+		}
+		m_locked = true;
+	}
+
+	void UnLock()
+	{
+		if (m_locked == true)
+		{
+			if(m_bMutex == true)
+			{
+				ReleaseMutex(gs_mutex);
+			}
+			else
+			{
+				LeaveCriticalSection(&gs_fun_mutex);
+			}
+		}
+		m_locked = false;
+	}
+private:
+	bool m_bMutex;
+	bool m_locked;
+};
+
 void msglog::log(const char *pszlog, unsigned short color)
 {
-	threadmutex raii_lock;
+	threadmutex logMutex(MUTEX);
 	time_t t;
 	time(&t);
 
@@ -59,7 +101,7 @@ void msglog::log(const char *pszlog, unsigned short color)
 stackclass::stackclass(const char *fun_name):m_strlog(fun_name)
 {	
 	m_thread_id = GetCurrentThreadId();
-	EnterCriticalSection(&gs_fun_mutex);
+	threadmutex stackmutex;
 	std::map<unsigned, int>::iterator it = gs_level.find(m_thread_id);
 
 	if (it != gs_level.end())
@@ -68,7 +110,7 @@ stackclass::stackclass(const char *fun_name):m_strlog(fun_name)
 	}else{
 		gs_level[m_thread_id] = 0;
 	}
-	LeaveCriticalSection(&gs_fun_mutex);
+	stackmutex.UnLock();
 	m_level = gs_level[m_thread_id];
 
 	char szTab[128] = {0};
@@ -90,12 +132,12 @@ stackclass::~stackclass()
 	sprintf(szTemp, "FUN %s<- %s()", szTab, m_strlog.c_str());
 	get_log_instance().log(szTemp, m_thread_id%14 + 2);
 
-	EnterCriticalSection(&gs_fun_mutex);
+	threadmutex stackmutex;
 	if(--gs_level[m_thread_id] == -1)
 	{
 		gs_level.erase(gs_level.find(m_thread_id));
 	}
-	LeaveCriticalSection(&gs_fun_mutex);
+	stackmutex.UnLock();
 }
 
 void msglog::logstring(const char *szformat, ...)
@@ -196,17 +238,6 @@ void msglog::logbinary(char *strinfo, const unsigned char *pbyte, int nlen)
 	delete [] p;
 
 	log(pbuff.get());
-}
-
-
-threadmutex::threadmutex()
-{
-	WaitForSingleObject(gs_mutex, 10000);
-}
-
-threadmutex::~threadmutex()
-{
-	ReleaseMutex(gs_mutex);
 }
 
 msglog &get_log_instance()
