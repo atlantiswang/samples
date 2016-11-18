@@ -20,7 +20,6 @@
 #define API _declspec(dllimport)
 #endif
 
-
 #ifdef _WIN32
 class /*API*/ inictrl
 #else
