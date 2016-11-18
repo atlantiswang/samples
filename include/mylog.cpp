@@ -7,11 +7,7 @@
 
 static HANDLE gs_mutex;
 static CRITICAL_SECTION gs_fun_mutex;
-
-#pragma data_seg(".Shared")
 std::map<unsigned, int> gs_level;
-#pragma data_seg()
-#pragma comment(linker, "/Section:.Shared,RWS")
 
 enum{CRITICAL, MUTEX};
 class threadmutex
@@ -246,7 +242,7 @@ msglog &get_log_instance()
 	return gs_log;
 }
 
-stringa &msglog::getfilename()
+stringa msglog::getfilename()
 {
 	char name[MAX_PATH] = {0};
 	GetModuleFileNameA(NULL, name, MAX_PATH);

@@ -44,7 +44,7 @@ private:
 	msglog();
 	~msglog();
 	const void *ctrltopoint(const unsigned char *p, int nlen);
-	stringa &getfilename();
+	stringa getfilename();
 private:
 	HANDLE m_console_handle;
 	stringa m_filename;
