@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#define MYLOG_EXPORT
 #include "mylog.h"
 #include <time.h>
 #include <memory>
@@ -236,10 +236,15 @@ void msglog::logbinary(char *strinfo, const unsigned char *pbyte, int nlen)
 	log(pbuff.get());
 }
 
-msglog &get_log_instance()
+msglog &get_log_instance_()
 {
 	static msglog gs_log;
 	return gs_log;
+}
+
+msglog &get_log_instance()
+{
+	return get_log_instance_();
 }
 
 stringa msglog::getfilename()

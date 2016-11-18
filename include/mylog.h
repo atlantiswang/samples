@@ -14,11 +14,15 @@
 #include <string.h>
 
 #define MAX_FILE_SIZE 30*1024*1024
-
-
 typedef std::string stringa;
 
-class stackclass
+#ifdef MYLOG_EXPORT
+	#define API __declspec(dllexport)
+#else
+	#define API __declspec(dllimport)
+#endif
+
+class API stackclass
 {
 public:
 	stackclass(const char *fun_name);
@@ -30,8 +34,7 @@ private:
 	stringa m_strlog;
 };
 
-
-class msglog
+class API msglog
 {
 public:
 	enum {COLUMN = 16, REGION = 4, TOTALCOLUMN = 3*COLUMN+REGION+COLUMN+2};
@@ -39,7 +42,7 @@ public:
 	void logstring(const char *szformat, ...);
 	void logstring(const wchar_t *szformat, ...);
 	void log(const char *pszlog, unsigned short color = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
-	friend msglog& get_log_instance();
+	friend msglog& get_log_instance_();
 private: 
 	msglog();
 	~msglog();
@@ -49,6 +52,8 @@ private:
 	HANDLE m_console_handle;
 	stringa m_filename;
 };
+
+extern "C" API msglog& get_log_instance();
 
 #if (defined LOG_TO_FILE) || (defined LOG_TO_STD)
 	#define FUN_IN(fun_name) get_log_instance();stackclass sclss_##fun_name(#fun_name)
