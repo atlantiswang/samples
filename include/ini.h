@@ -7,7 +7,6 @@
  *	in.close();
  *  over
  */
-
 #ifndef INI_H
 #define INI_H
 #include "stdio.h"
