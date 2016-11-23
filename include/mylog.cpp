@@ -1,4 +1,3 @@
-#define MYLOG_EXPORT
 #include "mylog.h"
 #include <time.h>
 #include <memory>
