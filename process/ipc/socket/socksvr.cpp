@@ -38,7 +38,7 @@ void __cdecl clientpro(void *pParam)
 	SOCKET m = 0;
 	MFDSET(m, pP->clientsocket, &myset);
 	while(true){
-		int ret = select(m, &myset, NULL, NULL, NULL);
+		int ret = select(m + 1, &myset, NULL, NULL, NULL);
 		if (ret == 0)
 		{
 			puts("time out");
@@ -95,7 +95,7 @@ void TCPServer()
 	
 	while (true)
 	{
-		int ret = select(m, &myset, NULL, NULL, NULL);
+		int ret = select(m + 1, &myset, NULL, NULL, NULL);
 		if (ret == 0)
 		{
 			puts("time out");
@@ -140,7 +140,7 @@ void UDPServer()
 	MFDSET(m, hSockSvr, &myset);
 	while(true)
 	{
-		int ret = select(m, &myset, NULL, NULL, NULL);
+		int ret = select(m + 1, &myset, NULL, NULL, NULL);
 		if (ret == 0)
 		{
 			puts("time out");
