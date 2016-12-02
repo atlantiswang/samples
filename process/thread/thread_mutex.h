@@ -41,6 +41,7 @@ REVISION:
 //namespace our_test_namespace
 //{
 //以前觉得这是个RIIA，但后来发现不是，他是封装了各平台的互斥，使用时注意要将这个类的实例做为全局变量
+//如果以成员变量的形式存在也行，但所在的类必须是单例类。
 class ThreadMutex
 {
 //friend class CScopedLockThreadMutexHelper;

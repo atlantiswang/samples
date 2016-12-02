@@ -21,6 +21,7 @@
   使用这个方法时，目标线程必须已经有自己的消息队列。否则会返回ERROR_INVALID_THREAD_ID错误，可以用PeekMessage()给线程创建消息队列  
   
 ## 进程间通信（IPC）
+- FindWindow、然后发送WM_COPYDATA消息，字符串附加到COPYDATASTRUCT 结构体
 - 共享内存
 - socket
 - 管道

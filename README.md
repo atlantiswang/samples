@@ -68,6 +68,8 @@ UCS的字节序，帮FEFF是大端，FFFE是小端（微软一般就用小端）
 FEFF的UTF-8编码为1110 1111（EF）1011 1011（BB） 1011 1111（BF）
 即EFBBBF。
 
-# windows环境变量
+# windows
 set 查看所有的环境变量  
-set PATH=%PATH%;D:/test; 追加PATH项的值
+set PATH=%PATH%;D:/test; 追加PATH项的值 
+windows句柄： 
+DuplicateHandle()
