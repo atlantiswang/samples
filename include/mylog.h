@@ -13,7 +13,7 @@
 #include <string>
 #include <string.h>
 
-#define IMPORT_LIB_PATH "../../share/lib/host.lib"
+#define IMPORT_LIB_PATH "../share/lib/host.lib"
 #ifdef _USRDLL
 	#define MYLOG_API __declspec(dllimport)
 	#pragma comment(lib, IMPORT_LIB_PATH)
@@ -29,11 +29,13 @@ class MYLOG_API stackclass
 public:
 	stackclass(const char *fun_name);
 	~stackclass();
-	
+private:
+	unsigned short getcolor();
 private:
 	int m_level;
 	int m_thread_id;
 	stringa m_strlog;
+	static unsigned short int ms_color;
 };
 
 class MYLOG_API msglog

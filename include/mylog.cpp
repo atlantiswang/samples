@@ -3,10 +3,17 @@
 #include <memory>
 #include <map>
 #include <sys/stat.h>
+#include <intrin.h>
 
 static HANDLE gs_mutex;
 static CRITICAL_SECTION gs_fun_mutex;
-std::map<unsigned, int> gs_level;
+typedef struct _thread_info
+{
+	int num;
+	short color;
+}THREAD_INFO, *PTHREAD_INFO;
+
+static std::map<unsigned, THREAD_INFO> gs_level;
 
 enum{CRITICAL, MUTEX};
 class threadmutex
@@ -93,20 +100,22 @@ void msglog::log(const char *pszlog, unsigned short color)
 #endif
 }
 
+unsigned short int stackclass::ms_color = 0;
 stackclass::stackclass(const char *fun_name):m_strlog(fun_name)
 {	
 	m_thread_id = GetCurrentThreadId();
 	threadmutex stackmutex;
-	std::map<unsigned, int>::iterator it = gs_level.find(m_thread_id);
+	std::map<unsigned, THREAD_INFO>::iterator it = gs_level.find(m_thread_id);
 
 	if (it != gs_level.end())
 	{
-		gs_level[m_thread_id]++;
+		gs_level[m_thread_id].num++;
 	}else{
-		gs_level[m_thread_id] = 0;
+		gs_level[m_thread_id].num = 0;
+		gs_level[m_thread_id].color = getcolor();
 	}
 	stackmutex.UnLock();
-	m_level = gs_level[m_thread_id];
+	m_level = gs_level[m_thread_id].num;
 
 	char szTab[128] = {0};
 	char szTemp[128] = {0};
@@ -114,7 +123,21 @@ stackclass::stackclass(const char *fun_name):m_strlog(fun_name)
 		strcat(szTab, "   ");
 	sprintf(szTemp, "FUN %s-> %s()", szTab, m_strlog.c_str());
 
-	msglog::get_log_instance().log(szTemp, m_thread_id%14 + 2);
+	msglog::get_log_instance().log(szTemp, gs_level[m_thread_id].color);
+}
+
+unsigned short stackclass::getcolor()
+{
+	if(ms_color >= 0xFFFC) return 1;
+	unsigned short int bit = 1<<(m_thread_id%14 +2);
+	while ((bit & ms_color) == bit)
+	{
+		 bit = ((bit<<1)?(bit<<1):1);
+	}
+	ms_color |= bit;
+	DWORD dwbit = 0;
+	_BitScanForward(&dwbit, bit);
+	return (unsigned short)dwbit;
 }
 
 stackclass::~stackclass()
@@ -125,11 +148,12 @@ stackclass::~stackclass()
 	for(int i = 0; i < m_level; ++i)
 		strcat(szTab, "   ");
 	sprintf(szTemp, "FUN %s<- %s()", szTab, m_strlog.c_str());
-	msglog::get_log_instance().log(szTemp, m_thread_id%14 + 2);
-
+	msglog::get_log_instance().log(szTemp, gs_level[m_thread_id].color);
+	
 	threadmutex stackmutex;
-	if(--gs_level[m_thread_id] == -1)
+	if(--gs_level[m_thread_id].num == -1)
 	{
+		ms_color ^= gs_level[m_thread_id].color;
 		gs_level.erase(gs_level.find(m_thread_id));
 	}
 	stackmutex.UnLock();
