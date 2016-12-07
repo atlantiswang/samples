@@ -261,9 +261,9 @@ msglog::msglog()
 	m_console_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	m_filename = getfilename();
 	gs_mutex = CreateMutexA(NULL, FALSE, m_filename.c_str());
-	if (gs_mutex == NULL)
+	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{
-		puts("create mutex failed");
+		puts("log exist");
 	}
 }
 msglog::~msglog()

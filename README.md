@@ -24,6 +24,13 @@
   函数提示：ctrl+shift+space  
   找到对应的.h/.cpp文件：Alt + O  
   
+* makefile  
+  Build Command Line: nmake
+  Rebuild Command Line: 
+  Clean Command Line:
+  Output:
+
+  
 
 # qt
 添加qt依赖库： windeployqt xxx.exe

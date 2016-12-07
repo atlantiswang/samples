@@ -13,10 +13,18 @@
 #include <string>
 #include <string.h>
 
+#define IMPORT_LIB_PATH "../../share/lib/host.lib"
+#ifdef _USRDLL
+	#define MYLOG_API __declspec(dllimport)
+	#pragma comment(lib, IMPORT_LIB_PATH)
+#else
+	#define MYLOG_API __declspec(dllexport)
+#endif
+
 #define MAX_FILE_SIZE 30*1024*1024
 typedef std::string stringa;
 
-class stackclass
+class MYLOG_API stackclass
 {
 public:
 	stackclass(const char *fun_name);
@@ -28,7 +36,7 @@ private:
 	stringa m_strlog;
 };
 
-class msglog
+class MYLOG_API msglog
 {
 public:
 	enum {COLUMN = 16, REGION = 4, TOTALCOLUMN = 3*COLUMN+REGION+COLUMN+2};
@@ -48,7 +56,7 @@ private:
 	stringa m_filename;
 };
 
-msglog& get_log_instance();
+extern "C" MYLOG_API msglog& get_log_instance();
 
 #if (defined LOG_TO_FILE) || (defined LOG_TO_STD)
 	#define FUN_IN(fun_name) get_log_instance();stackclass sclss_##fun_name(#fun_name)
