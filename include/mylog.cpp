@@ -114,7 +114,7 @@ stackclass::stackclass(const char *fun_name):m_strlog(fun_name)
 		strcat(szTab, "   ");
 	sprintf(szTemp, "FUN %s-> %s()", szTab, m_strlog.c_str());
 
-	get_log_instance().log(szTemp, m_thread_id%14 + 2);
+	msglog::get_log_instance().log(szTemp, m_thread_id%14 + 2);
 }
 
 stackclass::~stackclass()
@@ -125,7 +125,7 @@ stackclass::~stackclass()
 	for(int i = 0; i < m_level; ++i)
 		strcat(szTab, "   ");
 	sprintf(szTemp, "FUN %s<- %s()", szTab, m_strlog.c_str());
-	get_log_instance().log(szTemp, m_thread_id%14 + 2);
+	msglog::get_log_instance().log(szTemp, m_thread_id%14 + 2);
 
 	threadmutex stackmutex;
 	if(--gs_level[m_thread_id] == -1)
@@ -235,15 +235,10 @@ void msglog::logbinary(char *strinfo, const unsigned char *pbyte, int nlen)
 	log(pbuff.get());
 }
 
-msglog &get_log_instance_()
+msglog &msglog::get_log_instance()
 {
 	static msglog gs_log;
 	return gs_log;
-}
-
-msglog &get_log_instance()
-{
-	return get_log_instance_();
 }
 
 stringa msglog::getfilename()

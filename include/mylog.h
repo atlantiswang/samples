@@ -44,7 +44,7 @@ public:
 	void logstring(const char *szformat, ...);
 	void logstring(const wchar_t *szformat, ...);
 	void log(const char *pszlog, unsigned short color = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
-	friend msglog& get_log_instance_();
+	static msglog& get_log_instance();
 private: 
 	msglog();
 	~msglog();
@@ -56,12 +56,10 @@ private:
 	stringa m_filename;
 };
 
-extern "C" MYLOG_API msglog& get_log_instance();
-
 #if (defined LOG_TO_FILE) || (defined LOG_TO_STD)
-	#define FUN_IN(fun_name) get_log_instance();stackclass sclss_##fun_name(#fun_name)
-	#define LOG_INF(loginfo) get_log_instance().logstring loginfo
-	#define LOG_BIN(strinfo, pbdata, nlen) get_log_instance().logbinary(strinfo, pbdata, nlen)
+	#define FUN_IN(fun_name) msglog::get_log_instance();stackclass sclss_##fun_name(#fun_name)
+	#define LOG_INF(loginfo) msglog::get_log_instance().logstring loginfo
+	#define LOG_BIN(strinfo, pbdata, nlen) msglog::get_log_instance().logbinary(strinfo, pbdata, nlen)
 #else
 	#define FUN_IN(fun_name)
 	#define LOG_INF(loginfo)
