@@ -4,6 +4,7 @@
 #include <map>
 #include <sys/stat.h>
 #include <intrin.h>
+//#define NOCOLOR
 
 static HANDLE gs_mutex;
 static CRITICAL_SECTION gs_fun_mutex;
@@ -128,11 +129,15 @@ stackclass::stackclass(const char *fun_name):m_strlog(fun_name)
 
 unsigned short stackclass::getcolor()
 {
-	if(ms_color >= 0xFFFC) return 1;
-	unsigned short int bit = 1<<(m_thread_id%14 +2);
+#ifdef NOCOLOR
+	return (FOREGROUND_BLUE|FOREGROUND_GREEN|FOREGROUND_RED|FOREGROUND_INTENSITY);
+#endif
+	if(ms_color >= 0x7FFC) 
+		return (FOREGROUND_BLUE|FOREGROUND_GREEN|FOREGROUND_RED|FOREGROUND_INTENSITY);
+	unsigned short int bit = 1<<(m_thread_id%13 +2);
 	while ((bit & ms_color) == bit)
 	{
-		 bit = ((bit<<1)?(bit<<1):1);
+		 bit = (((bit<<1)==0x8000)?(1<<2):(bit<<1));
 	}
 	ms_color |= bit;
 	DWORD dwbit = 0;
@@ -153,7 +158,7 @@ stackclass::~stackclass()
 	threadmutex stackmutex;
 	if(--gs_level[m_thread_id].num == -1)
 	{
-		ms_color ^= gs_level[m_thread_id].color;
+		ms_color &= ~(gs_level[m_thread_id].color);
 		gs_level.erase(gs_level.find(m_thread_id));
 	}
 	stackmutex.UnLock();
