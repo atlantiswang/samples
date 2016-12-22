@@ -33,7 +33,8 @@
   
 
 # qt
-添加qt依赖库： windeployqt xxx.exe
+添加qt依赖库： windeployqt xxx.exe  
+qt下载： www.qt.io/download-open-source/
 
 #git
 
@@ -71,7 +72,7 @@ mingw:（Minimalist GNU for Windows）是windows下的Linux环境，在bash中�
 
 # coded format BOM(FEFF)
 UCS中有一个叫做"zero width no-break space"的编码：FEFF，此编码在UCS中是不存在的字符，我们使用它在开关来表明  
-UCS的字节序，帮FEFF是大端，FFFE是小端（微软一般就用小端）。而UTF-8没有字节，但也使用了BOM来表示此为UTF-8编码。  
+UCS的字节序，故FEFF是大端，FFFE是小端（微软一般就用小端）。而UTF-8没有字节，但也使用了BOM来表示此为UTF-8编码。  
 FEFF的UTF-8编码为1110 1111（EF）1011 1011（BB） 1011 1111（BF）
 即EFBBBF。
 
