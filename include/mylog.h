@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <string>
 #include <string.h>
+#pragma warning(disable:4251)
+#pragma warning(disable:4996)
 
 #define IMPORT_LIB_PATH "../share/lib/host.lib"
 #ifdef _USRDLL

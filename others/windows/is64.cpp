@@ -18,6 +18,7 @@ BOOL Is64BitOS()
 	return FALSE;
 }
 
+//如果是本进程ID，则可以使用（sizeof(int*) *8）来表示
 BOOL Is64BitProcess(DWORD dwProcessID)
 {
 	if (!Is64BitOS())

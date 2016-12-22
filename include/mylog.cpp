@@ -64,7 +64,7 @@ void msglog::log(const char *pszlog, unsigned short color)
 	time_t t;
 	time(&t);
 
-	tm* time_s = localtime(&t);
+	tm *time_s = localtime(&t);
 	int n = strlen(pszlog);
 	std::shared_ptr<char> logs(new char[strlen(pszlog)+1+256]);
 	sprintf(logs.get(), "%02d/%02d %02d:%02d:%02d [%d--%d] %s", 
@@ -207,7 +207,7 @@ const void *msglog::ctrltopoint(const unsigned char *p, int nlen)
 
 void msglog::logbinary(char *strinfo, const unsigned char *pbyte, int nlen)
 {
-	int num = nlen, rowlen = nlen/COLUMN+(bool)(nlen%COLUMN), 
+	int num = nlen, rowlen = nlen/COLUMN+((nlen%COLUMN)>0), 
 		infolen = strlen(strinfo) + 2, bytelen = rowlen*(COLUMN*3), 
 		regionlen = rowlen*REGION, textlen = nlen + rowlen * 2;
 	nlen = infolen + bytelen + regionlen + textlen;
