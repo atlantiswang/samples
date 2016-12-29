@@ -30,7 +30,6 @@
   Clean Command Line:
   Output:
 
-  
 
 # qt
 添加qt依赖库： windeployqt xxx.exe  
@@ -80,4 +79,11 @@ FEFF的UTF-8编码为1110 1111（EF）1011 1011（BB） 1011 1111（BF）
 set 查看所有的环境变量  
 set PATH=%PATH%;D:/test; 追加PATH项的值 
 windows句柄： 
-DuplicateHandle()
+DuplicateHandle()  
+driver & server programm
+
+| #             | drvier        | server|
+| ------------- | ------------- | ----- |
+| 启动服务/驱动 | sc start xxx  | ...   |
+| 关闭服务/驱动 | sc stop  xxx  | ...   |
+| 删除服务/驱动 | sc delete xxx | ...   |
