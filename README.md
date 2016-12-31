@@ -1,4 +1,4 @@
-#vs
+# vs
 * vs bat
  @echo off  
  rem set environment  
@@ -35,7 +35,7 @@
 添加qt依赖库： windeployqt xxx.exe  
 qt下载： www.qt.io/download-open-source/
 
-#git
+# git
 
 git的分支不是用来做定制的。而是用来帮助协同工作的。版本定制请在代码中使用宏开关。这样才能更高效地利用git且减少工作量。
 * git add
@@ -87,3 +87,14 @@ driver & server programm
 | 启动服务/驱动 | sc start xxx  | ...   |
 | 关闭服务/驱动 | sc stop  xxx  | ...   |
 | 删除服务/驱动 | sc delete xxx | ...   |
+
+# json
+
+| type          | style         | note  |
+| ------------- | ------------- | ----- |
+| object        | {"key":value} | 值 可以做开头 |
+| array         | [value1,value2]| 值 可以做开头 | 
+| num           | 1 or 1.1      | 值  |
+| string        | "string"      | 键、值 |
+| logic value   | true or false | 值 |
+| null          | null          | 值 |
