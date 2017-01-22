@@ -15,18 +15,10 @@
 #pragma warning(disable:4251)
 #pragma warning(disable:4996)
 
-#define IMPORT_LIB_PATH "../share/lib/host.lib"
-#ifdef _USRDLL
-	#define MYLOG_API __declspec(dllimport)
-	#pragma comment(lib, IMPORT_LIB_PATH)
-#else
-	#define MYLOG_API __declspec(dllexport)
-#endif
-
 #define MAX_FILE_SIZE 30*1024*1024
 typedef std::string stringa;
 
-class MYLOG_API stackclass
+class  stackclass
 {
 public:
 	stackclass(const char *fun_name);
@@ -40,7 +32,7 @@ private:
 	static unsigned short int ms_color;
 };
 
-class MYLOG_API msglog
+class  msglog
 {
 public:
 	enum {COLUMN = 16, REGION = 4, TOTALCOLUMN = 3*COLUMN+REGION+COLUMN+2};

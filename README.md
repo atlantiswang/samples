@@ -57,10 +57,10 @@ git的分支不是用来做定制的。而是用来帮助协同工作的。版�
  git checkout --track origin/develop | git checkout -b develop origin/develop  
  git merge --no-ff branchname//this is a good habit  
  
-# LINUX
+# linux
 mingw:（Minimalist GNU for Windows）是windows下的Linux环境，在bash中进入windows目录下，输入: /盘符
 
-# BOOST
+# boost
  boost库命令规则：libboost_atomic-vc100-mt-sgd-1_57  
  libboost:是否为静态库 bjam（b2）编译选项：link=static/shared  
  atomic:库的名字  --with-atomic  
@@ -84,6 +84,7 @@ driver & server programm
 
 | #             | drvier        | server|
 | ------------- | ------------- | ----- |
+| 创建服务/驱动 | sc create xxx binPath= "xxx" | ----- |
 | 启动服务/驱动 | sc start xxx  | ...   |
 | 关闭服务/驱动 | sc stop  xxx  | ...   |
 | 删除服务/驱动 | sc delete xxx | ...   |
