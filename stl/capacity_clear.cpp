@@ -23,6 +23,11 @@ int main()
 	temp.erase(temp.begin());
 #else
 	vector<int>().swap(temp);
+	//Ïàµ±ÓÚ
+	/*
+	vector<int> temp(X);
+	temp.swap(X);
+	*/
 #endif
 	printf("capacity:%d|size:%d\n", temp.capacity(), temp.size());
 	
