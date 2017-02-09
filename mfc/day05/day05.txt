@@ -1,0 +1,83 @@
+一 MFC的视图窗口
+  1 相关问题
+    视图窗口：提供了一个用于显示数据的窗口，并和用户进行交互操作
+  2 相关类
+    CView及其子类 - 父类CWnd,封装了关于视图窗口的操作
+  3 视图窗口的使用
+    3.1 从CView类派生一个自己的视图类（CMyView），并必须重写父类的一个纯虚函数OnDraw。
+	（当CView帮我们处理WM_PAINT消息时将调用OnDraw）
+    3.2 在框架窗口的WM_CREATE消息处理中
+	new了一个CMyView类对象（pView），并利用pView调用Create函数完成视图窗口的创建。
+4 命令消息（WM_COMMAND）处理顺序
+    View-->Frame-->App
+    （CFrameWnd::OnCmdMsg函数内部代码执行先后顺序决定的）
+5 对象的关系图（非常重要***）
+  m_pMainWnd = pFrame;
+  m_pViewActive = pView;
+  
+  theApp
+    |->m_pMainWnd（框架类对象地址pFrame）
+	|->m_pViewActive(视图类对象地址pView)
+二 运行时类信息机制（4）
+  1 运行时类信息机制的作用
+    在程序执行过程中，可以通过这个机制获知对象相关类的信息
+    （在程序执行过程中，可以获取对象是不是某个类的对象）
+  2 运行时类信息机制的使用
+   2.1 类必须派生自CObject
+   2.2 类内必须添加声明宏 DECLARE_DYNAMIC
+   2.3 类外必须添加实现宏 IMPLEMENT_DYNAMIC
+
+	CObject::IsKindOf() - 可以判断 对象 是不是某个类的对象
+  3 运行时类信息的实现
+    3.1 数据结构
+    struct CRuntimeClass  （宏展开的 静态变量的类型）
+    {
+	LPCSTR m_lpszClassName;//类的名称
+	int m_nObjectSize;     //类大小 sizeof
+	UINT m_wSchema;        //类的版本 0xFFFF
+	CObject* (PASCAL* m_pfnCreateObject)(); 
+		//用于动态创建机制，运行时类信息机制为NULL
+	CRuntimeClass* m_pBaseClass;//父类静态变量地址（负责连接链表）
+	CRuntimeClass* m_pNextClass;//运行时类信息机制为NULL
+    };
+    3.2 宏展开的代码
+	见代码
+    3.3 宏展开各部分的作用
+	classCDog - 静态变量
+		保存了关于类的相关信息（类名称/类大小/类版本...）
+	GetRuntimeClass（） - 虚函数
+		获取本类静态变量地址（获取链表头节点）
+    3.4 关系图
+    3.5 IsKingOf函数的执行过程
+	1)利用类对象（yellowdog）调用宏展开的虚函数GetRuntimeClass
+	  获取本类静态变量地址（&classCDog链表头节点）
+	2）利用&classCDog和目标（IsKindOf函数的参数）进行比对，如果
+	   相等证明yellowdog属于这个类。
+	3）如果不相等利用&classCDog的第五个成员获取父类静态成员变量，
+	   然后和目标进行循环比对，只要有一次比较成功也能证明yellowdog
+	   属于这个类
+	4）循环结束一次比对都不成功才证明yellowdog不属于这个类
+
+附：****************************
+RUNTIME_CLASS（theClass）===&theClass::classtheClass
+//返回括号中指明的那个类的静态变量地址
+三 动态创建机制（5）
+  1 动态创建机制的作用
+    在不知道类名的情况下，将类的对象创建出来。
+  2 动态创建机制的使用
+    2.1 类必须派生自CObject
+    2.2 类内必须添加声明宏 DECLARE_DYNCREATE
+    2.3 类内必须添加实现宏 IMPLEMENT_DYNCREATE
+
+    CRuntimeClass::CreateObject - 负责动态创建类的对象
+  3 动态创建机制的实现
+    3.1宏展开的代码
+      见代码
+    3.2宏展开各部分的作用（和运行时类信息机制的区别）
+      1）多了一个静态函数 CDog::CreateObject,（new了一个CDog对象）
+      2）静态变量的第四个成员不再为NULL，保存了新增加的静态函数的地址（函数的名称）
+    3.3CRuntimeClass::CreateObject的执行过程
+      1）利用CDog类静态变量（&CDog::classCDog）的第四个成员获取
+	 新增加的静态函数（CDog::CreateObject）
+      2) 调用这个静态函数（CDog::CreateObject）在这个静态函数内部
+	 new了一个CDog类的对象，并将对象地址返回去。

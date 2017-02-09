@@ -1,0 +1,66 @@
+一 MFC对话框
+   1 对话框的分类
+     模式和非模式（模式是阻塞的）
+   2 相关类
+   CDialog类 - 父类是CWnd类
+   CCommonDialog类 - 父类是CDialog类，称为通用对话框。
+   包括颜色对话框、文件对话框、字体对话框、查找替换对话框、
+   页面设置对话框和打印对话框。
+   CPropertyPage类 - 父类是CDialog类，称为属性页对话框。
+   3 CDialog类的使用
+     3.1 创建基于模式对话框的应用程序
+     3.1.1 添加对话框资源，与对话框类关联
+     3.1.2 在App的InitInstance()函数中，创建和显示对话框窗口
+	   CDialog::DoModal()
+     3.1.3 对话框的关闭
+	   CDialog::OnOK
+	   CDialog::OnCancel()
+     3.2 创建基于非模式对话框的应用程序
+     3.2.1 添加对话框资源，与对话框类关联
+     3.2.2 窗口的创建和显示与一般的框架窗口类似
+     3.2.3 处理对话框的关闭（销毁对话框）
+	   1 重写CDialog::OnOK()和OnCancel()函数，
+	     在函数中调用 DestroyWindow()销毁对话框窗口。
+	   2 重写CWnd::PostNcDestroy()函数，在函数中完成
+	     对象的自我销毁。delete this;
+   4 DoModal()函数的执行过程
+   4.1 查找并加载对话框资源
+   4.2 将父窗口设置为不可用状态
+   4.3 创建对话框，进入对话框的消息循环
+   4.4 当点击OK、Cancel或者关闭按钮时，跳出循环，并且隐藏对话框窗口
+   4.5 将父窗口设置为可用和活动状态
+   4.6 销毁对话框窗口
+   4.7 释放对话框资源
+   4.8 返回
+二 控件操作
+   1 控件的初始化放到对话框的OnInitDialog()函数中
+   2 对话框数据交换技术DoDataExchange，DDX。
+   2.1 概念
+       将控件与对话框类的成员变量绑定，通过操作成员变量的方式间接的操作控件。
+   2.2 使用的步骤
+       2.2.1 添加成员变量
+       2.2.2 在CWnd::DoDataExchange()函数中，将变量与控件绑定
+       DDX_Control()-控件类型的绑定
+       DDX_Text()-值类型的绑定，需要结合UpdateData()使用
+       2.2.3 UpdateData()函数
+       UpdateData（FALSE) 将变量的值传递给控件
+       UpdateData（TRUE） 将控件的值传递给变量
+   例子：完成登录操作
+   2.3 实现原理
+   2.3.1 控件类型的绑定
+   DDX_Control()
+   {
+     1.根据控件ID获取控件句柄
+     2.将控件句柄附加到对象中
+   }
+   2.3.2 值类型的绑定
+   UpdateData(TRUE)//参数只表示方向
+   {
+     DoDataExchange()
+     {
+       DDX_Text()
+     }
+   }
+例2：完成加法运算
+    方法1：使用对话框数据交换
+    方法2：使用GetDlgItem()函数

@@ -1,0 +1,76 @@
+一 MFC控件介绍
+   1 静态控件，包括图片、静态文本和分组框。在代码当中
+     很少操作该类控件。控件的默认ID都是IDC_STATIC。
+     如果需要操作，必须修改控件的ID
+   2 按钮控件，包括一般按钮、复选按钮和单选按钮。
+     控件类都是CButton类。需要在同一个对话框中有
+     多个单选的分组，需要设置单选按钮的Group属性。
+     （首先要把table顺序设置好）
+   3 组合框和列表框控件
+     3.1 组合框控件
+    	 控件类是CComboBox类。可以在多个数据项中
+	 选择一项，也可以接受用户的输入。
+     3.2 列表框控件
+	 控件类是CListBox类。可以在多个数据项中
+	 选择一项或者多少项，但不接收用户的输入。
+     3.3 CListBox的使用（CComboBox与之类似）
+	 3.3.1 添加数据项
+	     CListBox::AddString
+	 3.3.2 删除指定的数据项
+	     CListBox::DeleteString
+ 	 3.3.3 查找数据项
+	     CListBox::FindString
+	 3.3.4 清空数据项
+	     CListBox::ResetContent
+	 3.3.5 设置当前选择项
+	     CListBox::SetCurSel
+ 	 3.3.6 获取当前选择项
+	     CListBox::GetCurSel
+	 3.3.7 获取指定选项的文本
+	     CListBox::GetText
+	 3.3.8 获取数据项的数量
+	     CListBox::GetCount
+   4 动画控件-控件类是CAnimateCtrl类，功能是播放简单动画，部分.avi文件。
+     4.1 打开文件
+     CAnimateCtrl::Open
+     4.2 播放文件
+     CAnimateCtrl::Play
+     4.3 停止播放
+     CAnimateCtrl::Stop
+二 播放动画的例子
+1 CFileDialog类-文件对话框类
+1.1 构造文件对话框
+CFileDialog(
+ BOOL bOpenFileDialog,//是打开文件对话框还是另存为对话框
+ LPCTSTR lpszDefExt = NULL,//默认的文件类型
+ LPCTSTR lpszFileName = NULL,//默认的文件名称
+ DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,//窗口样式
+ LPCTSTR lpszFilter = NULL,//文件类型的过滤
+ CWnd* pParentWnd = NULL //父窗口，通常为NULL
+);
+ 文件类型过滤字符串的格式：
+ 1 每个数据项之间用|分割;整个字符串以||结束
+ 2 每个数据项包括两部分，显示和过滤的部分。这两部分也以|隔开。
+ "视频文件(*.avi)|*.avi|所有文件(*.*)|*.*||";                                                            
+1.2 获取文件路径
+  CFileDialog::GetPathName()
+1.3 获取文件名称
+  CFileDialog::GetFileName()                                                                              2 CListBox的函数介绍
+2.1 设置数据项的附加数据
+    CListBox::SetItemData
+2.2 获取数据项的附加数据   
+    GetItemData();
+三 旋转按钮、进度条和滑块
+   旋转按钮-控件类是CSpinButtonCtrl
+   进度条-控件类是CProgressCtrl类
+   滑块-控件类是CSliderCtrl类。
+   1 设置/获取控件的数据范围
+     SetRange/GetRange
+   2 设置控件的增量（步长）
+     CSpinButtonCtrl::SetAccel
+     CProgressCtrl::SetStep
+     CProgressCtrl::StepIt//前进一个步长
+     CSliderCtrl::SetLineSize
+     CSliderCtrl::SetPageSize
+   3 设置/获取控件的当前位置
+     SetPos/GetPos

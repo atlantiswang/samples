@@ -1,0 +1,42 @@
+//以WM_CREATE消息为例（捎带想着WM_COMMAND/WM_PAINT）
+AfxWndProc(...)
+{
+  CWnd* pWnd = CWnd::FromHandlePermanent(hWnd);
+	//获取和窗口句柄绑定在一起的框架类对象pFrame===pWnd
+  AfxCallWndProc(pWnd,..)//参数pWnd===pFrame
+  {
+    pWnd->WindowProc()//函数内部this为pFrame===pWnd
+    {
+      OnWndMsg(...)//函数内部this为pFrame===pWnd
+      {
+	AFX_MSGMAP* pMessageMap = GetMessageMap()
+	{
+	  return &CMyFrameWnd::messageMap;//返回链表头节点地址
+	}
+	AFX_MSGMAP_ENTRY* lpEntry;
+	for (; pMessageMap != NULL;//for循环就是在遍历链表
+			pMessageMap = pMessageMap->pBaseMap)
+	{
+	  lpEntry = AfxFindMessageEntry(pMessageMap->lpEntries,
+		WM_CREATE...);
+	  if(lpEntry != NULL)
+	  {
+	    goto LDispatch;//如果找到跳出for循环
+          }
+	}
+	LDispatch:
+	  union MessageMapFunctions mmf;
+	  mmf.pfn = lpEntry->pfn;
+	  //将&OnCreate保存到联合体的所有成员中
+	  nSig = lpEntry->nSig;//AfxSig_lwl
+	  switch (nSig)
+	  {
+	    case AfxSig_lwl:
+		lResult = (this->*mmf.pfn_lwl)(wParam, lParam);
+		break;
+	    ......
+	  }
+      }
+    }
+  }
+}

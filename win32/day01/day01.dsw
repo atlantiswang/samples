@@ -1,0 +1,77 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# 警告: 不能编辑或删除该工作区文件！
+
+###############################################################################
+
+Project: "WinConsole"=.\WinConsole\WinConsole.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "WinCreate"=.\WinCreate\WinCreate.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "WinDll"=.\WinDll\WinDll.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "WinStatic"=.\WinStatic\WinStatic.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "WinWindow"=.\WinWindow\WinWindow.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

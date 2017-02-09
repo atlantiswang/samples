@@ -1,0 +1,74 @@
+一 MFC的菜单
+  1 相关问题
+   WIN32-HMENU
+   MFC - CMenu类的对象
+  2 相关类
+   CMenu - 封装了关于菜单操作的各种API函数，还封装了一个非常重要
+	   的成员变量 m_hMenu(保存了菜单句柄)
+  3 菜单的使用
+   3.1 添加菜单资源
+   3.2 设置菜单
+     1）在调用Create函数创建主框架窗口时
+     2）在框架窗口的WM_CREATE消息处理中
+	CMenu menu;
+	menu.LoadMenu -加载菜单并获取菜单句柄/将菜单句柄和CMenu类的对象建立1对1绑定关系
+	CFrameWnd::SetMenu
+   3.3 命令消息（WM_COMMAND)处理
+	ON_COMMAND
+   3.4 设置菜单项状态
+	WM_INITMENUPOPUP
+	::CheckMenuItem/CMeun::CheckMenuItem
+	::EnableMenuItem/CMenu::EnableMenuItem
+   3.5 命令消息（WM_COMMAND）处理顺序
+	Frame-->App
+	(CFrameWnd::OnCmdMsg函数内部代码执行先后顺序决定的)
+   3.6 上下文（右键）菜单
+	WM_CONTEXTMENU
+	ON_WM_CONTEXTMENU
+	::TrackPopupMenu/CMenu::TrackPopupMenu
+	::GetSubMenu/CMenu::GetSubMenu -
+	  获取某个顶层菜单项的下拉菜单（弹出式菜单）
+二 工具栏
+   1.相关类
+    CToolBarCtrl - 父类CWnd类，封装了关于工具栏控件的操作
+    CToolBar - 父类CControlBar，封装了工具栏的各种操作以及工具栏和
+	       框架窗口之间的关系
+   2.工具栏的使用
+    2.1 添加工具栏资源
+    2.2 创建工具栏 CToolBar::CreateEx/CToolBar::Create
+    2.3 加载工具栏 CToolBar::LoadToolBar
+    2.4 工具栏的依靠（船坞化）
+     2.4.1工具栏装备停靠的位置
+	CToolBar::EnableDocking
+     2.4.2框架窗口允许停靠的位置
+	CFrameWnd::EnableDocking
+     2.4.3框架窗口确定临时停靠的位置
+ 	CFrameWnd::DockControlBar
+    2.5 工具栏的显示和隐藏
+	CFrameWnd::ShowControlBar -切换工具栏 显示/隐藏 状态
+	void ShowControlBar(
+	  CControlBar* pBar,
+	  BOOL bShow,//TRUE显示 FALSE-隐藏
+	  BOOL bDelay//是否延迟操作 置为FALSE(不延迟)
+	);  
+	CWnd::IsWindowVisible()-判断一个窗口是否处理显示/隐藏状态
+    2.6 工具栏的风格
+	CBRS_GRIPPER -把手夹子风格
+	CBRS_SIZE_DYNAMIC -工具栏可以变形
+	CBRS_TOOLTIPS -工具栏可以显示标签
+	TBSTYLE_FLAT -工具栏按钮平滑
+	TBSTYLE_TRANSPARENT -工具栏按钮突起
+三 状态栏
+  1 相关类
+   CStatusBar - 父类CControlBa，封装关于状态栏各种操作
+  2 状态栏使用
+    2.1 创建状态栏
+	CStatusBar::CreateEx/CStatusBar::Create
+    2.2 设置状态栏指示器
+	CStatusBar::SetIndicators
+	BOOL SetIndicators( const UINT* lpIDArray,//指示器的ID数组
+			 int nIDCount ); //指示器的个数
+    2.3 设置指示器的宽度和风格
+	CStatusBar::SetPaneInfo
+    2.4 设置指示器的文本内容
+	CStatusBar::SetPaneText

@@ -1,0 +1,28 @@
+OnFileNew()//函数内部this为&theApp
+{
+  m_pDocManager->OnFileNew()//函数内部this为文档管理类对象地址
+  {
+    CDocTemplate* pTemplate = m_templateList.GetHead();
+	//重新获取 单文档模板类对象地址
+    pTemplate->OpenDocumentFile(..)//函数内部this为单文档模板类对象地址
+    {
+      pDocument = CreateNewDocument()//函数内部this为单文档模板类对象地址
+      {
+        CDocument* pDocument = m_pDocClass->CreateObject()
+		//动态创建CMyDoc类对象，并接收对象地址
+	return pDocument;
+      }
+      pFrame = CreateNewFrame(pDocument,..)
+	//函数内部this为单文档模板类对象地址，参数为文档类对象地址
+      {
+	CCreateContext context;
+	context.m_pCurrentDoc = pDocument;
+	context.m_pNewViewClass = RUNTIME_CLASS(CMyView);
+	CFrameWnd* pFrame = m_pFrameClass->CreateObject();
+		//动态创建CMyFrameWnd类对象，并接收对象地址
+	pFrame->LoadFrame(...,&context);
+		//后续过程 看昨天的伪代码
+      }
+    }
+  }
+}
