@@ -276,9 +276,6 @@ int _tmain(int argc, _TCHAR* argv[])
 		numwritten = fwrite(pbData, sizeof(BYTE), cbData - cUnuseBits, fp);
 		printf("written %d bytes\n", numwritten);
 		fclose(fp);
-
-
-
 	}
 #elif 1
 	if(!CSP_sign(pbSignature, &dwSigLen))

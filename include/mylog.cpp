@@ -4,7 +4,7 @@
 #include <map>
 #include <sys/stat.h>
 #include <intrin.h>
-//#define NOCOLOR
+#define NOCOLOR
 
 static HANDLE gs_mutex;
 static CRITICAL_SECTION gs_fun_mutex;
@@ -104,6 +104,7 @@ void msglog::log(const char *pszlog, unsigned short color)
 unsigned short int stackclass::ms_color = 0;
 stackclass::stackclass(const char *fun_name):m_strlog(fun_name)
 {	
+	msglog::get_log_instance();
 	m_thread_id = GetCurrentThreadId();
 	threadmutex stackmutex;
 	std::map<unsigned, THREAD_INFO>::iterator it = gs_level.find(m_thread_id);
