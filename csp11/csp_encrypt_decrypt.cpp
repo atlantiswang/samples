@@ -51,7 +51,7 @@ EnCrypt(BYTE *data, DWORD* pcblen)
 	puts("input:");
 	scanf("%s", data);
 	*pcblen = strlen((const char*)data);
-	if (!CryptEncrypt(hPubKey, NULL, TRUE, 0, data ,pcblen , 128))
+	if (!CryptEncrypt(hPubKey, NULL, TRUE, 0, data ,pcblen , 256))
 	{
 		printf("CryptEncrypt failed:%x\n", GetLastError());
 		bRet = false;
@@ -113,7 +113,7 @@ bool DeCrypt(BYTE *data, DWORD *pcblen)
 		goto EXIT_POINT;
 	}
 
-	char buff[128] = {0};
+	char buff[256] = {0};
 	strncpy(buff, (const char*)data, *pcblen);
 	printf("%s\n", buff);
 
@@ -152,4 +152,45 @@ int _tmain(int argc, _TCHAR* argv[])
 	system("pause");
 	return 0;
 }
+/*
+*通过CryptGetUserKey就可以得到公私钥，所以只要用容器与CSP名称就可以做加解密验证了。
+*/
+int main()
+{
+	HCRYPTPROV hProv;
+	if(!CryptAcquireContextA(&hProv, "HT-3046aa0b-821d-4ef1-811f-14412e7f96ec",
+		"EnterSafe ePass2003 CSP v1.0", PROV_RSA_FULL, 0))
+	{
+		printf("error\r\n");
+		goto ret;
+	}
+	HCRYPTKEY hKey;
+	if (!CryptGetUserKey(hProv, AT_KEYEXCHANGE, &hKey))
+	{
+		printf("CryptGetUserKey failed");
+		goto ret;
+	}
+	BYTE pbData[1280];
+	memset((void*)pbData, 0, 1280);
+	_mbscpy(pbData, (const unsigned char *)"china");
+	DWORD dwDataLen = _mbslen(pbData)+1;
+	if (!CryptEncrypt(hKey, NULL, true, 0, pbData, &dwDataLen, 1280))
+	{
+		printf("crypt err\r\n");
+		goto ret;
+	}
 
+	if (!CryptDecrypt(hKey, NULL, true, 0, pbData, &dwDataLen))
+	{
+		printf("decrypt err\r\n");
+		goto ret;
+	}
+
+	printf("%s\r\n", pbData);
+
+ret:
+	if (hProv) CryptReleaseContext(hProv, 0);
+	if (hKey) CryptDestroyKey(hKey);
+	system("pause");
+	return 0;
+}
