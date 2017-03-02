@@ -11,9 +11,9 @@
 
  * fai n = (p-1)*(q-1) = 20
 
- * e = 17(1<3<fai n的一个质数) 
+ * e = 17(1<e<fai n的一个质数) 
 
- * d: e(17)关于 fai n(20)的模反元素,即 17*d + 20y = 1,取d为13 y = -60
+ * d: e(17)关于 fai n(20)的模反元素（进一步需要知道p 和 q）,即 17*d + 20y = 1,取d为13 y = -60
 
  * encrypt：c = num.pow(e)%n | decrypt：num = c.pow(d)%n
  */
@@ -24,6 +24,7 @@
 #define PRIMER_Q 11
 #define E 17
 #define D 13
+// （N E） 为公钥 （N D） 为私钥
 
 BIGNUM *encrypt(BIGNUM *pplain)
 {

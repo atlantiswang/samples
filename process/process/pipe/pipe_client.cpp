@@ -30,7 +30,8 @@ int main()
 		}
 	}  
 out:  
-	printf("Close pipe.\n");  
+	printf("Close pipe.\n"); 
+	DisconnectNamePipe(g_hPipe);
 	CloseHandle(g_hPipe);  
 	system("pause");  
 	return 0;  
