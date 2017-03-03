@@ -3,8 +3,6 @@
 
 /*
  * ptr
- 
- * only one type
 
  * assignment not share
 

@@ -26,7 +26,7 @@
 #else
 #define tstring std::string
 #endif
-#define LOG_CONFIG_FILE "./HTLOG.ini"
+#define LOG_CONFIG_FILE "./SecConfig.ini"
 typedef TCHAR tchar;
 
 // enum LogLevel

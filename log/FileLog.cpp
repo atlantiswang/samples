@@ -20,6 +20,9 @@
 #include <time.h>
 #include <memory>
 #include <sys/stat.h>
+#include <stdio.h>
+
+using namespace std;
 
 #ifdef _WIN32
 #define strtime _strtime
@@ -31,6 +34,7 @@
 
 #define HA_DEFAULT_BUF_SIZE 30
 
+int ierr;
 CFileLog::CFileLog()
 : m_logLevel(LT_Debug)
 , m_logFile(NULL), m_InterVal(5)
@@ -85,24 +89,14 @@ bool CFileLog::Initialize()
 	m_logFileName = GetLogFileName();
 	ApplySettings();
 
-    Close();
+	Close();
 
-	struct stat st;
-	stat(m_logFileName.c_str(), &st);
-    if (st.st_size >= m_MaxFileSize*1024*1024)
-    {
-        // log file too big, delete it;
-        //remove(m_logFileName.c_str());
-		std::string LogFileBak(m_logFileName+".bak");
-		DeleteFile(LogFileBak.c_str());
-		rename(m_logFileName.c_str(), LogFileBak.c_str());
-    }
-    m_logFile = _tfopen(m_logFileName.c_str(), _T("a+"));
+	m_logFile = _tfopen(m_logFileName.c_str(), _T("a+"));
+	if (m_logFile==NULL)
+	{
+		ierr = GetLastError();
+	}
 
-    if (!m_logFile)
-    {
-        return false;
-    }
     return true;
 }
 
@@ -243,14 +237,46 @@ void *CFileLog::CtrltoPoint(const unsigned char *p, int nlen)
 	return temp;
 }
 
+void GetFilePath(char *cPath)
+{
+// 	LPSTR lpPath;
+// 	char buffer[MAX_PATH] = {0};
+// 	TCHAR exeFullPath[MAX_PATH]; // MAX_PATH在WINDEF.h中定义了，等于260  
+// 	memset(exeFullPath,0,MAX_PATH);  
+// 	lpPath = buffer;
+// 
+// 	GetModuleFileName(NULL,exeFullPath,MAX_PATH);  
+// 
+// 	string str;
+// 	str = exeFullPath;
+// 	int pos3 = str.find("htmonitor.exe");
+// 	//int pos3 = str.find("htmonitor.exe");
+// 	if (pos3 >-1)  
+// 	{  
+// 		const char* ch=str.c_str();
+// 		memcpy(buffer,ch,pos3);
+// 	} 
+	char buffPath[100] = {0};
+	GetWindowsDirectory(buffPath,100);
+	strcat(buffPath,"\\SecConfig.ini");
+	memcpy(cPath,buffPath,strlen(buffPath));
+}
+
 void CFileLog::ReadString(tchar *pSection, tchar *pValue)
 {
-	GetPrivateProfileString("HTLOG", pSection, NULL, pValue, MAX_PATH, LOG_CONFIG_FILE);
+
+	char cPath[1024] = {0};
+	GetFilePath(cPath);
+
+	GetPrivateProfileString("HTLOG", pSection, NULL, pValue, MAX_PATH, cPath);
+	printf("pValue:%s",pValue);
 }
 
 unsigned CFileLog::ReadInt(tchar *pSection)
 {
-	return GetPrivateProfileInt("HTLOG", pSection, 0, LOG_CONFIG_FILE);
+	char cPath[1024] = {0};
+	GetFilePath(cPath);
+	return GetPrivateProfileInt("HTLOG", pSection, 0, cPath);
 }
 
 const tchar* CFileLog::LogTypeToString(LogType logType)
@@ -323,6 +349,7 @@ void CFileLog::LogToFile(const tchar* sourceName, LogType logType, const tchar* 
 inline void CFileLog::ApplySettings()
 {
 	m_Mutex._Lock();
+
     time_t timeNew = time(NULL);
     if (timeNew - m_timeOld < m_InterVal)
     {
@@ -338,5 +365,22 @@ inline void CFileLog::ApplySettings()
 	m_MaxFileSize = ReadInt(_T("LogMaxSize"));
 	m_InterVal = ReadInt(_T("Interval"));
     m_timeOld = timeNew;
+
+	Close();
+	struct stat st;
+	stat(m_logFileName.c_str(), &st);
+	if (st.st_size >= m_MaxFileSize*1024*1024)
+	{
+		std::string LogFileBak(m_logFileName+".bak");
+		DeleteFile(LogFileBak.c_str());
+		rename(m_logFileName.c_str(), LogFileBak.c_str());
+	}
+
+	m_logFile = _tfopen(m_logFileName.c_str(), _T("a+"));
+	if (m_logFile==NULL)
+	{
+		ierr = GetLastError();
+	}
+
 	m_Mutex._unlock();
 }
