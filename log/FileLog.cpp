@@ -37,7 +37,7 @@ using namespace std;
 int ierr;
 CFileLog::CFileLog()
 : m_logLevel(LT_Debug)
-, m_logFile(NULL), m_InterVal(5)
+, m_logFile(NULL), m_InterVal(5), m_MaxFileSize(100)
 {
     m_timeOld = time(NULL) - 5;
 	Initialize();
@@ -269,7 +269,7 @@ void CFileLog::ReadString(tchar *pSection, tchar *pValue)
 	GetFilePath(cPath);
 
 	GetPrivateProfileString("HTLOG", pSection, NULL, pValue, MAX_PATH, cPath);
-	printf("pValue:%s",pValue);
+	//printf("pValue:%s",pValue);
 }
 
 unsigned CFileLog::ReadInt(tchar *pSection)
@@ -350,22 +350,6 @@ inline void CFileLog::ApplySettings()
 {
 	m_Mutex._Lock();
 
-    time_t timeNew = time(NULL);
-    if (timeNew - m_timeOld < m_InterVal)
-    {
-		m_Mutex._unlock();
-        return;
-    }
-    tchar szValue[MAX_PATH];
-    bool settingChanged = false;
-
-    ReadString(_T("Level"), szValue);
-    m_logLevel = StringToLogLevel(szValue);
-
-	m_MaxFileSize = ReadInt(_T("LogMaxSize"));
-	m_InterVal = ReadInt(_T("Interval"));
-    m_timeOld = timeNew;
-
 	Close();
 	struct stat st;
 	stat(m_logFileName.c_str(), &st);
@@ -381,6 +365,22 @@ inline void CFileLog::ApplySettings()
 	{
 		ierr = GetLastError();
 	}
+
+    time_t timeNew = time(NULL);
+    if (timeNew - m_timeOld < m_InterVal)
+    {
+		m_Mutex._unlock();
+        return;
+    }
+    tchar szValue[MAX_PATH];
+    bool settingChanged = false;
+
+    ReadString(_T("Level"), szValue);
+    m_logLevel = StringToLogLevel(szValue);
+
+	m_MaxFileSize = ReadInt(_T("LogMaxSize"));
+	m_InterVal = ReadInt(_T("Interval"));
+    m_timeOld = timeNew;
 
 	m_Mutex._unlock();
 }
