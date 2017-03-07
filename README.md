@@ -38,10 +38,11 @@ qt下载： www.qt.io/download-open-source/
 # git
 
 git的分支不是用来做定制的。而是用来帮助协同工作的。版本定制请在代码中使用宏开关。这样才能更高效地利用git且减少工作量。
-* git add
- git add -a 暂存 所有文件（增加，修改，删除）  
+* git add  
  git add -u 暂存修改和删除的文件  
- git add . 不包括已删除的文件  
+ git add -a 暂存 所有文件（增加，修改，删除）  
+ git rm --cached *.* 将文件从仓库中移除 
+ git add . 不包括已删除的文件   
 
 * git对大小写敏感
  git config core.ignorecase false  
