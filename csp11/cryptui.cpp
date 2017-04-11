@@ -42,7 +42,15 @@ int _tmain(int argc, _TCHAR* argv[])
 		printf("Select Certificate UI failed.\n" );
 		goto EXIT_POINT;
 	}
-	
+	BOOL temp;
+	CRYPTUI_VIEWCERTIFICATE_STRUCT cuivc;
+	memset(&cuivc, 0, sizeof(cuivc));
+	cuivc.dwSize = sizeof(cuivc);  
+	cuivc.hwndParent = NULL;  
+	cuivc.dwFlags = CRYPTUI_DISABLE_ADDTOSTORE;  
+	cuivc.pCertContext = pCertContext;  
+	cuivc.szTitle = "hello";
+	CryptUIDlgViewCertificate(&cuivc, &temp);
 
 EXIT_POINT:
 	if(pCertContext)

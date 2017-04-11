@@ -1,0 +1,74 @@
+一 列表控件
+   1 相关类
+   CListCtrl-类-父类是CWnd，控件类。常用于对话框应用程序中。
+   CListView类-父类是CCtrlView类，视图类。常用于文档视图应用程序中。
+   通过调用GetListCtrl()函数得到视图客户区的控件，通过CListCtrl类完
+   成相关功能的。
+   列表控件有4种不同的显示风格
+   图标、小图标、列表和报表。
+   2 CListCtrl类的使用
+   2.1 设置控件的图标列表(图标和小图标列表)
+       2.1.1 添加与图标列表关联的位图
+       2.1.2 创建图标列表
+	     CImageList::Create
+       2.1.3 设置控件的图标列表
+	     CListCtrl::SetImageList
+   2.2 设置控件的列
+       CListCtrl::InsertColumn
+   2.3 插入数据项
+       CListCtrl::InsertItem
+   2.4 设置列的文本
+       CListCtrl::SetItemText
+   2.5 设置/获取数据项的附加数据
+       CListCtrl::SetItemData/GetItemData
+   2.6 设置控件的背景图片
+       2.6.1 初始化Ole库
+	    AfcOleInit()
+       2.6.2 设置控件的背景图片
+	    CListCtrl::SetBkImage()
+       2.6.3 设置字体的背景色为透明
+	    CListCtrl::SetTextBkColor(CLR_NONE)
+    ...
+   3 CStringList类
+     3.1 清空链表
+         CStringList::RemoveAll()
+     3.2 添加元素
+	 CStringList::AddTail()
+     3.3 获取元素
+	 CStringList::GetAt()
+     3.4 通过元素的索引得到元素的位置
+	 CStringList::FindIndex()
+二 树控件
+   1 相关类
+   CTreeCtrl类-父类是CWnd类，控件类。主要在对话框程序中使用。
+   CTreeView类-父类是CCtrlView,视图类。主要在文档视图程序中使用。
+   通过调用GetTreeCtrl()得到视图相关的控件。
+   树控件的节点是通过节点句柄来标识的。
+   2 CTreeCtrl类的使用
+   2.1 设置控件的图标列表
+     CTreeCtrl::SetImageList
+   2.2 插入树节点
+     CTreeCtrl::InsertItem
+   2.3 设置节点高度
+   CTreeCtrl::SetItemHeight
+   2.4 设置节点展开状态
+   CTreeCtrl::Expand
+   ...
+三 Tab控件
+   1 相关类
+   CTabCtrl类-实现属性页的功能
+   2 CTabCtrl类的使用
+   CTabCtrl::InsertItem
+   2.2 获取当前选项
+   CTabCtrl::GetCurSel()
+   ...
+四 属性页对话框
+   1 分类
+   标签式-常用来完成参数、选项等设置。
+   向导式-常用于引导用户一步步的选择和设置，完成
+   某种功能。
+   2 相关类
+   CPropertyPage类-页面对话框类。
+   CPropertySheet类-容器窗口类。
+   整个属性页的组成=一个表单对象+多个属性页对象
+  

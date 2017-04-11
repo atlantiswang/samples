@@ -1,0 +1,105 @@
+一 MFC的文件操作
+   1 CFile类
+     1.1 文件内容读写
+     1.2 文件属性的获取和设置
+	1.2.1 CFile::GetStatus 
+	1.2.2 CFile::SetStatus
+   2 CFileFind类 - 文件查找
+     2.1 开始查找指定的目录（可以使用通配符）
+	 CFileFind::FindFile
+     2.2 查找下一个文件
+	 CFileFind::FindNextFile
+     2.3 获取/判断文件信息
+	 CFileFind::GetXXX/IsXXX
+     2.4 结束查找
+	 CFileFind::Close
+例子：1 查找指定目录下的文件和目录（只查找当前目录）
+      2 如果有子目录的话继续查找
+	2.1递归
+	2.2排除.目录
+二 序列化
+      1 概念
+	将数据以二进制流的方式依次写入到文件或者从
+	文件中读取的过程
+      2 CArchive类
+	2.1 数据类型的问题
+	2.2 缓冲区大小的问题
+	----------------
+	2.1 打开或新建文件
+	    CFile::Open
+	2.2 文件读写
+	    2.2.1 定义CArchive对象
+	    2.2.2 具体的数据读写
+		  <<写操作
+		  >>读操作
+ 	    2.2.3 关闭CArchive对象
+		  CArchive::Close
+	2.3 关闭文件
+	    CFile::Close    
+三 对象的序列化(第6个机制)
+1 概念
+序列化对象
+-将对象的类的信息和对象的成员变量以二进制流的方式
+ 依次写入到文件的过程。
+反序列化对象
+-首先读取类的信息，创建对象，然后读取文件中的成员变量的值
+ 赋值给对象的过程。
+2 使用
+2.1* 定义支持序列化的类 
+ 2.1.1 派生自CObject类
+ 2.1.2 在类的内部添加序列化的声明宏
+	DECLARE_SERIAL
+       在类的外部添加序列化的实现宏
+	IMPLEMENT_SERIAL
+ 2.1.3 重写Serialize()函数，在函数中，完成类的
+       成员变量的序列化。
+2.2  使用的步骤
+    读写时，与一般类型的数据一样方便，读写时，但是参数是对象的地址。
+2.3 实现原理
+   2.3.1 展开宏
+   2.3.2 成员
+	 _init_CStudent 全局的变量，类型是AFX_CLASSINIT
+	 operator>> 全局的函数，作用是读取对象。
+   2.3.3 结构的说明
+   struct AFX_CLASSINIT
+   { 
+	AFX_CLASSINIT(CRuntimeClass* pNewClass) 
+	{ 
+	  AfxClassInit(pNewClass)
+	  {
+	    pModuleState->m_classList.AddHead(pNewClass);
+		
+	  }
+	} 
+   };
+   2.3.4 写对象的过程（为什么没有声明友元？）
+   ar.WriteObject(pOb)
+   {
+	//获取classCStudent变量
+     CRuntimeClass* pClassRef = pOb->GetRuntimeClass();
+	//将类的信息写入到文件	
+     WriteClass(pClassRef)
+     {
+	//将类的版本、类名称长度以及类名称依次写入到文件
+       pClassRef->Store(*this)
+       {
+	 WORD nLen = (WORD)lstrlenA(m_lpszClassName);
+	 ar << (WORD)m_wSchema << nLen;
+	 ar.Write(m_lpszClassName, nLen*sizeof(char));
+       }
+     }
+	//将成员变量依次写入到文件
+     ((CObject*)pOb)->Serialize(*this)
+     {
+       if(ar.IsStoring())
+	{
+	  ar<<m_sName<<m_nAge;
+	}
+	...
+     }
+  }
+  2.3.5 读取对象过程（为什么声明了友元）
+	1.读取写入的类信息
+	2.根据读取的类信息动态创建类对象
+	3.从文件中读取成员变量赋值给对象
+关于友元：写不能访问类的私有成员，而读需要访问类的私有成员？

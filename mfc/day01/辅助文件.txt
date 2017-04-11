@@ -1,0 +1,56 @@
+AFX_MODULE_STATE aaa;//当前程序模块状态信息
+AFX_MODULE_THREAD_STATE bbb;//当前程序线程状态信息
+ccc 一个要创建的窗口的指针。pFrame pView
+
+CWinApp::CWinApp(...)//构造theApp对象（）
+{
+  AFX_MODULE_STATE* pModuleState = AfxGetModuleState();
+ 	//获取全局变量&aaa
+  AFX_MODULE_THREAD_STATE* pThreadState = pModuleState->m_thread;
+ 	//获取全局变量&bbb
+  pThreadState->m_pCurrentWinThread = this;
+	//将&theApp保存全局变量bbb的一个成员中
+  AfxGetThread()
+  {
+   AFX_MODULE_THREAD_STATE* pState = AfxGetModuleThreadState();
+	//获取全局变量&bbb
+   CWinThread* pThread = pState->m_pCurrentWinThread;
+   return pThread;
+  }
+  pModuleState->m_pCurrentWinApp = this;
+	//将&theApp保存全局变量aaa的一个成员中
+  AfxGetApp()
+  {
+    return AfxGetModuleState()->m_pCurrentWinApp;
+  }
+}
+********************************************
+WinMain(...)//注意体会是不是theApp对象在指导流程
+{
+  AfxWinMain（...)
+  {
+    CWinThread* pThread = AfxGetThread();
+    CWinApp* pApp = AfxGetApp();//以上两句获取&theApp
+    pApp->InitApplication()//利用theApp调用应用程序类成员虚函数（初始化）
+    pThread->InitInstance()//利用theApp调用应用程序类成员虚函数
+    {
+      //回到自己代码
+    }
+    pThread->Run()//函数内部this为&theApp
+    {//利用theApp调用应用程序类成员虚函数（消息循环）
+      CWinThread::Run()//函数内部this为&theApp
+      {
+	while(没有消息)
+	{
+	 this->OnIdle();//利用theApp调用应用程序类成员虚函数（空闲处理）
+	}
+	do
+	{
+	 if(GetMessage抓到WM_QUIT)
+	   return ExitInstance(..);
+	//利用theApp调用应用程序类成员虚函数（善后处理)
+	}while(...)
+      }
+    }
+  }
+}

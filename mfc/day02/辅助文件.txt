@@ -1,0 +1,100 @@
+CMyFrameWnd *pFrame = new CMyFrameWnd;
+pFrame ->Create(NULL,"MFCCreate")//函数内部this为pFrame
+{
+ //加载菜单
+ CreateEx(..,NULL,..)//函数内部this为pFrame
+　{
+　　CREATESTRUCT cs;
+　　...
+　　cs.lpszClass = NULL;//下面会更改
+　　...
+    cs.hInstance = AfxGetInstanceHandle();
+    ...
+    PreCreateWindow(cs)
+    {
+     AfxDeferRegisterClass(..)
+     {
+       WNDCLASS wndcls;
+       ....
+       wndcls.lpfnWndProc = DefWindowProc;//通过钩子来改变
+       ....
+       _AfxRegisterWithIcon(&wndcls, "AfxFrameOrView42sd")
+       {
+         &wndcls->lpszClassName = "AfxFrameOrView42sd";
+         AfxRegisterClass(&wndcls)
+         {
+	   ::RegisterClass(&wndcls);//注册窗口类
+         }
+       }
+     }
+     cs.lpszClass = "AfxFrameOrView42sd";
+    }
+    AfxHookWindowCreate(pFrame)
+    {
+      _AFX_THREAD_STATE* pThreadState = _afxThreadState.GetData();
+	//获取全局变量&ccc（当前程序线程信息）
+      ::SetWindowsHookEx(WH_CBT,_AfxCbtFilterHook,...);
+	//利用win32 API函数在程序中埋下一个类型为WH_CBT的钩子
+      pThreadState->m_pWndInit = pFrame;
+	//将pFrame(自己new的框架类对象地址)保存到全局变量ccc中
+    }
+    ::CreateWindowEx(...);//此函数一旦执行WM_CREATE消息立即被钩子钩走
+	//（勾到钩子处理函数）
+　}
+}
+***********************************************************************
+//钩子处理函数
+_AfxCbtFilterHook（...)
+{
+  _AFX_THREAD_STATE* pThreadState = _afxThreadState.GetData();
+	//获取全局变量&ccc
+  CWnd* pWndInit = pThreadState->m_pWndInit;
+	//从ccc中重新获取pFrame===pWndInit
+  HWND hWnd = (HWND)wParam; //获取刚刚创建的窗口句柄
+  pWndInit->Attach(hWnd) //函数内部this为pFrame===pWndInit
+  {
+    CHandleMap* pMap = afxMapHWND(TRUE)
+    {
+      AFX_MODULE_THREAD_STATE* pState = AfxGetModuleThreadState();
+	//获取全局变量&bbb   
+      pState->m_pmapHWND = new CHandleMap(...);
+	//new了一个映射类对象，并将对象地址保存到bbb的一个成员中
+      return pState->m_pmapHWND;
+    } 
+    pMap->SetPermanent(pFrame->m_hWnd = hWnd, pFrame)
+	//函数内部this为pMap(映射类对象地址)
+    {
+      m_permanentMap[hWnd] = pFrame;
+    }
+  }
+  WNDPROC afxWndProc = AfxGetAfxWndProc();
+	//获取AfxWndProc函数地址
+  oldWndProc = (WNDPROC)SetWindowLong(hWnd, GWL_WNDPROC,(DWORD)afxWndProc);
+	//利用WIN32 API 函数将窗口处理更改AfxWndProc（真正窗口处理函数)
+}
+*********************************************************************
+//以WM_CREATE消息为例(WM_PAINT消息也注意一点)
+AfxWndProc(...)
+{
+  CWnd* pWnd = CWnd::FromHandlePermanent(hWnd)
+  {
+    CHandleMap* pMap = afxMapHWND()
+    {
+      AFX_MODULE_THREAD_STATE* pState = AfxGetModuleThreadState();
+	//获取全局变量&bbb
+      return pState->m_pmapHWND;//返回上面new的映射类对象
+    }
+    pWnd = (CWnd*)pMap->LookupPermanent(hWnd)
+	//函数内部this为映射类对象地址(pMap)
+    {
+      return m_permanentMap[hWnd];
+    }
+  }
+  AfxCallWndProc(pWnd,..) //参数的pWnd===pFrame
+  {
+    pWnd->WindowProc(...)
+    {
+	//回到自己的代码
+    }
+  }
+}

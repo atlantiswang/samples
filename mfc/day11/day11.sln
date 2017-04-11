@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Animate", "Animate\Animate.vcxproj", "{254C66BE-5F68-616E-D7D1-D48C5ECFEDA8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCCtrl", "MFCCtrl\MFCCtrl.vcxproj", "{0331EF00-AFB0-344A-5962-A5E143480930}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCCtrl2", "MFCCtrl2\MFCCtrl2.vcxproj", "{70F370C3-FD8D-B53D-E358-FDB88E599829}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+		Template|Win32 = Template|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{254C66BE-5F68-616E-D7D1-D48C5ECFEDA8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{254C66BE-5F68-616E-D7D1-D48C5ECFEDA8}.Debug|Win32.Build.0 = Debug|Win32
+		{254C66BE-5F68-616E-D7D1-D48C5ECFEDA8}.Release|Win32.ActiveCfg = Release|Win32
+		{254C66BE-5F68-616E-D7D1-D48C5ECFEDA8}.Release|Win32.Build.0 = Release|Win32
+		{254C66BE-5F68-616E-D7D1-D48C5ECFEDA8}.Template|Win32.ActiveCfg = Release|Win32
+		{254C66BE-5F68-616E-D7D1-D48C5ECFEDA8}.Template|Win32.Build.0 = Release|Win32
+		{0331EF00-AFB0-344A-5962-A5E143480930}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0331EF00-AFB0-344A-5962-A5E143480930}.Debug|Win32.Build.0 = Debug|Win32
+		{0331EF00-AFB0-344A-5962-A5E143480930}.Release|Win32.ActiveCfg = Release|Win32
+		{0331EF00-AFB0-344A-5962-A5E143480930}.Release|Win32.Build.0 = Release|Win32
+		{0331EF00-AFB0-344A-5962-A5E143480930}.Template|Win32.ActiveCfg = Template|Win32
+		{0331EF00-AFB0-344A-5962-A5E143480930}.Template|Win32.Build.0 = Template|Win32
+		{70F370C3-FD8D-B53D-E358-FDB88E599829}.Debug|Win32.ActiveCfg = Debug|Win32
+		{70F370C3-FD8D-B53D-E358-FDB88E599829}.Debug|Win32.Build.0 = Debug|Win32
+		{70F370C3-FD8D-B53D-E358-FDB88E599829}.Release|Win32.ActiveCfg = Release|Win32
+		{70F370C3-FD8D-B53D-E358-FDB88E599829}.Release|Win32.Build.0 = Release|Win32
+		{70F370C3-FD8D-B53D-E358-FDB88E599829}.Template|Win32.ActiveCfg = Template|Win32
+		{70F370C3-FD8D-B53D-E358-FDB88E599829}.Template|Win32.Build.0 = Template|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

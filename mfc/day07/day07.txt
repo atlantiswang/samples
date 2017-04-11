@@ -1,0 +1,50 @@
+一 单文档视图构架程序
+  1 相关问题
+    只能管理一个文档（只能有一个文档类对象）
+  2 相关类
+    CWinApp / CFrameWnd / CView / CDocument-文档类
+    CDocTemplate
+       CSingleDocTemplate - 单文档模板类
+    CDocManager - 文档管理类
+  3 关系图
+    theApp
+	|->m_pDocManager //保存文档管理类对象地址
+		|->m_templateList
+			|->CSingleDocTemplate(pTemplate)
+				|->m_pOnlyDoc //文档类对象地址
+				|->m_pDocClass = pDocClass;//(RUNTIME_CLASS(CMyDoc))
+				|->m_pFrameClass = pFrameClass;//(RUNTIME_CLASS(CMyFrameWnd))
+				|->m_pViewClass = pViewClass;//(RUNTIEM_CLASS(CMyView))
+  4 OnFileNew()函数的执行过程
+    4.1 通过theApp的一个成员m_pDocMangager获取文档管理类对象地址
+    4.2 通过文档管理类对象的一个成员m_templateList获取单文档模板类对象地址
+    4.3 利用pTemplate获取m_pDocClass(文档类的静态变量)并利用这个静态变量调用
+	CreateObject函数动态创建文档类(CMyDoc)对象
+    4.4 利用pTemplate获取m_pFrameClass(框架类的静态变量)并利用这个静态变量调用
+	CreateObject函数动态创建框架类(CMyFrameWnd)对象
+    4.5 利用框架类对象(pFrame)调用LoadFrame函数，创建主框架窗口
+    4.6 在处理主框架窗口的WM_CREATE消息时，动态创建视图类对象，并创建视图窗口
+    4.7 在处理视图窗口的WM_CREATE消息时，将视图类对象 和 文档类 对象 建立绑定关系
+二 多文档视图构架程序
+  1 相关问题
+    可以同时管理多个文档（可以有多个文档类对象）
+  2 CWinApp / CDocument / CView / CMDIChildWnd / CMDIFrameWnd
+    CDocTemplate
+	CMultiDocTemplate - 多文档模板类
+    CDocManager - 文档管理类
+
+  3 关系图
+    theApp
+	|->m_pDocManager//文档管理类对象地址
+		|->m_templateList(链表)
+			|->CMultiDocTemplate
+				|->m_docList //保存文档类对象地址
+				|->m_pDocClass //文档类静态变量地址RUNTIME_CLASS(CMyDoc)
+				|->m_pFrameClass //子框架类静态变量地址RUNTIME_CLASS(CMyChild)
+				|->m_pViewClass //视图类静态变量地址RUNTIME_CLASS(CMyView)
+
+  4 theApp
+	|->m_pMainWnd(框架类对象地址pFrame)
+		|->m_pViewActive(视图类对象地址pView)
+			 |->m_pDocument(文档类对象地址)
+				  |->m_viewList(视图类对象地址)

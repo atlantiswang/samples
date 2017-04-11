@@ -1,0 +1,1181 @@
+windows下生产者消费者是通过信号量与互斥实现的。
+
+switch case 的执行过程：
+从第一个case开始，看有没有匹配，如果不匹配，不执行直到遇到下一个case再匹配，如果匹配，则执行到break语句后跳出来
+在#define中，标准只定义了#和##两种操作。#用来把参数转换成字符串，##则用来连接前后两个参数，把它们变成一个字符串
+#include<stdio.h>
+#definepaster(n)printf("token"#n"=%d\n",token##n)w
+intmain(intargc,char*argv[])
+{
+inttoken9=10;
+paster(9);
+return0;
+}
+输出为:token 9 = 10
+------------------------------------------
+uc下静态库.a
+uc下动态库.so
+-lpthread应该是动态库
+----------------------
+句柄--是种用来找到内存的东西，但绝对不是指针
+预编译，编译，汇编	链接（多个.o文件合）
+.c/.cpp------->目标文件---------------------->.exe/.dll/.lib
+VC1.5-VC6.0-VC2005-VC2010
+int WINAPI WinMain(
+	HINSTANCE hInstance,
+	HINSTANCE hPrevInstance,//一般为NULL
+	LPSTR lpCmdLine,
+	int nCmdShow//最大化，最小化，既不最大也不最小化
+);
+intMessageBox(
+	HWND hWnd,
+	LPCTSTR lpText,
+	LPCTSTR lpCaption,
+	LPCTSTR lpCaption,
+	UINT uType
+);
+//H开关的类型一般为句柄
+查MSDN文档，如果没有特别说明，一般选windows user interface:platform SDK
+-windows库
+	kernel32.dll -提供了核心的API，例如进程、线程、内存管理等。
+	user32.dll -提供了窗口、消息等API
+	gdi32.dll - 绘图相关的API
+-头文件
+	windows.h-所有windows头文件的集合
+	windef.h - windows 数据类型
+	winbase.h - kernel32的API
+	wingdi.h- gdi32的API
+	winuser.h-user32的API
+	winnt.h-UNICODE字符集支持
+rc.exe--编译.rc资源脚本文件
+资源（菜单、图片）
+将资源链接到程序中-link.exe
+----------------
+有一个图片文件.ico
+建一个资源脚本文件.rc
+100 ICON small.ico
+rc.exe hello.rc生成 .res文件(目标文件)
+link.exe hello.obj hello.res user32.lib
+----------------
+makefile(.mak)文件 如果使用DOS编译时方便
+windows下也有makefile文件
+makefile文件中可以有多个依赖行
+但默认只会处理第一个，如果选择某一个依赖行：
+nmake /f Hello.mak CLEAN
+-----------------------
+ASC -7bit
+ASCII -8bit(欧洲)
+codepage(代码页)决定后128的内容
+MBCS（象形文字）
+	汉语：微软采用DBCS-有的字符占一个字节，有的字符占两个字节
+	（单双字节混合编码），但这种不确定的编码方式容易出错。
+UNICODE（也是一族）
+	-全部按两个字节编码
+64位win7就用的是UNICODE编码
+wchar_t 每个字符占2个字节（使用unicode编码）
+wchar_t* pwszText=L"Hello wchar";
+wprintf(L"%s\n",pwszText);
+微软自己定义了一个类型：TCHAR
+如果定义了UNICODE就是双字节
+如果没有定义就是单字节
+wprintf对UNICODE字符打印支持不完善
+在Windows下使用WriteConsole API打印UNICODE字符
+-----------------------
+窗口类（WNDCLASS）
+窗口类包含了窗口的各种参数信息的数据结构。每个窗口都具有窗口类，基于窗口类创建窗口。每个窗口类都具有一个名称，
+使用前必须注册到系统。
+窗口类的分类
+-系统窗口类，不需要注册，直接使用窗口类即可。（所有应用程序都可以直接使用）
+-应用程序全局窗口类（由用户自己定义，当前应用程序所有模块都可以使用）
+-应用程序局部窗口类（由用户自己定义，当前应用程序中本模块可以使用）
+style中加CS_GLOBALCLASS
+RegisterClass/RegisterClassEx
+这两个函数功能一样（参数：WNDCLASS、WNDCLASSEX）
+加强版多了两个参数（不能混着用）
+createwindow处理方式（图）
+为什么处理函数要加CALLBACK呢？
+回调、勾子
+回调函数是我们定义的，操作系统调用的。
+WinMain也是回调范畴（APIENTRY=CALLBACK=__stdcall）
+子窗口的创建
+1.创建时要设置父窗口句柄
+2.创建风格要增加WS_CHILE|WS_VISIBLE
+窗口类附加数据缓冲区的用法
+1.申请缓冲区
+int cbClsExtra - 一般赋4的倍数
+2.写入数据
+SetClassLong
+DWORD SetClassLong(
+  HWND hWnd,       // handle to window
+  int nIndex,      // 开始存入数据开始的位置
+  LONG dwNewLong   // new value
+);
+3.读取数据
+GetClassLong
+DWORD GetClassLong(
+  HWND hWnd,  // handle to window
+  int nIndex  // offset of value to retrieve
+);//返回值获取到读取的数据
+
+窗口附加数据缓冲区的用法
+1.申请缓冲区
+int cbWndExtra - 一般赋4的倍数
+2.写入数据
+SetWindowLong
+LONG SetWindowLong(
+  HWND hWnd,       // handle to window
+  int nIndex,      // offset of value to set
+  LONG dwNewLong   // new value
+);
+3.读取数据
+GetWindowLong
+LONG GetWindowLong(
+  HWND hWnd,  // handle to window
+  int nIndex  // offset of value to retrieve
+);
+这两种缓冲区有什么区别：
+窗口类附加数据缓冲区：是所有基于该窗口类创建出来的所有窗口共享的缓冲区。
+窗口附加数据缓冲区：是窗口自己私有的缓冲区，即使是基于同一个窗口类创建出来的窗口相互之间也不共享
+--------------------
+不管哪种程序，广义上只分两种程序
+1.过程驱动
+程序的执行过程是按照预定好的顺序执行。
+2.事件驱动
+程序的执行是无序的，用户可以根据需要随机触发相应的事件。
+WIN32窗口程序就是采用事件驱动 方式执行，也就是消息机制。
+消息由6部分组成
+窗口句柄
+消息ID
+消息的两个参数
+消息产生的时间
+消息产生时的鼠标位置
+WM_DESTROY-窗口被销毁时的消息，无消息参数。
+常用于在窗口被销毁之前，做相应的善后处理，例如资源、内存等。
+点击关闭按钮，产生的是另外一个消息（WM_SYSCOMMAND），那个消息是DefWindowProc处理的，然后再发出WM_DESTROY消息
+WM_SYSCOMMAND-系统命令消息。
+wParam-具体点击位置，例如关闭SC_CLOSE等。
+lParam-鼠标位置
+LOWORD 低字-水平位置
+HIWORD 高字-垂直位置
+使用两个宏来解决
+WM_CREATE-在窗口创建成功还未显示之前，收到这个消息（lparam有用）
+WM_SIZE-在窗口大小变化时，会收到WM_SIZE
+在窗口创建到显示之间也会产生这个消息
+WPARAM-窗口大小变化的原因
+LPARAM-变化窗口客户区的大小
+（这个消息的目的是为了让各个子控件的位置也跟着改变）
+LOWORD-变化后的宽度
+HIWORK-变化后的高度
+可以给窗口程序添加一个DOS窗口来方便观察(由于用messagebox观察时会阻塞)
+AllocConsole();
+WM_QUIT-用于结束消息循环处理
+wParam - PostQuitMessage函数传递的参数。
+lParam - 不使用
+当GetMessage收到这个消息后，会返回FALSE,结束while处理，退出消息循环。
+WM_PAINT - 绘图消息
+键盘消息
+鼠标消息
+定时器消息
+PeekMessage -以查看的方式从系统获取消息，可以不将消息从系统移除，非阻塞函数。当系统无消息时，返回FALSE，
+继续执行后续代码。
+BOOL PeekMessage(
+  LPMSG lpMsg,         // message information
+  HWND hWnd,           // handle to window
+  UINT wMsgFilterMin,  // first message
+  UINT wMsgFilterMax,  // last message
+  UINT wRemoveMsg      // removal options
+);
+
+SendMessage - 发送消息，会等候消息处理的结果。
+PostMessage - 投递消息，消息发出后立刻返回，不等候消息执行结果。
+BOOL SendMessage/PostMessage(
+  HWND hWnd,      // handle to destination window
+  UINT Msg,       // message
+  WPARAM wParam,  // first message parameter
+  LPARAM lParam   // second message parameter
+);
+PostMessage把消息放入系统队列中
+SendMessage把消息放？
+--------------------------------
+消息的分类
+1.系统消息 - ID范围 0-0x03FF
+  由系统定义好的消息，可以在程序中直接使用。
+2.用户自定义消息 - ID范围 0x0400 -0x7FFF （31743）
+  #define WM_MYMESSAGE WM_USER+n
+  由用户自己定义，满足用户自己的需求。由用户自己发出消息，
+  并响应处理。
+  自定义消息宏：WM_USER
+3.应用程序消息 - ID范围 0x8000 - 0xBFFF
+  程序之间通讯时使用的消息。
+  应用程序消息宏：WM_APP  //高层应用基本不用
+4.系统注册消息 - ID范围0xC000 - 0xFFFF
+  在系统注册并生成相应消息，然后可以在各个程序中使用这个消息。
+---------------------
+消息队列
+消息队列的类型：
+系统消息队列-由系统维护的消息队列。存放系统产生的消息，例如鼠标、键盘等。
+程序消息队列-属于每珍个应用程序（线程）的消息队列。由应用程序（线程）维护。GetMessage函数
+就是从这个队列里抓消息。
+消息队列的关系
+1.当鼠标、键盘产生消息时，会将消息存放到系统消息队列
+2.系统会根据存放的消息，找到对应窗口的消息队列。
+3.将消息投递到程序的消息队列中。
+队列消息-
+非队列消息-消息发送时，首先查找消息接收窗口的窗口处理函数，直接调用处理函数，完成消息。
+SendMessage-直接将消息发送给窗口的处理函数，并等候处理结果。
+常见消息：WM_CREATE、WM_SIZE等。
+WM_CREATE必须不进队列
+WM_QUIT必须进队列
+大部分消息既能进队列，也可以不进队列
+为什么每个进程都要有队列？为什么不直接从系统队列里抓？
+TranslateMessage检查获取到的消息，如果发现是按键消息，产生一个字符消息（WM_CHAR）,
+并放入程序的消息队列。
+DispatchMessage根据消息，找到窗口处理函数，调用窗口处理函数，完成消息的处理。
+
+WM_PAINT
+当窗口需要绘制的时候，GetMessage会发送窗口处理函数。
+窗口变大时需要重画。
+窗口无效区域：需要重新绘制的区域
+BOOL InvalidateRect(
+  HWND hWnd,           // handle to window
+  CONST RECT* lpRect,  // rectangle coordinates
+  BOOL bErase          // erase state
+);
+此函数把窗口标记为需要重画
+将窗口的某一部分声明为无效区域
+WM_PAINT消息的两个参数都不使用
+怎么绘图？
+1.
+HDC BeginPaint(
+  HWND hwnd,            // handle to window
+  LPPAINTSTRUCT lpPaint // paint information不常使用
+);
+2.绘图
+3.结束绘图处理
+BOOL EndPaint(
+  HWND hWnd,                  // handle to window
+  CONST PAINTSTRUCT *lpPaint  // paint data
+);
+---------------------------
+鼠标消息
+WPARAM-其它按键的状态，例如Ctrl/Shift等
+LPARAM-鼠标的位置，窗口客户区坐标系。
+LOWORD X坐标位置
+HIWORD Y坐标位置
+鼠标消息使用
+一般情况鼠标按下/抬起成对出现 。在鼠标移动过程中，会根据移动速度产生一系统的
+WM_MOUSEMOVE消息。
+双击鼠标消息
+在注册窗口类的时候添加CS_DBLCLKS风格
+鼠标滚轮WM_MOUSEWHEEL
+HIWORD-滚轮的偏移量，是120的倍数，正负值表示滚动方向。
+LPARAM-鼠标当前的位置，屏幕坐标系
+-------------------------
+键盘消息
+WM_KEYDOWN
+WM_SYSKEYDOWN
+...
+WM_CHAR
+消息参数
+按键消息：
+WPARAM - 按键的Virtual Key(虚拟键码)
+LPARAM - 按键的参数，例如按下次数
+WM_CHAR消息：（TranslateMessage发送）
+WPARAM-输入的字符
+LPARAM-按键的相关参数
+定时器消息
+WM_TIMER消息GetMessage函数发送
+精度是毫秒，但是准确度很低。
+消息的参数
+WPARAM - 定时器ID
+LPARAM - 定时器处理函数的指针
+BOOL KillTimer(
+  HWND hWnd,          // handle to window
+  UINT_PTR uIDEvent   // timer identifier
+);
+--------------------------------
+菜单的分类(菜单项就是一个矩形的单位)
+1.窗口顶层菜单
+2.弹出式菜单
+3.系统菜单-左上角
+HMENU类型表示菜单，菜单每一项有相应的ID。
+窗口的顶层菜单
+创建菜单
+HMENU CreateMenu(VOID);//创建成功返回菜单句柄
+增加菜单项（InsertMenu)
+BOOL AppendMenu(
+	HMENU hMenu,
+	UINT uFlags,//菜单项风格？？？
+	UINT uIDNewItem, //菜单项ID或下拉菜单句柄
+	LPCTSTRlpNewItem
+);
+uFlags:
+MF_POPUP - 具有这种风格的菜单项，被点击后弹出下拉菜单
+	   uIDNewItem参数必须设置下拉菜单的句柄
+MF_SEPARATOR-具有这种风格的菜单项，为分隔线
+MF_STRING-具有这种风格的菜单项，被点击后能够发出消息
+	  WM_COMMAND
+---------------------------------------
+设置到窗口
+BOOL SetMenu(
+	HWND hWnd,
+	HMEUN hMenu
+);
+菜单命令处理
+WM_COMMAND
+只有WPARAM中的LOWORD -菜单项的ID,其它的都为NULL
+设置菜单项 勾选/非勾选状态：
+DWORD CheckMenuItem(
+  HMENU hmenu,        // handle to menu
+  UINT uIDCheckItem,  // menu item to check or uncheck(菜单项ID或菜单项位置)
+  UINT uCheck         // menu item options具体状态
+);
+uCheck:
+MF_BYCOMMAND - uIDCheckItem参数必须填写菜单项ID
+MF_BYPOSITION-uIDCheckItem参数必须填写菜单项位置
+MF_CHECKED-菜单项勾选
+MF_UNCHECKED-菜单项非勾选
+一个菜单项由 菜单句柄与菜单项ID确定
+WM_INITMENUPOPUP
+在菜单被激活但是还未显示，窗口会收到这个消息//无论是窗口菜单还是系统菜单
+右键菜单也会发出这个消息
+WPARAM - 即将显示菜单句柄
+LPARAM - LOWORD是被点击顶层菜单项索引（位置）
+	 HIWORD即将显示菜单是否为窗口菜单
+窗口菜单：顶层菜单/系统菜单 属于窗口菜单。弹出式菜单不属于窗口菜单
+系统菜单的使用
+系统菜单是可以增加菜单项，也可以删除菜单项
+AppendMenu-要知道系统菜单的句柄：
+GetSystemMenu(HWND hWnd,
+	BOOL bRevert);//重置与否
+BOOL DeleteMenu(
+  HMENU hMenu,     // handle to menu
+  UINT uPosition,  // menu item identifier or position
+  UINT uFlags      // option
+);
+系统菜单项点击后发送
+WM_SYSCOMMAND响应菜单命令。
+WPARAM的LOWORD是命令ID。
+------------------------------------
+右键菜单 Context Menu的使用
+1.创建菜单
+右键菜单是一个弹出式菜单，使用CreatePopupMenu创建。
+2.显示弹出式菜单
+BOOL TrackPopupMenu(
+  HMENU hMenu,         // handle to shortcut menu
+  UINT uFlags,         // options
+  int x,               // horizontal position
+  int y,               // vertical position
+  int nReserved,       // reserved, must be zero
+  HWND hWnd,           // handle to owner window
+  CONST RECT *prcRect  // ignored
+);
+BOOL ClientToScreen(
+  HWND hWnd,       // handle to window
+  LPPOINT lpPoint  // screen coordinates[IN/OUT]输入输出参数
+);坐标系转换函数，反过来也有一个函数。
+如果uFlags的参数中有TPM_RETURNCMD选项，那么点击的菜单项ID通过函数的返回值获取。
+WM_INITMENUPOPUP,按照弹出菜单处理
+------------------------
+菜单处理位置
+1.鼠标右键抬起
+WM_RBUTTONUP-比较业余，需要函数转换坐标位置
+2.WM_CONTEXTMENU
+WPARAM - 右键点击的窗口句柄
+LPARAM - LO X坐标（屏幕） HI Y坐标（屏幕）
+WM_CONTEXTMENU消息是在WM_RBUTTONUP消息之后产生的
+-------------------------------------
+资源的使用
+资源相关
+资源脚本文件：*.rc文件
+编译器：RC.EXE
+菜单资源的使用
+1.添加菜单资源
+2.加载菜单资源
+------------------------
+图标资源ICON的使用
+1.添加资源
+注意图标的大小，一个图标文件中，可以有多个不同大小的图标。
+2.加载
+HICON LoadIcon(
+  HINSTANCE hInstance, // handle to application instance
+  LPCTSTR lpIconName   // name string or resource identifier
+);
+一个工程只有一个.rc文件
+图标资源怎么设置？
+1.注册窗口类
+2.WM_SETICON消息
+（在MSDN中查找一个消息时，如果出现的是SendMessage就说明这个消息我们自己发，系统去处理，如果找到的是WinProc就说明这个消息系统去发，我们要处理？）搜出的函数就是我们要做的事。
+4.绘制：DrawIcon - 在窗口客户区中绘制一个图标.ico
+BOOL DrawIcon(
+  HDC hDC,      // handle to DC（beginpaint的返回值）
+  int X,        // x-coordinate of upper-left corner
+  int Y,        // y-coordinate of upper-left corner
+  HICON hIcon   // handle to icon
+);//不重要
+-------------------
+光标资源：
+1.添加光标的资源
+光标的大小默认是32X32像素，每个光标有HotSpot,是当前鼠标的热点，
+光标图像一般以.cur为后缀，对画光标以.ani为后缀
+2.SetCursor(HCURSOR hCursor);//设置光标，返回原来的光标
+此函数的调用位置是在WM_SETCURSOR消息中调用//只有鼠标移动的情况，就会陆续产生许多次
+WM_SETCURSOR:产生：
+在不捕获鼠标的前提下，当鼠标移动时，产生
+而且此消息的专职用法就是改光标
+WPARAM- 当前使用的光标句柄
+LPARAM- LOWORD 光标活动区域（Hit-Test code)HTCLIENT/HTCPATION
+      - HIWORD 当前鼠标消息ID
+GetCursorPos - 获取鼠标光标的位置
+BOOL GetCursorPos(LPPOINT lpPoint);(屏幕坐标系下光标的位置)
+ScreenToClient （屏幕转客户区坐标）
+GetClientRect - 获取窗口边界信息（客户区坐标系下）
+HCURSOR LoadCursorFromFile(
+  LPCTSTR lpFileName  // file or identifier
+);
+加载动画光标资源
+--------------------------------
+字符串资源
+用处：
+用户要实现中英文两版程序，用字符串资源，（不要用字符串常值）
+只要其中一版做完，另一版也很快（只要必资源就行了）
+int LoadString(...);
+--------------------------------
+加速键资源的使用
+1.加载加速键表
+LoadAccelerator(
+HINSTANCE hInstance,
+LPCTSTR lpTableName
+);
+2.处理加速建消息
+int TranslateAccelerator(
+HWND hWnd,
+HACCEL hAccTable,
+LPMSG lpMsg
+);
+3.在WM_COMMAND中相应消息，消息参数
+WPARAM -HI 为1，表示加速键 为0，表示菜单
+       -LO 为命令ID
+LPARAM -为NULL
+(两个键同时按下也是有顺序的，顺序不对是发不出正确命令的)
+-----------------------------------------------
+1.绘图相关
+绘图设备DC(Device Context),(绘图上下文/绘图描述表)
+HDC - DC句柄，表示绘图设备
+GDI - Windows grahpics device interface
+	Win32提供的绘图API
+GDI只表示windows下的绘图编程
+2.颜色
+颜色的表示
+计算机使用红、绿、蓝。（三原色）
+R 0-255  数据表示颜色的程序
+G 0-255
+B 0-255
+每一个点颜色是3个字节24位保存0~2^24-1
+0，0，0表示黑色，255，255，255表示白色
+16位：5，5，6
+32位：8，8，8，8绘图或透明度//最后一个8位表示透明度（三维才涉及）(opengl direct3d)
+COLORREF -实际DWORD,例如：
+COLORREF nColor=0;纯黑
+赋值使用RGB宏，RGBA是透明度宏，例如：
+nColor = RGB(0,255,0);
+GetRValue/GetGValue/GetBValue
+例如：
+BYTE nRed = GetRValue(nColor);
+--------------------------------
+点的使用
+GetPixel获取指定点的颜色
+COLORREF GetPixel(
+  HDC hdc,    // handle to DC
+  int nXPos,  // x-coordinate of pixel
+  int nYPos   // y-coordinate of pixel
+);
+COLORREF SetPixel(
+  HDC hdc,           // handle to DC
+  int X,             // x-coordinate of pixel
+  int Y,             // y-coordinate of pixel
+  COLORREF crColor   // pixel color
+);
+
+HDC BeginPaint(
+  HWND hwnd,            // handle to window
+  LPPAINTSTRUCT lpPaint // paint information
+);//获取绘图设备
+TextOut(hdc,100,100,"hello",5);
+Ellipse(hdc,100,100,150,150,);
+BOOL EndPaint(
+  HWND hWnd,                  // handle to window
+  CONST PAINTSTRUCT *lpPaint  // paint data
+);
+//如果不end不放掉也没有太大的问题，但还是建议放掉
+画点：
+SetPixel(...);
+BOOL MoveToEx(
+  HDC hdc,          // handle to device context
+  int X,            // x-coordinate of new current position
+  int Y,            // y-coordinate of new current position
+  LPPOINT lpPoint   // old current position
+);//转换当前点
+窗口当前点也会转到当前点
+LineTo-画直线，也会改变当前点
+封闭图形：能够画刷填充的图形
+由一条直线一条直线围起来的图形不叫封闭图形
+BOOL Rectangle(
+  HDC hdc,         // handle to DC
+  int nLeftRect,   // x-coord of upper-left corner of rectangle
+  int nTopRect,    // y-coord of upper-left corner of rectangle
+  int nRightRect,  // x-coord of lower-right corner of rectangle
+  int nBottomRect  // y-coord of lower-right corner of rectangle
+);//绘制直角矩形
+Ellipse()//绘制圆
+想画复合图形，把两个图形做与、或运算
+-----------------------------
+画笔的作用
+线的颜色、线型、线粗。
+画笔的作用
+1.创建画笔
+HPEN CreatePen(
+  int fnPenStyle,    // pen style
+  int nWidth,        // pen width
+  COLORREF crColor   // pen color
+);
+2.将画笔应用到DC中
+HGDIOBJ SelectObject(
+  HDC hdc,          // handle to DC
+  HGDIOBJ hgdiobj   // handle to object
+);//返回原来的GDI绘图对象句柄
+3.绘图
+4.取出DC中的画笔
+5.释放画笔
+BOOL DeleteObject(
+  HGDIOBJ hObject   // handle to graphic object
+);
+只能删除不被DC使用的画笔，所以在释放前，必须将画笔从DC中取出来
+画刷的使用
+画刷的概念：封闭图形的填充的颜色、图案
+HBRUSH-画刷句柄
+画刷的使用
+1.创建画刷
+CreateSolidBrush-创建实心画刷
+CreateHatchBrush-创建阴影画刷
+CreatePatternBrush-创建位图画刷
+2.将画刷应用到DC中
+//绘图设备默认的是就是白色的刷子
+SelectObject
+3.绘图
+4.将画刷从DC中取出
+SelectObject
+5.删除画刷
+DelectObject
+---------
+GetStockObject函数获取系统维护的画刷、画笔等。
+系统画刷不用DELETE
+其中NULL_BRUSH是一把透明的刷子
+反色：就是那一个字节按位取反
+透明色的反色：没有反色，透明色的反色还是透明色
+-----------------------
+位图（.bmp）是属于光栅图形。
+也是GDI绘图对象
+光栅图形-记录图像中每一点的颜色等信息。常见
+//矢量图形-记录图像算法、绘图指令等。
+HBITMAP-位图句柄
+位图的使用
+1.在资源中添加位图资源
+2.从资源中加载位图LoadBitmap
+3.创建一个与当前DC相匹配的DC（内存DC），它会在内容的一个虚拟窗口里画
+HDC CreateCompatibleDC(
+	HDC hdc //当前DC句柄，可以为NULL
+	//当前DC是指用beginpaint得到的DC
+);
+4.将位图放入匹配的DC中 SelectObject
+5.成像
+BOOL BitBlt(
+  HDC hdcDest, // handle to destination DC
+  int nXDest,  // x-coord of destination upper-left corner
+  int nYDest,  // y-coord of destination upper-left corner
+  int nWidth,  // width of destination rectangle
+  int nHeight, // height of destination rectangle
+  HDC hdcSrc,  // handle to source DC
+  int nXSrc,   // x-coordinate of source upper-left corner
+  int nYSrc,   // y-coordinate of source upper-left corner
+  DWORD dwRop  // SRCCOPY 不更改，原样显示
+);
+6.取出位图
+SelectObject
+7.释放位图
+DeleteObject
+8.释放匹配的DC(内存DC)
+DeleteDC
+----------------------
+//hdc到底是什么？这块内存保存了什么信息？
+标准绘图设备-显卡（原来显卡就是画图的）
+也就是显存（首地址、尾地址）
+内存DC是什么呢？（内存）
+如果直接将位图句柄放入显存，就会出现绘制点一样慢（用户体验度不好）
+缩放成像
+BOOL StretchBlt(
+  HDC hdcDest,      // handle to destination DC
+  int nXOriginDest, // x-coord of destination upper-left corner
+  int nYOriginDest, // y-coord of destination upper-left corner
+  int nWidthDest,   // width of destination rectangle
+  int nHeightDest,  // height of destination rectangle
+  HDC hdcSrc,       // handle to source DC
+  int nXOriginSrc,  // x-coord of source upper-left corner
+  int nYOriginSrc,  // y-coord of source upper-left corner
+  int nWidthSrc,    // width of source rectangle
+  int nHeightSrc,   // height of source rectangle
+  DWORD dwRop       // raster operation code
+);
+int GetObject(
+  HGDIOBJ hgdiobj,  // handle to graphics object
+  int cbBuffer,     // size of buffer for object information
+  LPVOID lpvObject  // buffer for object information
+);//获得内存大小
+--------------------------
+坐标系
+坐标系分类
+设备坐标系（以显示器为例）
+1.屏幕坐标系
+2.窗口坐标系
+3.客户区坐标系
+逻辑坐标系（计算机中）
+在GDI绘图中，都是使用逻辑坐标绘图
+逻辑坐标系可以设置坐标系单位。（本身没有单位）
+我们写的时候是默认对应关系。怎么改？
+坐标系映射
+映射模式
+逻辑坐标系和设备坐标系单位之间映射关系。
+设备坐标系的单位是由设备决定，大小固定。
+逻辑坐标系的单位，可以通过程序设置，
+int SetMapMode(
+  HDC hdc,        // handle to device context
+  int fnMapMode   // new mapping mode
+);Y轴上为正（把坐标系的方向也给改了）
+MM_TEXT 屏幕
+..
+MM_TWIPS 打印机
+//自定义单位，兼容未来的设备
+  MM_ISOTROPIC 1个逻辑单位 = 自定义
+MM_ANISOTROPIC X轴一个逻辑单位 = 自定义1
+	       Y轴一个逻辑单位 = 自定义2
+怎么自定义呢：
+BOOL SetWindowExtEx(
+  HDC hdc,       // handle to device context
+  int nXExtent,  // new horizontal window extent
+  int nYExtent,  // new vertical window extent
+  LPSIZE lpSize  // original window extent
+);
+BOOL SetViewportExtEx(
+  HDC hdc,       // handle to device context
+  int nXExtent,  // new horizontal viewport extent
+  int nYExtent,  // new vertical viewport extent
+  LPSIZE lpSize  // original viewport extent
+);
+----------------------------
+文字的绘制
+TextOut - 将文字绘制在指定坐标位置。
+int DrawText(
+  HDC hDC,          // handle to DC
+  LPCTSTR lpString, // text to draw
+  int nCount,       // text length
+  LPRECT lpRect,    // formatting dimensions
+  UINT uFormat      // text-drawing options
+);
+ExtTextOut()//可以指定字符之间的间距
+SetTextColor()//设备字符串的颜色，返回原来的颜色
+SetBkColor()
+SetBkMode()//背景色是透明色最好
+字体相关
+Window常用的字体格式为TureType字体
+字体也是跟画笔画刷一样的类型
+在C：windows/fonts里有字体
+字体的名字，文件打开，看第一行
+HFONT-字体句柄
+CreateFont();
+-------------------
+对话框窗口
+比较特殊（原理上）处理消息的时候：
+普通窗口：自定义调用缺省
+对话框窗口：缺省调用自定义
+对话框的分类：
+模式：显示时，会禁止其他窗口的输入等用户交互操作。
+无模式：显示后，其他窗口同样可以接收输入等用户交互操作。
+对话框基本使用：
+1.对话框窗口处理函数
+2.注册窗口类（可选，基本不使用）//系统窗口类
+3.创建对话框
+4.对话框的关闭
+-----------------------
+模式对话框的使用：
+1.对话框窗口处理函数(并非真正对话框处理函数)
+INT CALLBACK DialogProc(
+	HWND hwndDlg,
+	UINT uMsg,
+	WPARAM wParam,
+	LPARAM lParam
+);
+返回TRUE 表示DialogProc函数中处理了这个消息，缺省处理函数不需要处理。
+返回FALSE 表示DialogProc函数未处理这个消息，交给缺省处理函数处理。
+所以自己写处理函数时，返回值一定要注意，会影响后面的代码。
+注意什么时候把自定义函数的地址交给了操作系统的。
+2.创建模式对话框//因为这个函数是个阻塞函数
+INT_PTR DialogBox(
+  HINSTANCE hInstance,  // handle to module
+  LPCTSTR lpTemplate,   // dialog box template
+  HWND hWndParent,      // handle to owner window
+  DLGPROC lpDialogFunc  // 这时候把自定义的处理函数交给系统
+);
+4.对话框的消息
+WM_INITDIALOG - 对话框创建之后显示之前，通知对话框窗口处理函数。
+无模式对话框
+1.对话框处理函数 DialogProc
+2.创建对话框
+HWND CreateDialog();
+非阻塞函数，创建成功返回窗口句柄，需要使用ShowWindow函数显示对话框。
+3.对话框的关闭
+关闭时使用DestroyWindow销毁窗口，不能使用EndDialog关闭对话框。
+4.对话框的消息
+WM_INITDIALOG -创建之后显示之前
+----------------------------------------------------------
+子控件
+系统已定义窗口类型，相应窗口的处理函数等。
+都已经由系统完成。例如编辑框、按钮等等。
+子控件的创建
+不需要注册，直接使用CreateWindow/Ex
+buttonproc处理函数已经写死了（所有的控件都是这样）
+创建该类的窗口。子控件创建时，每个控件都具有一个ID号。
+控件的消息
+程序和子控件之间交互，都是通过消息完成。
+控件的窗口消息-程序可以使用SendMessage向控件发送消息，获取控件的信息或设置控件状态。
+控件的通知消息-控件有相应的事件发生后，会向所在的父窗口发送通知消息（WM_COMMAND），父
+窗口可以根据通知消息的ID，做相应的处理。
+window平台下自带的控件只有那么几个，其余的都是由基本控件衍生出来的
+
+静态框相关
+文字静态框-显示文字
+图标静态框-显示图标，设置SS_ICON/SS_BITMAP
+静态框的使用
+1.创建
+CreateWindow/CreateWindowEx
+风格
+图标静态框 使用SS_ICON/SS_BITMAP风格
+如果创建 图标静态框，那么窗口的名称要设置成 图标ID:#101
+2.窗口消息
+SendMessage发送到控件即可。例如：STM_SETICON
+3.通知消息
+需要在创建时增加SS_NOTIFY风格。
+通知消息通过WM_COMMAND消息传递
+附：WM_COMMAND
+    WPARAM:
+	LOWORD-菜单项、加速键、控件的ID
+	HIWORD-对于菜单项，为0
+	       对于加速键，为1
+ 	       对于控件，是Notify-Code(告诉控件发生了什么事)
+		//STN_CLICKED/STN_DBLCLK..
+    LPARAM:
+	对于菜单 加速键为NULL
+	对于控件 为控件窗口句柄
+----------------------
+1.按钮相关
+根据按钮的风格，分成4类
+1.1下压式按钮：BS_PUPSHBUTTON/BS_DEFPUSHBUTTON
+1.2分组框：BS_GROUPBOX
+1.3复选框：
+	BS_CHECKBOX/BS_AUTOCHECKBOX
+	BS_3STATE/BS_AUTO3STATE
+1.4单选框：
+	BS_RADIOBUTTON/BS_AUTORADIOBUTTON
+窗口类名称BUTTON
+2.下压式按钮
+2.1创建按钮
+2.2窗口消息
+2.3通知消息BN_CLICKED
+3.分组框
+常用于界面上的控件分组显示，提高界面友好性。
+4.复选框
+4.1风格和创建
+BS_CHECKBOX-点击选择时，需要自己维护选择状态
+BS_AUTOCHECKBOX-点击选择时，系统自动维护选择状态
+4.2窗口消息
+获取和设置选择状态
+BM_SETCHECK
+ wParam-具体状态 
+ lParam-没用，必须为0
+BM_GETCHECK
+ wParam/lParam-都没用必须为0，复选框当前状态通过
+SendMessage函数的返回值获取
+4.3通知消息
+BN_CLICKED(按钮被点击)
+5.单选按钮
+怎么分组呢？
+加风格WS_GROUP
+从这个WS_GROUP到下一个WS_GROUP之前的就是一组
+还有一种按钮，长得像下压式，本质是复选框
+控件的ID:是占用菜单参数项（所有的控件都是这样的），所以要类型转换
+-------------------------------
+编辑框
+单行编辑框
+多行编辑框
+密码编辑框
+2.编辑框的使用
+2.1创建
+窗口类名称 EDIT
+2.2窗口消息（获取或设置控件的时候）
+WM_SETTEXT/WM_GETTEXT/WM_GETTEXTLENGTH
+2.3通知消息（控件有事情发生时控件发出）
+fopen/fclose/fwrite/fread/fseek/ftell(获取文件大小)
+HWND GetDlgItem(
+  HWND hDlg,       // handle to dialog box
+  int nIDDlgItem   // control identifier
+);根据控件的ID得到控件的句柄
+EN_CHANGE当编辑框内的文字被修改，通知父窗口。
+会依附于COMMAND消息发过来。
+-------------------------------------
+组合框（比较麻烦的一个控件）
+分类
+1.1简单组合框-CBS_SIMPLE
+1.2下拉式组合框-可以输入，CBS_DROPDOWN
+1.3下拉列表式组合框-只能从选项中选择
+CBS_DROPDOWNLIST
+组合框窗口类-COMBOBOX
+2.组合框的使用
+2.1创建组合框
+2.2选项的添加
+CB_ADDSTRING-WPARAM不使用
+	     LPARAM字符串指针
+CB_INSERTSTRING
+2.3选项的删除
+CB_DELETESTRING-删除指定项
+wparam-指明准备删除的选项的索引(从0开始) lparam-没用
+CB_RESETCONTENT-清除所有项
+2.4获取和设置选择项
+CB_GETCURSEL-获取选择项索引
+两个参数没有用，当前选择项索引通过 SendMessage函数返回值获得
+CB_SETCURSEL-设置当前被选择项
+2.5匹配查找
+CB_FINDSTRING-根据字符串，查找选择项，从选项的起始字符查找包含字符串//不精确查找
+CB_FINDSTRINGEXACT-匹配查找的字符串//精确查找
+CB_SELECTSTRING-查找并设置成当前被选择项//同样为不精确查找
+2.6获取选项的字符
+CB_GETLBTEXTLEN-获取选项的字符长度
+CB_GETLBTEXT-获取选项的字符内容
+输入的字符串
+WM_GETTEXT//只要是窗口，就能获取窗口的文本内容
+2.8选项的附加数据
+在每个选项中，可以保存自定义的数据
+CB_SETITEMDATA-将数据保存到指定选项
+WPARAM-选项索引 LPARAM-附加数据
+CB_GETITEMDATA-从指定选项获取数据
+WPARAM-选项索引，附加数据通过
+SendMessage函数的返回值获取
+3.通知消息
+CBN_SELCHANGE-当前被选择项发生变化后，通知父窗口。
+CBN_EDITCHANGE-当输入发生变化后
+以上两个都是通知码
+----
+列表框控件
+长相：简单式组合框不带上头
+1.分类
+单列列表框-默认
+多列列表框-LBS_MULTCOLUMN风格
+2.使用
+创建列表框 "LISTBOX"
+添加选项 LB_ADDSTRING-追加
+        LB_INSERTSTRING-按指定位置添加
+删除选项 LB_DELETESTRING-删除指定项
+	LB_RESETCONTENT-清空所有项
+获取和设置选择项
+	LB_GETCURSEL-获取选择项的索引
+	LB_SETCONTENT-设置选择项
+匹配查找
+	LB_FINDSTRING
+	LB_FINDSTRINGEXACT
+	LB_SELECTSTRING
+获取选项文本内容
+	LB_GETTEXT
+	LB_GETTEXTLEN
+附加数据
+	LB_SETITEMDATA
+	LB_GETITEMDATA
+通知消息
+LB_SELCHANGE-当选择项发生变化后，依附于WM_COMMAND消息
+发送到父窗口的窗口处理函数中。
+----------------------------------
+Windows库程序
+1.静态库程序-运行时不存在，会被链接
+怎么做静态库
+建项目
+添加程序，源文件使用C文件
+项目的settings中设置库的路径..
+#pragma comment()
+extern "C"防止改名是防止改C库函数的名字，从而正确地去调用C库函数
+而C++库函数是改名的，C++库里的也是改名的，不用加。
+路径以后就用反斜杠
+2.
+1、动态库程序-运行时独立存在，不会被链接到可执行文件或其他动态库中
+(一旦起来后就独立了，一个独立进程)
+使用时加载（使动态库程序运行）（重要）
+静态库使代码体积增大
+静态库发生变化后，新的代码需要重新链接嵌入到执行程序中。
+2、动态库的创建
+1）建立项目 2）添加库程序 3）库程序导出（偏移地址）- 提供给使用者库中的函数等信息
+动态库的函数 导出偏移地址
+note:库程序导出为必须做的，不管以哪种方式导出
+1）声明导出（导出地址）
+_declspec(dllexport)
+生成一个.lib文件（序号）（dll程序都会生成lib文件，包括以.def方式）
+2）模块定义文件.def
+LIBRARY CPPdll
+EXPORTS
+  CPPdll_add @1
+这两种方式第一种导出的是换名后的函数名，第二种是没有换名
+-----------------
+3.动态库的使用
+3.1隐式链接
+隐式链接的情况下，DLL可以存放的路径：
+与执行文件中同一个目录下 当前工作目录 Windows目录 windows/system32 windows/system 
+环境变量PATH指定目录
+建议与执行文件同一目录
+3.2显式链接(不用Lib文件)
+1）定义函数指针类型typedef
+2）加载动态库（使动态库程序运行）
+LoadLibrary(LPCTSTR lpFileName);
+3）获取函数地址
+FARPROC GetProcAddress(HMODULE hModule, lpProcName);
+成功返回函数地址
+4）使用函数
+5）卸载动态库
+FreeLibrary(HMODULE hModule);
+//公司应该是def导出，然后显式链接
+
+建议使用显示链接
+隐式链接：(需要.lib文件)动态库变化后，使用程序需要重新编译链接。
+	动态库是在程序启动时就被加载，当DLL不存在，程序无法启动
+显示链接：(不需要.lib文件)动态库变化后，使用程序不需要重新编译链接。
+	动态库只在使用LoadLibrary函数，才会被加载。
+---------------------------------------------------
+DLL中类的使用
+类的导出
+class declspec(dllexport)CMath{};
+-------------------------
+BOOL WINAPI DllMain(
+  HINSTANCE hinstDLL,  // handle to the DLL module
+  DWORD fdwReason,     // reason for calling function
+  LPVOID lpvReserved   // reserved
+);
+加载或卸载时会被调用如：
+LoadLibrary	FreeLibrary
+---------------------------------
+windows文件系统
+1.创建或打开Windows文件
+HANDLE CreateFile(
+  LPCTSTR lpFileName,                         // file name
+  DWORD dwDesiredAccess,                      // access mode
+  DWORD dwShareMode,                          // share mode
+  LPSECURITY_ATTRIBUTES lpSecurityAttributes, // SD
+  DWORD dwCreationDisposition,                // how to create
+  DWORD dwFlagsAndAttributes,                 // file attributes
+  HANDLE hTemplateFile                        // handle to template file
+);//成功返回文件句柄
+BOOL WriteFile(
+  HANDLE hFile,                    // handle to file
+  LPCVOID lpBuffer,                // data buffer
+  DWORD nNumberOfBytesToWrite,     // number of bytes to write
+  LPDWORD lpNumberOfBytesWritten,  // number of bytes written
+  LPOVERLAPPED lpOverlapped        // overlapped buffer
+);
+BOOL ReadFile(
+  HANDLE hFile,                // handle to file
+  LPVOID lpBuffer,             // data buffer
+  DWORD nNumberOfBytesToRead,  // number of bytes to read
+  LPDWORD lpNumberOfBytesRead, // number of bytes read
+  LPOVERLAPPED lpOverlapped    // overlapped buffer
+);
+DWORD GetFileSize(
+  HANDLE hFile,           // handle to file
+  LPDWORD lpFileSizeHigh  // high-order word of file size
+);
+DWORD SetFilePointer(
+  HANDLE hFile,                // handle to file
+  LONG lDistanceToMove,        // bytes to move pointer
+  PLONG lpDistanceToMoveHigh,  // bytes to move pointer
+  DWORD dwMoveMethod           // starting point
+);
+7.文件相关操作
+CopyFile
+DeleteFile
+MoveFile
+文件遍历-给一个路径，把这个路径下的文件都找到
+1.查找文件
+2.获取下一个文件
+3.关闭查找
+----------------------
+Windows内存管理
+1地址空间
+程序中可以建起的最大范围。对于32位操作系统，
+地址空间范围为0-4G-1（2^32）,地址空间越大，
+相对程序的编写就会容易。
+2地址空间的划分
+2.1用户地址空间0-2G（7FFFFFFF)
+存放用户的程序和数据。
+用户空间的代码是不能访问内核空间的数据和代码。
+空指针区（NULL区，0-64K）系统将地址小于64K指针，都认为是空指针。
+用户区
+64K禁入区（7FFEFFFF-7FFFFFFF）(把用户区和内核区隔开了)
+内核地址空间2G-4G
+存放内核的代码和数据，例如系统驱动。
+内核空间代码是可以访问用户空间。
+windows内存
+1.区域2.物理内存(使用频繁)3.虚拟内存（硬盘交换文件，使用不频繁）（pagefile.sys）
+4.内存页（4K）
+7.内存分配
+7.1虚拟内存分配-适合大内存分配
+LPVOID VirtualAlloc(
+  LPVOID lpAddress,        // NULL或提交地址
+  SIZE_T dwSize,           // size of region
+  DWORD flAllocationType,  // type of allocation
+  DWORD flProtect          // type of access protection
+);
+flAllocationType
+MEM_COMMIT 提交内存，分配之后返回地址和内存空间
+MEM_RESERVE 保留地址，分配之后只返回地址，内存空间不生成。要使用内存必须再次提交。
+功能1：申请地址 功能2：提交内存
+7.2堆内存分配-适合小内存分配。
+7.3栈内存分配-适合小内存分配。
+VOID GlobalMemoryStatus(
+  LPMEMORYSTATUS lpBuffer   // memory status structure
+);
+此函数查看当前内存和地址的使用情况
+-----------------
+-----------------
+进程环境信息（进程上下文）
+获取和释放环境信息
+获取和释放环境信息
+获取：
+GetEnvironmentStrings(void);
+释放：
+FreeEnvironmentStrings(LPTSTR lpszEnvironmentBloc);
+获取和设置环境变量
+GetEnvironmentVariable
+SetEnvironmentVariable
+------------------
+1.进程ID
+GetCurrentProcessId
+2.进程句柄
+GetCurrentProcess返回进程的句柄（-1），可以使用
+该句柄访问该进程的所有操作。
+进程的使用
+1.创建进程
+WinExce -早期16位
+ShellExecute - Shell操作
+CreateProcess - 目前最多使用/vfork+exec()函数族
+2.结束进程
+ExitProcess();//自杀的
+TerminateProcess();//杀人的
+3.通过进程ID获取进程句柄
+HANDLE OpenProcess();
+4.关闭进程句柄：CloseHandle //不能结束进程，只能将进程的句柄设为-1
+5.进程间的等候
+等候 可等候的句柄（进程句柄） 有信号
+DWORD WaitForSingleObject(句柄，等候时间);INFINITE是等候时间无限大
+阻塞函数，等候句柄的信号，只在句柄有信号或超出等候时间，才会结束等候。
+---------------------
+Windows线程
+多核的CPU还是一个主CPU在轮巡线程，另外几个是辅助功能
+主线程不用我们创建（main函数）
+线程的使用
+1.定义线程处理函数
+DWORD WINAPI ThreadProc(
+  LPVOID lpParameter   // thread data
+);
+2.创建线程
+HANDLE CreateThread(
+  LPSECURITY_ATTRIBUTES lpThreadAttributes, // SD
+  SIZE_T dwStackSize,                       // initial stack size
+  LPTHREAD_START_ROUTINE lpStartAddress,    // thread function
+  LPVOID lpParameter,                       // thread argument
+  DWORD dwCreationFlags,                    // creation option
+  LPDWORD lpThreadId                        // thread identifier
+);
+但如果主线程结束了，从线程也就结束了。
+对临界区资源的访问（UC中用信号量、互斥锁、条件变量解决）
+3.结束线程
+TerminateThread()杀人
+ExitThread()自杀
+4.关闭线程句柄
+CloseHandle
+5.线程的挂起和执行
+挂起
+SuspendThread();
+执行
+ResumeThread();
+6.线程的信息
+GetCurrentThreadId  线程ID
+GetCurrentThread  线程句柄
+通过指定ID的线程，获取其句柄
+HANDLE OpenThread();
+*多线程的问题
+时间片到了，CPU走的时候要保护现场。
+（压栈保护）
+临界区资源，不一定是内存。
+线程同步技术：
+原子锁
+｛
+原子锁-对单条指令的操作。
+API
+InterlockedIncrement(++)
+InterlockedDecrement(--)
+InterlockedCompareExchange
+InterlockedExchange
+..
+｝
+直接对数据所在的内存操作，并且在任何一个瞬间只能有一个线程访问。
+临界区（段）
+{
+只要4个函数
+1.VOID InitializeCriticalSection();
+2.VOID EnterCriticalSection();
+3.VOID LeaveCriticalSection();
+4.VOID DeleteCriticalSection();
+}
+互斥
+{
+HANDLE CreateMutex(); //互斥句柄也是一个可等候句柄
+WaitFor...
+ReleaseMutex();
+CloseHandle
+}
+临界区：用户态，只能在同一个进程中使用。
+互斥：内核态，可以通过命名的方式跨进程使用。
+以上三种为互斥（加锁的）
+事件
+｛
+程序之间的通知的问题
+HANDLE CreateEvent();
+WaitForSingleObject/
+WaitForMultipleObjects
+BOOL SetEvent();
+BOOL ResetEvent();
+CloseHandle
+小心事件的死锁
+｝
+信号量
+｛
+类似于事件，解决通知的相关问题。但是可以提供一个计数器，可以设置次数
+HANDLE CreateSemaphore();
+WaitFor...//每等候通过一次，信号量的信号减1，直到为0阻塞
+BOOL ReleaseSemaphore();
+CloseHandle();
+｝
+//可等候定时器
+以上三种为同步
+DWORD WaitForSingleObject(
+  HANDLE hHandle,        // handle to object
+  DWORD dwMilliseconds   // time-out interval
+);等候单个
+DWORD WaitForMultipleObjects(
+  DWORD nCount,             // number of handles in array
+  CONST HANDLE *lpHandles,  // object-handle array
+  BOOL bWaitAll,            // true 表示所有句柄都有信号，才结束等候 false表示句柄中只要有1个有信号，结束等候
+  DWORD dwMilliseconds      // time-out interval（INFINITE)
+);等候多个

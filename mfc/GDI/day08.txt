@@ -1,0 +1,55 @@
+一 MFC的绘图
+  1 相关问题
+   WIN32 - HDC
+   MFC   - CDC类对象
+  2 相关类
+   2.1 CDC类 - 父类CObject类，封装了关于绘图的各种API函数，
+       还封装了非常重要成员变量 m_hDC(保存绘图设备句柄)
+   2.2 CDC类的子类
+      CClientDC - 封装了在客户区中绘图的绘图设备
+			::GetDC//此API只能获取客户区绘图设备
+      CWindowDC - 封装了在整个窗口中绘图的绘图设备
+			::GetWindowDC
+      CPaintDC  - 封装了在WM_PAINT消息中绘图的绘图设备
+			::BeginPaint
+   2.3 CGdiObject - 父类CObject,封装了非常重要的成员变量
+			m_hObject(保存了相应的GDI绘图对象句柄)
+   2.4 CGdiObject的子类
+       CPen - 封装了画笔的使用
+       CBrush - 封装画刷的使用
+       CFont - 封装字体的使用
+       CBitmap - 封装位图的使用
+       CRgn - 封装了关于复合(不规则)图形的绘制
+	1）将简单基本图形通过运算构建一个复杂几何图形
+ 	2）使用
+	  利用一系列CRgn::CreateXXX创建基本图形
+	  利用CRgn::CombineRgn将基本图形通过指明的运算进行组合
+	  填充复合图形
+二 练习：实现简易的画图工具
+   ::SetCapture - 捕获鼠标
+   ::ReleaseCapture - 释放鼠标
+
+   ::int SetROP2(
+  	HDC hdc,         // handle to DC
+  	int fnDrawMode   // drawing mode
+   );
+三 MFC文件的操作
+  1 相关类
+    CFile - 文件操作类，封装了关于硬盘文件的读写操作的API函数
+	    父类CObject
+    CFileFind - 文件查找类，封装了关于遍历操作的API函数
+  2 CFile类的使用
+    2.1 创建或打开文件  CFile::Open
+    2.2 读/写文件 CFile::Read / CFile::Write
+    2.3 设置文件位置
+		CFile::Seek / CFile::SeekToBegin / CFile::SeekToEnd
+    2.4 关闭文件
+	CFile::Close
+  3 CFileFind类的使用
+    3.1 利用CFileFind::FindFile函数，开始查找，如果成功返回true,如果失败，
+	反之返回FALSE
+    3.2 利用CFileFind::FindNextFile函数，找到当前文件，同时返回值获取
+	下一个文件是否存在（存在返回TRUE、不存在返回FALSE）
+    3.3 可以利用一系列CFileFind::GetXXX获取文件信息。
+    3.4 也可以利用一系列CFileFind::IsXXX判断文件属性
+    3.5 关闭查找 CFileFind::Close

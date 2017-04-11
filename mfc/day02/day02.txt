@@ -1,0 +1,30 @@
+一 窗口的创建
+   1 加载菜单
+   2 调用CreateEx函数，设计并注册窗口，以及创建窗口
+    2.1调用PreCreateWindow函数，设计并注册窗口类
+       WNDCLASS wndcls;
+       ....
+       wndcls.lpfnWndProc = DefWindowProc;
+       ....
+       并调用win32 API函数::RegisterClass注册一个窗口类
+    2.2调用AfxHookWindowCreate函数
+     1）利用win32 API函数SetWindowsHookEx在程序中埋下一个
+        类型为WH_CBT的钩子
+     2）将自己new的框架类对象地址（pFrame）保存到当前程序线程信息中
+    2.3调用win32的 API函数 ::CreateWindowEx(...)创建窗口，此函数一旦
+       执行成功立即执行钩子处理函数
+   3 钩子处理函数
+    3.1将窗口句柄和自己new的框架类对象（pFrame）建立一对一的绑定关系
+	pFrame->m_hWnd = hWnd
+	m_permanentMap[hWnd] = pFrame;
+    3.2利用WIN32 API函数SetWindowLong将窗口处理函数更改为
+       AfxWndProc(真正的窗口处理函数)
+二 消息的处理
+  1 当消息产生后进入AfxWndProc函数处理
+  2 找到和 窗口句柄 (hWnd) 绑定在一直的框架类对象地址(pFrame)
+  3 利用pFrame调用框架类的成员虚函数WindowProc完成消息的处理。
+
+
+
+
+

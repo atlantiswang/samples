@@ -1,0 +1,46 @@
+一 切分窗口
+  1 切分窗口分类
+    静态切分-在窗口创建出来的时候就已经完成了切分
+    动态切分-在程序执行过程中根据用户的需要实时完成切分，最多
+    只能切入出 2*2 个
+  2 相关的类
+    CSplitterWnd - 父(窗口)类CFrameWnd(?),封装了不规则框架窗口的操作
+  3 静态切分
+    3.1 定义CSplitterWnd类的对象
+    3.2 重写CFrameWnd::OnCreateClient虚函数
+	1）CSplitterWnd::CreateStatic创建不规划框架
+	2）CSplitterWnd::CreateView给不规则框架窗口的各个客户区创建视图窗口
+  4 动态切分
+    4.1 定义CSplitterWnd类的对象
+    4.2 重写CFrameWnd::OnCreateClient虚函数
+	1）CSplitterWnd::Create创建切分
+二 MFC的文档
+  1 相关问题
+    文档主要提供了对数据的管理，以及和视图窗口的交互
+    相关类CDocument - 父类CCmdTarget
+  2 创建过程
+    2.1 利用pFrame调用LoadFrame函数创建主框架窗口
+    2.2 在框架窗口的WM_CREATE消息处理中创建视图窗口
+    2.3 在视图窗口的WM_CREATE消息处理中将视图类对象和文档类对象进行
+	建立绑定关系
+
+     m_viewList.AddTail(pView);//文档类对象用一个链表成员保存和它关联的视图类对象
+     pView->m_pDocument = this;//视图类对象用一个普通成员保存和它关联的文档类对象
+     经过分析可知：
+	由于文档类对象用一个链表成员保存和它关联的视图类对象，
+	说明一个文档类对象 可以对应 多个视图类对象
+	由于视图类对象用一个普通成员保存和它关联的文档类对象，
+	说明一个视图类对象 只能对应 一个文档类对象
+  3 对象关系图
+    theApp
+	|->m_pMainWnd(框架类对象地址pFrame)
+		|->m_pViewActive(视图类对象地址pView)
+			 |->m_pDocument(文档类对象地址)
+				  |->m_viewList(视图类对象地址)
+  4 文档类和视图类的联系
+    CDocument::UpdateAllViews - 刷新和文档类对象关联的所有视图类对象（视图窗口）
+    CView::OnUpdate - 虚函数
+		当视图窗口刷新时被调用
+  5 命令消息（WM_COMMAND）的处理顺序
+    View-->Document-->Frame-->App
+    CFrameWnd::OnCmdMsg 虚函数执行顺序决定

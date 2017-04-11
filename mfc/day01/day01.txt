@@ -1,0 +1,95 @@
+一课程大致安排
+ MFC- 微软基础类库和框架
+ COM- 组件的编程和应用
+ ADO- windows平台下数据库的操作接口
+ SOCKET- windows平台下的网络通信编程
+二需要掌握的一些技能
+ 熟练掌握 断点调试程序的方法
+ 掌握CALL STACK（调用堆栈）查看函数之间的调用关系 
+ 学会使用VC的向导(生成向导/类向导)和工具
+ 借助MSDN
+-----------------------------------------------------
+一 MFC的概念和作用？
+ 1.微软基础类库
+ 1）从硬盘的存在形式来说MFC就是一个库（静态/动态库）
+ 2）从原理上来说MFC还是一个程序框架
+ 2.为什么使用MFC?
+ 基于框架编程提高工作效率，减少开发周期，降低开发成本。
+二 几个比较重要头文件
+ afx.h - 包含了绝大部分MFC库中类的声明
+ afxwin.h -包含了afx.h和windows.h
+ afxext.h -包含了关于扩展窗口类的声明：工具栏和状态栏等等...
+附：*****************
+ 以Afx..开关的函数就可以确定MFC库中封闭的 全局函数
+ 以::...开关的函数，就可以确定WIN32的API函数
+	(user32.dll/kernel32.dll/gdi32.dll)
+三 MFC应用程序类型
+ 1使用MFC库，制作自己的控制台程序
+  多了一个全局对象 CWinApp theApp
+  入口函数不同于win32的入口函数
+ 2使用MFC库制作自己的静态库程序
+ 3使用MFC库制作自己的动态库程序
+  3.1使用(静态/动态)MFC库制作自己的规则动态库程序
+  3.2使用MFC制作自己扩展库
+  规则动态库可以被任何程序调用，扩展动态库只能被支持MFC的程序调用
+4 使用MFC库制作自己的窗口程序
+ 单文档视图构架程序
+ CFrameWnd -框架窗口类，封装了关于框架窗口的操作
+ CWinApp-应用程序类，负责管理程序的流程
+ CDocument-文档类，封闭了关于数据的操作(提取/转换/存储数据)
+ CView-视图窗口类，封装了关于视图窗口操作（显示数据）
+ 多文档视图构架程序
+ CMDIChildWnd -子框架窗口类，封装了关于子框架窗口的操作
+ CMDIFrameWnd -主框架窗口类，封装了关于主框架窗口的操作
+ CWinApp-应用程序类，负责管理程序的流程
+ CDocument-文档类，封闭了关于数据的操作(提取/转换/存储数据)
+ CView-视图窗口类，封装了关于视图窗口操作（显示数据）
+ 对话框构架程序
+ CWinApp-应用程序类，负责管理程序的流程
+ CDialog-对话框窗口类，封装了关于对话框窗口的操作
+四 MFC库中类的概述
+ 1 CObject-MFC库中绝大部分类的最基类
+   运行时类信息机制/动态创建机制/序列化机制（总共六大机制）
+ 2 CCmdTarget - 消息映射机制的最基类
+ 3 CWinThread/CWinApp-应用程序类
+ 4 CDocument及其子类-文档类，负责管理数据
+ 5 Exceptions-异常处理类，封装了MFC库中各种异常情况的处理
+ 6 CFile及其子类-文件操作类，封装了各种文件的读写等操作
+ 7 CWnd-所有窗口类的最基类
+ 8 Fram Windows-框架窗口类，封装了关于各种框架窗口的操作
+ 9 Dialog Boxes -对话框窗口类，封装了关于各种对话框窗口的操作
+10 Views -视图窗口类，封装了关于各种视图窗口的操作
+11 Controls-控件窗口类，封装了关于各种控件窗口的操作
+12 CDC及其子类-封装了各种绘图设备，以及绘图函数
+13 CGdiObject及其子类-封装了关于各种GDI绘图对象的操作
+14 CArray/CMap/CList及其子类-封装了C++语法中相应的数据结构
+15 非CObject类-对各种结构进行了封装
+	例如：CPoint/CRect/CTime/CString...
+五 第一个MFC程序
+ 1 配置环境
+  1.1删除入口函数WinMain
+  1.2将头文件更改为<afxwin.h>
+  1.3Project->Settings中设置使用MFC库
+ 2代码的书写
+  2.1从CFrameWnd类派生了一个自己的框架窗口类CMyFrameWnd
+  2.2从CWinApp类派生了一个自己的应用程序类CMyWinApp
+     并在类中重写了父类的成员虚函数InitInstance
+六 程序的执行过程
+  1构造theApp(爆破点)
+   将&theApp保存到 当前程序线程状态信息中
+   将&theApp保存到 当前程序模块状态信息中
+   AfxGetApp()/AfxGetThread() -返回&theApp
+  2进入入口函数(WinMain)<程序的流程>
+   2.1获取theApp对象地址
+   2.2利用theApp调用应用程序类成员虚函数InitApplication（初始化）
+   2.3利用theApp调用应用程序类成员虚函数InitInstance(创建/显示窗口)
+   2.4利用theApp调用应用程序类成员虚函数Run（消息循环）
+    2.4.1如果没有消息，
+利用theApp调用应用程序类成员虚函数OnIdle（空闲处理）
+    2.4.2如果程序退出，利用theApp调用应用程序类成员虚函数ExitInstance（善后处理)
+七 CWinApp成员虚函数
+	InitApplication
+	InitInstance
+	Run
+	OnIdle
+	ExitInstance

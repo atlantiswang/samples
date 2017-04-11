@@ -1,0 +1,67 @@
+四 属性页对话框
+   1 分类
+   标签式-常用来完成参数、选项等设置。
+   向导式-常用于引导用户一步步的选择和设置，完成
+   某种功能。
+   2 相关类
+   CPropertyPage类-页面对话框类。
+   CPropertySheet类-容器窗口类。
+   整个属性页的组成=一个表单对象+多个属性页对象
+   3 标签式属性页
+     3.1 插入对话框资源，设置语言和字体。双击资源
+	 生成页面类，注意父类选择CPropertyPage类。
+     3.2 添加表单类，继承处CPropertySheet类，添加表单类。
+     3.3 在表单中添加页面
+	 CPropertySheet::AddPage()
+     3.4 将应用按钮设置为可用
+	 CPropertyPage::SetModified()
+     3.5 通过添加虚函数来生成应用按钮的消息处理函数
+	 CPropertyPage::OnApply()
+     3.6 颜色对话框-CColorDialog类
+	 3.6.1显示对话框
+	 CColorDialog dlg;
+	 dlg.DoModal();
+	 3.6.2获取选择的颜色
+	 dlg.GetColor();
+   4 向导式属性页
+     4.1 插入对话框资源，设置语言和字体。双击资源
+	 生成页面类，注意父类选择CPropertyPage类。
+     4.2 添加表单类，继承处CPropertySheet类，添加表单类。
+     4.3 在表单中添加页面
+	 CPropertySheet::AddPage()
+     4.4 设置显示方式为向导式
+	 CPropertySheet::SetWizardMode()
+     4.5 创建和显示
+	 CPropertySheet::DoModal()
+     4.6 设置页面的向导按钮
+	 4.6.1 添加页面的虚函数OnSetActive()
+	 4.6.2 在该函数中，设置向导按钮
+	       GetParent();	
+	       CPropertySheet::SetWizardButtons()
+     4.7 消息处理
+	 CPropertyPage::OnWizardNext()
+	 CPropertyPage::OnWizardBack()
+	 CPropertyPage::OnWizardFinish()
+二 MFC的线程
+   1 分类
+   根据不同的用途，包括工作者线程和用户界面线程
+   2 工作者线程
+   2.1 介绍
+   没有单独的用户界面，常用来完成后台的耗时的操作
+   2.2 使用
+   2.2.1定义线程函数，函数的原型：
+   UINT MyControllingFunction( LPVOID pParam );
+   2.2.2创建和启动线程
+   CWinThread* AfxBeginThread( AFX_THREADPROC pfnThreadProc, LPVOID pParam,...);
+   3 用户界面线程
+   3.1 介绍
+   拥有单独的用户界面和消息循环，常用于完成需要与
+   用户交互的操作。
+   3.2 使用
+   3.2.1 添加CWinThread类的派生类
+   3.2.2 在该类的InitInstance()函数中，创建子线程
+	 的界面及对象。
+   3.2.3 创建和启动线程
+	 CWinThread* AfxBeginThread( CRuntimeClass* pThreadClass,...);
+三 综合的例子
+

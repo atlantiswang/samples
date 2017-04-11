@@ -1,4 +1,5 @@
-# 同步&通信之间界限不是很清晰，有时都混在一直叫
+# 同步&通信之间界限不是很清晰，有时都混在一直叫，而有些即可以用到进程又可以用到线程。
+
 ## 线程同步  
 - 同步与互斥的区别，网上有人总结的不错，如下：  
     
@@ -16,9 +17,8 @@
 	  
 ## 线程通信
 - 全局变量  
-- PostThreadMessage  
-  目标线程使用GetMessage()方法来接收消息。  
-  使用这个方法时，目标线程必须已经有自己的消息队列。否则会返回ERROR_INVALID_THREAD_ID错误，可以用PeekMessage()给线程创建消息队列  
+- 发送消息
+		网络上：PostMessage用在UI线程，PostThreadMessage用在工作线程。SendMessage会立刻转到接收线程。
   
 ## 进程间通信（IPC）
 - FindWindow、然后发送WM_COPYDATA消息，字符串附加到COPYDATASTRUCT 结构体

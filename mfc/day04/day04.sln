@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCMenu", "MFCMenu\MFCMenu.vcxproj", "{91418CEB-CED0-A449-E929-59BD4EEA3E51}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCToolBar", "MFCToolBar\MFCToolBar.vcxproj", "{A67DA9FF-AD32-4E29-BA6D-089D09C3C81E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+		Template|Win32 = Template|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91418CEB-CED0-A449-E929-59BD4EEA3E51}.Debug|Win32.ActiveCfg = Debug|Win32
+		{91418CEB-CED0-A449-E929-59BD4EEA3E51}.Debug|Win32.Build.0 = Debug|Win32
+		{91418CEB-CED0-A449-E929-59BD4EEA3E51}.Release|Win32.ActiveCfg = Release|Win32
+		{91418CEB-CED0-A449-E929-59BD4EEA3E51}.Release|Win32.Build.0 = Release|Win32
+		{91418CEB-CED0-A449-E929-59BD4EEA3E51}.Template|Win32.ActiveCfg = Release|Win32
+		{91418CEB-CED0-A449-E929-59BD4EEA3E51}.Template|Win32.Build.0 = Release|Win32
+		{A67DA9FF-AD32-4E29-BA6D-089D09C3C81E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A67DA9FF-AD32-4E29-BA6D-089D09C3C81E}.Debug|Win32.Build.0 = Debug|Win32
+		{A67DA9FF-AD32-4E29-BA6D-089D09C3C81E}.Release|Win32.ActiveCfg = Release|Win32
+		{A67DA9FF-AD32-4E29-BA6D-089D09C3C81E}.Release|Win32.Build.0 = Release|Win32
+		{A67DA9FF-AD32-4E29-BA6D-089D09C3C81E}.Template|Win32.ActiveCfg = Template|Win32
+		{A67DA9FF-AD32-4E29-BA6D-089D09C3C81E}.Template|Win32.Build.0 = Template|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
