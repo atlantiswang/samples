@@ -1,0 +1,40 @@
+// COMMath.idl : IDL source for COMMath.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (COMMath.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(B441E881-7662-4984-BB97-AA258A520149),
+	
+		helpstring("IMath Interface"),
+		pointer_default(unique)
+	]
+	interface IMath : IUnknown
+	{
+		[helpstring("method Add")] HRESULT Add(int nAdd1,int nAdd2,int *pnAdd);
+		[helpstring("method Sub")] HRESULT Sub(int nSub1,int nSub2,int *pnSub);
+	};
+
+[
+	uuid(3A9B4BB6-1AF2-4D43-9C87-8060BC6CDBC9),
+	version(1.0),
+	helpstring("COMMath 1.0 Type Library")
+]
+library COMMATHLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(CAFACD34-937A-41AA-A4E8-EDED32971AE9),
+		helpstring("Math Class")
+	]
+	coclass Math
+	{
+		[default] interface IMath;
+	};
+};

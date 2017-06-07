@@ -1,0 +1,4 @@
+LIBRARY COMObject
+EXPORTS
+  MyCreateInstance @1
+  MyCreateInstanceEx @2 

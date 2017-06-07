@@ -1,0 +1,20 @@
+import "objidl.idl";
+[
+  object,
+  uuid(7CFD9F19-0DF7-40e6-8CBF-8B12FF5D10E8)
+]
+interface IMath:IUnknown
+{
+   HRESULT Add(int nAdd1,int nAdd2,int *pnAdd);
+   HRESULT Sub(int nSub1,int nSub2,int *pnSub);
+};
+
+[
+  uuid(F7524EBC-E038-4b37-8E38-545A11F818A4)
+]
+coclass Math
+{
+   interface IMath;
+};
+
+

@@ -1,0 +1,43 @@
+// AutoMath.odl : type library source for AutoMath.exe
+
+// This file will be processed by the MIDL compiler to produce the
+// type library (AutoMath.tlb).
+
+[ uuid(11A8F533-7CA3-4499-A67D-43650488C52F), version(1.0) ]
+library AutoMath
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+
+	//  Primary dispatch interface for CAutoMathDoc
+	
+	[ uuid(2CC4D650-1632-45CF-ABC6-BEB94F58DAC1) ]
+	dispinterface IAutoMath
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CAutoMathDoc)
+			//}}AFX_ODL_PROP
+			
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CAutoMathDoc)
+			[id(1)] void Show();
+			//}}AFX_ODL_METHOD
+
+	};
+
+	//  Class information for CAutoMathDoc
+	
+	[ uuid(758D23FD-9F23-447E-94D8-B22A122119BE) ]
+	coclass Document
+	{
+		[default] dispinterface IAutoMath;
+	};
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

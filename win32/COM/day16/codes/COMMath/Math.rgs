@@ -1,0 +1,24 @@
+HKCR
+{
+	COMMath.Math.1 = s 'Math Class'
+	{
+		CLSID = s '{CAFACD34-937A-41AA-A4E8-EDED32971AE9}'
+	}
+	COMMath.Math = s 'Math Class'
+	{
+		CLSID = s '{CAFACD34-937A-41AA-A4E8-EDED32971AE9}'
+		CurVer = s 'COMMath.Math.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {CAFACD34-937A-41AA-A4E8-EDED32971AE9} = s 'Math Class'
+		{
+			ProgID = s 'COMMath.Math.1'
+			VersionIndependentProgID = s 'COMMath.Math'
+			InprocServer32 = s '%MODULE%'
+			{
+			}
+			'TypeLib' = s '{3A9B4BB6-1AF2-4D43-9C87-8060BC6CDBC9}'
+		}
+	}
+}

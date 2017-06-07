@@ -1,0 +1,167 @@
+一COM组件与ATL库
+  1 CImpMath组件的实现类需要实现IMath和IUnknown两个接口，
+   IMath已经在CImpMath类中实现了。IUnknown接口的实现交给
+    ATL库实现。
+    1.1 添加父类CComObjectRootEx<CComSingleThreadModel>
+    1.2 在组件类中添加接口映射宏
+        BEGIN_COM_MAP(CImpMath)
+          COM_INTERFACE_ENTRY(IMath)
+          COM_INTERFACE_ENTRY(IMath2)
+          ...
+        END_COM_MAP()  
+    1.3 添加创建对象的函数MyCreateInstance
+    1.4 添加导出文件*.def,导出MyCreateInstance函数
+  [ ATL库的特点：
+    1 几乎所有的类都是模板类
+    2 类的声明和实现全部在*.h文件中
+  ] 
+  2 ATL库相关类的介绍
+    2.1 CComObjectRootBase类-
+       包含了一个成员变量：long m_dwRef;
+       包含了一个成员函数：InternalQueryInterface，在函数中
+       实现了接口查询的业务逻辑，被它的子类调用。
+    2.2 CComObjectRootEx<线程模型类>类-
+       包含了两个函数：ULONG InternalAddRef
+                       ULONG InternalRelease 
+       继承自CComObjectRootBase类，并且实现了对引用计数的
+       加减操作，执行加减操作时，由线程模型类来确定是简单的
+       加减操作还是原子锁的加减操作。
+    2.3 CImpMath类-接口查询的映射宏展开后的部分代码
+       HRESULT _InternalQueryInterface(REFIID iid, void** ppvObject) 
+       { 
+          return InternalQueryInterface(this, _GetEntries(), iid, ppvObject);
+       } 
+       在_InternalQueryInterface通过调用从父类继承下来的
+       InternalQueryInterface实现了接口查询。
+       CImpMath类只实现了IMath接口，并没有实现IUnknown接口，
+       仍然是一个抽象类。
+    2.4 CComObject类-继承自CImpMath类，通过模板参数确立这种
+       继承关系。
+       CComObject::AddRef-InternalAddRef
+       CComObject::Release-InternalRelease
+       CComObject::QueryInterface-_InternalQueryInterface 
+       CComObject类实现了IUnknown接口，通过继承实现了IMath
+       接口，是一个实体类。 
+二 类厂
+   引入类厂的目的是使得组件的创建过程统一化，任何组件的创建，
+   可以使用相同的代码。
+   1 类厂-是用于创建其它组件的组件。
+          类厂本身是组件，功能用来创建其它组件的。
+   2 定义支持类厂创建的组件类
+     2.1 组件类CImpMath添加父类CComCoClass
+     2.2 组件类CImpMath添加相关的注册宏
+         DECLARE_REGISTRY_RESOURCE(0)
+     2.3 在实现文件中，dllMain函数的上面添加组件ID与组件实现
+         类CImpMath两者的映射关系
+         BEGIN_OBJECT_MAP(objectMap)
+         OBJECT_ENTRY(CLSID_Math,CImpMath)
+         END_OBJECT_MAP()
+     2.4 将映射关系保存到ATL库的变量_Module中
+        _Module.Init(objectMap,(HINSTANCE)hModule);
+   3 使用类厂的方式创建组件对象
+     3.1 根据组件的ID，获取对应的类厂接口
+         HRESULT GetClassObject(
+          REFCLSID rclsid, //组件的ID
+          REFIID riid,//类厂接口的ID，IID_IClassFactory 
+          LPVOID* ppv//返回IClassFactory接口的地址
+          );
+     3.2 使用类厂接口创建组件对象，返回指定接口
+           CreateInstance( 
+            IUnknown  *pUnkOuter,//聚合接口，设置NULL
+            REFIID riid,//接口ID
+            void  * *ppvObject//返回接口的地址
+           );
+      组件的定义：使用IDL文件和ATL库。
+    ->组件对象的创建：类厂
+    ->组件的使用：可以调用微软封装好的函数,CoCreateInstance
+三 使用向导开发组件
+   1 使用COM向导创建工程，生成了四个导出函数
+     1.1 DllCanUnloadNow
+         询问组件是否可以被卸载？
+     1.2 DllGetClassObject
+         获取指定组件ID的类厂接口，作用类似我们写的
+         MyCreateInstance
+     1.3 DllRegisterServer
+         注册组件，将组件信息添加到注册表
+     1.4 DllUnregisterServer
+         卸载组件，将组件信息从注册表中删除。
+         [卸载组件后，有遗留的信息在注册表中。 ] 
+   2 在类视图中，右击工程，选择New ATL Object菜单，在弹出
+     的对话框中输入组件的名称，点击确定后，自动生成接口和
+     实现类
+   3 右击接口，添加接口函数，并且在实现类中添加接口的实现。
+
+   使用向导开发组件，我们无需了解组件的实现细节，可以重点
+   关注如何实现组件的接口函数。 
+   4 组件的注册
+     在运行对话框中，使用regedit命令打开注册表 。
+     4.1 注册时，组件的主要信息
+         CLSID-组件ID
+         ProgID-程序的ID，比较容易记忆的字符串，唯一的标识
+               了组件。"动态库文件的名称.组件的名称"
+         InprocServer32-组件所在的动态库文件路径
+         信息来自于工程中的*.rgs文件。 
+     4.2 除了开发组件时，编译器自动注册外，微软提供了一个用于注册
+         组件的工具：regsvr32.exe
+         regsvr32 /u  "组件的文件路径" 注册/卸载组件
+     组件一旦注册，路径不要再修改了。如何需要修改，重新注册
+     组件。  
+四 组件的使用    
+   1 组件的使用步骤：
+   1.1 初始化COM库
+       HRESULT CoInitialize(
+         LPVOID pvReserved  //Reserved; must be NULL
+       );
+   1.2 创建对象，返回接口，调用接口函数
+       STDAPI CoCreateInstance(
+       REFCLSID rclsid,     //组件ID
+       LPUNKNOWN pUnkOuter, //聚合接口，设置NULL
+       DWORD dwClsContext,  //组件的运行方式
+       REFIID riid,         //接口ID
+       LPVOID * ppv         //返回对应接口ID的接口地址
+                       // 
+       );
+      组件的运行方式：
+      typedef enum tagCLSCTX 
+     { 
+       CLSCTX_INPROC_SERVER   = 1, 
+       CLSCTX_INPROC_HANDLER  = 2, 
+       CLSCTX_LOCAL_SERVER    = 4 
+       CLSCTX_REMOTE_SERVER   = 16
+      } CLSCTX; 
+     CLSCTX_INPROC_SERVER和CLSCTX_INPROC_HANDLER称为进程内
+     组件，组件文件的后缀是dll。后两种组件的文件后缀是exe，
+     组件本身是可以运行的。CLSCTX_LOCAL_SERVER指的是本地组件
+     CLSCTX_REMOTE_SERVER指的是远程组件。
+        
+   1.3 卸载COM库 
+       void CoUninitialize( );
+   2 核心函数CoCreateInstance()执行过程
+     2.1 根据组件ID，在注册表中查找组件信息，获取到组件所在
+         的文件的路径(InprocServer32)
+     2.2 根据文件路径，加载dll
+     2.3 获取导出函数DllGetClassObject函数地址，并调用它，
+         得到组件对应的类厂接口
+     2.4 通过类厂接口创建组件，根据用户输入的接口ID，返回
+         指定的接口。
+     2.5 调用接口函数，完成相应的功能。
+   3 智能指针类
+ 
+
+   
+   
+  
+    
+       
+        
+
+
+
+
+
+
+
+
+
+
+    

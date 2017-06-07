@@ -1,0 +1,46 @@
+UDP有广播功能
+一 使用MFC的Socket类实现简单的文件传输
+  1 相关类
+  CAsyncSocket类-异步socket类。
+  CSocket类-父类是CAsyncSocket类，同步socket类。
+  2 使用
+  2.1 文件传输服务器端
+      2.1.1 添加用于文件传输的socket类，继承自CAsyncSocket类。
+      2.1.2 在对话框中调用业务逻辑类
+  2.2 文件传输的客户端
+二 FeiQ的例子
+  1 功能分析
+    1.1上线	
+    1.2下线
+    1.3聊天
+    1.4文件传输 
+    1.5掉线检测
+  2 工程中类的介绍
+    2.1 界面
+    2.1.1 CMainFrame类-主框架窗口类
+    2.1.2 CUserView类-用户列表视图
+    2.1.3 CChatView类-聊天视力类
+    2.1.4 CFileSendDlg类-发送文件对话框
+    2.1.5 CFileRecvDlg类-接收文件对话框
+    2.2 业务逻辑类
+    2.2.1 CUserServer类-UDP服务器
+    2.2.2 CUserClient类-UDP客户端
+    2.2.3 CFileServer类-TCP服务器
+    2.2.4 CFileClient类-TCP客户端
+    2.3 其它
+    2.3.1 CFeiQApp类-应用程序类
+    2.3.2 CFileThread类-用户界面子线程的线程类
+    2.3.3 一系列以_tag为前缀的结构体-封装在客户端与服务器传递的数据
+  3 程序的执行过程
+    3.1 用户上线的执行过程
+    3.1.1 在CMainFrame的OnCreate()函数中，调用Initialize()函数。
+    3.2 掉线检测(通常通过发送心跳数据完成该功能)
+    3.2.1 每隔10秒，执行一次OnTimer()函数，发送一次广播数据
+	CMainFrame::OnTimer()
+    3.2.2 每隔20秒，调用CUserView::OnTimer函数
+ 	  如果每个数据项的附加数据为1，将它设置为0。如果为0，则删除该项
+-------------------------------------------------------------------------
+同步与异步：
+同步等待函数完全执行完成。
+异步不等待函数的结果继续往下执行。
+MFC的socket通信中通过函数的参数区别TCP/UDP

@@ -1,0 +1,116 @@
+一 组件基础
+   1 组件升级
+     希望组件增加乘除功能。方式一，在原有的IMath接口中添加
+    新的接口函数，并在实现类CImpMath中实现；行不通!结论：
+    一旦接口发布了(意味着已经有用户使用了)，接口就不能再修改
+    方式二，增加新的接口IMath2，并在实现类中实现。但是如何
+    使用新的接口，解决的办法-接口查询
+   2 接口查询
+     可以从任意的一个接口查询得到另外的任意的接口
+     2.1 接口函数
+     HRESULT QueryInterface(
+       REFIID iid,//接口的ID
+       LPVOID* ppVoid//返回接口的地址
+      )=0;
+     2.2 接口ID
+     接口ID使用GUID来标识。GUID是全局唯一标识符，使用工具
+     GUIDGEN.exe生成。
+     路径：
+    "C:\Program Files\Microsoft Visual Studio\COMMON\Tools"
+     2.3 返回值HRESULT
+     本质上他就是一个LONG型，HRESULT 不是用来返回结算结果的。
+     返回的是函数的执行状态。例如： S_OK、E_NOINTERFACE. 
+     SUCCEED(返回值)/FAILED(返回值)  
+   3 IUnknown接口
+     微软提供的，是在windows平台下，开发组件时，所有接口
+     的父接口，功能与我们写的IBase完全相同。
+     IUnknown::AddRef
+     IUnknown::Release
+     IUnknown::QueryInterface
+     AddRef/Release操作引用计数，作用解决对象的删除问题。
+     QueryInterface解决接口查询。当使用多个接口时，使用该
+     函数可以从一个接口查询得到另外的任意接口。
+   4 IDL-Interface Define Language，接口定义语言
+     4.1 IDL-微软开发的专门用于接口定义的语言，中性语言。
+     4.2 MIDL-IDL语言的编译器。将IDL定义的接口编译生成符合
+         具体计算机语言的格式。
+     4.3 IDL语言的基本格式
+         4.3.1import语句
+         作用类似于#include，导入基本的IDL文件，注意语句
+         后有分号。
+         4.3.2 []描述块儿
+         作用描述后面的接口、组件或者库
+         4.3.3 接口、组件或者库的定义
+         1 接口的父接口必须直接的或者间接的继承自IUnknown
+         2 接口函数的返回值是HRESULT   
+   5 COM接口(DLL接口标准化为COM接口)
+     5.1 使用IDL语言定义接口IMath
+     5.2 设置工程的MIDL选项，编译工程，编译math.idl生成
+         四个文件，我们需要math.h和math_i.c。
+         math.h：包含了C/C++格式的接口定义
+         math_i.c: 包含了C/C++格式接口的ID
+     5.3 继承自IMath接口，添加实现类CImpMath
+     5.4 添加创建对象，返回接口的函数CreateInstance
+     5.5 添加导出文件*.def的方式导出函数
+   6 函数调用时的约定方式
+     约定，函数参数的压栈顺序；函数调用完成后，栈由谁清理。
+     __stdcall-win32 api的约定调用方式，参数的压栈顺序从
+               右至左。栈的清理由函数本身完成。
+     __cdecl-c的约定调用方式，参数的压栈顺序从右至左，栈
+               的清理工作由调用者完成。
+   7 COM接口的接口规范
+     7.1 接口的等价性
+     比较两个接口是否相等，首先分别获取这两个接口的IUnknown
+     接口，然后比较这两个IUnknown接口的地址，如何相等，则表
+     示接口相等。
+     7.2 接口查询的自反性
+     接口查询时，可以查询接口本身
+     7.3 接口查询的互反性
+     接口A可以查询到接口B，接口Ｂ必然可以查询到接口Ａ
+　　 7.4 接口查询的传递性
+     接口A可以查询到接口B，接口B可以查询到接口C，接口A
+     必然可以直接查询到接口C
+     7.5 接口查询的时间无关性
+     在某一时刻，接口A可以查询到接口B，在所有时刻，接口A
+     都可以查询到接口B
+   8 COM接口与COM对象的关系
+     接口是纯虚函数的集合，组件是接口的集合。
+     8.1 在IDL定义接口和COM组件　　  
+         coclass-组件的关键字，而且，组件也是通过GUID来标识
+         在生成的math_i.c文件中，多个组件ID，CLSID_Math。
+     8.2 继承自IMath接口，添加实现类
+         CImpMath类需要实现IMath接口和IUnknown接口，由于
+         任何COM组件都必须实现IUnknown接口，实现过程也都
+         一样， 所以该接口的实现被微软封装到ATL库中。
+   9 COM组件与ATL库
+     ATL库-Active Template Library，活动模板库。方便的
+     开发组件，而不需要知道组件实现的任何细节。vc6.0集成
+     了ATL库的3.0版本，使用ATL库时，只需包含相关头文件。
+     9.1 处理头文件的包含
+        9.1.1 在实现文件中，dllMain函数的前面，加上变量
+         的定义：CComModule _Module;
+        9.1.2 在项目的头文件stdafx.h中,包含头文件
+            #include <atlbase.h>
+            extern CComModule _Module;
+            #include <atlcom.h>
+     9.2 相关类
+         CComObjectRootEx<表示线程模式的类>
+         CComSingleThreadModel/CComMultiThreadModel-组件
+         的实现类CImpMath继承自CComObjectRootEx
+     
+             
+     
+ 
+    
+         
+         
+     
+
+
+
+
+
+
+  
+  
+     

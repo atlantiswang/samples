@@ -1,0 +1,25 @@
+HKCR
+{
+	DispMath.Math.1 = s 'Math Class'
+	{
+		CLSID = s '{28FB6B9D-5080-40A4-893A-C3EEF0C10BAE}'
+	}
+	DispMath.Math = s 'Math Class'
+	{
+		CLSID = s '{28FB6B9D-5080-40A4-893A-C3EEF0C10BAE}'
+		CurVer = s 'DispMath.Math.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {28FB6B9D-5080-40A4-893A-C3EEF0C10BAE} = s 'Math Class'
+		{
+			ProgID = s 'DispMath.Math.1'
+			VersionIndependentProgID = s 'DispMath.Math'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+			}
+			'TypeLib' = s '{4735A2F8-4D95-486B-9609-ADFDC4632BBA}'
+		}
+	}
+}

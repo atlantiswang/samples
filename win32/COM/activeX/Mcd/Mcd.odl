@@ -1,0 +1,74 @@
+// Mcd.odl : type library source for ActiveX Control project.
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (Mcd.tlb) that will become a resource in
+// Mcd.ocx.
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(48D1CF11-5658-4BF3-BB66-8F81A860567E), version(1.0),
+  helpfile("Mcd.hlp"),
+  helpstring("Mcd ActiveX Control module"),
+  control ]
+library MCDLib
+{
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+	//  Primary dispatch interface for CMcdCtrl
+
+	[ uuid(5BBD7B01-984F-4771-AE3B-1E285B1812B4),
+	  helpstring("Dispatch interface for Mcd Control"), hidden ]
+	dispinterface _DMcd
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CMcdCtrl)
+			[id(1)] boolean Direction;
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CMcdCtrl)
+			[id(2)] void SetNumbers(long x, long y);
+			//}}AFX_ODL_METHOD
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+	};
+
+	//  Event dispatch interface for CMcdCtrl
+
+	[ uuid(8B094327-2670-4850-A44F-326BB1B19BDA),
+	  helpstring("Event interface for Mcd Control") ]
+	dispinterface _DMcdEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			// NOTE - ClassWizard will maintain event information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_EVENT(CMcdCtrl)
+			[id(DISPID_CLICK)] void Click();
+			[id(DISPID_DBLCLICK)] void DblClick();
+			[id(1)] void MyMsg();
+			//}}AFX_ODL_EVENT
+	};
+
+	//  Class information for CMcdCtrl
+
+	[ uuid(5C3EE2FD-5B12-4DE9-A629-6434D10C4C1B),
+	  helpstring("Mcd Control"), control ]
+	coclass Mcd
+	{
+		[default] dispinterface _DMcd;
+		[default, source] dispinterface _DMcdEvents;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};

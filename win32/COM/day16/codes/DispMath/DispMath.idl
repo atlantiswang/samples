@@ -1,0 +1,40 @@
+// DispMath.idl : IDL source for DispMath.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (DispMath.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(A1199596-C22C-4468-804C-C7C40A1D03D5),
+		dual,
+		helpstring("IMath Interface"),
+		pointer_default(unique)
+	]
+	interface IMath : IDispatch
+	{
+		[id(1), helpstring("method Add")] HRESULT Add(int nAdd1,int nAdd2,int *pnAdd);
+		[id(2), helpstring("method Sub")] HRESULT Sub(int nSub1,int nSub2,int *pnSub);
+	};
+
+[
+	uuid(4735A2F8-4D95-486B-9609-ADFDC4632BBA),
+	version(1.0),
+	helpstring("DispMath 1.0 Type Library")
+]
+library DISPMATHLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(28FB6B9D-5080-40A4-893A-C3EEF0C10BAE),
+		helpstring("Math Class")
+	]
+	coclass Math
+	{
+		[default] interface IMath;
+	};
+};

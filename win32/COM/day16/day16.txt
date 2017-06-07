@@ -1,0 +1,134 @@
+一 智能指针类
+     CComPtr<接口>类-使用智能指针类，无需考虑接口的释放。
+     CComQIPtr<接口>类-带接口查询功能的智能指针类。能够
+     将同一组件的不同接口进行赋值操作 = 。
+     CComQIPtr<接口>类，接口不能是IUnknown接口 
+二 接口调度
+   在不包含头文件的情况下，调用接口函数。
+   例如：不包含math.h，调用IMath接口的Add/Sub函数。
+   1 与接口调度相关的接口
+   IDispatch接口：使用该接口的函数可以调用其它接口的函数，
+   而不用包含其它接口的头文件。
+   该接口包含的接口函数：
+   GetIDsOfNames-根据接口函数的名称，得到接口函数的编号。
+   Invoke-根据接口函数的编号，调用接口函数。
+   2 COM数据类型
+     2.1 BSTR-字符串类型
+     2.2 VARIANT-可变类型
+     2.3 SAFEARRAY-安全数组
+   3 BSTR-字符串类型
+     3.1 创建字符串
+         SysAllocString
+     3.2 释放字符串
+         SysFreeString
+     3.3 使用BSTR的封装类
+         ATL库中提供的封装类,CComBSTR
+         标准c++库提供的封装类，_bstr_t 
+    4 VARIANT-可变类型
+      4.1 是一个结构体，包含两部分。
+      typedef struct tagVARIANT  {
+      VARTYPE vt;//表示数据类型
+      union {   //表示值的各种数据的联合体
+       ... 
+       } 
+      }
+      4.2 使用VARIANT的封装类
+      ATL库中提供的封装类,CComVariant
+      标准c++库提供的封装类，_variant_t  
+     5 SAFEARRAY-安全数组,作用是用于传递数组类型的数据，但是
+       通常不会直接作为函数的参数，而是使用VARIANT表示它。
+       5.1 创建安全数组
+           SAFEARRAY SafeArrayCreate( 
+            VARTYPE  vt,//数组类型                     
+            unsigned int  cDims,//数组的维数             
+            SAFEARRAYBOUND *  rgsabound//结构体数组的指针  
+           );
+            //用于保存数组维信息的结构
+           typedef struct tagSAFEARRAYBOUND {
+             unsigned long cElements;//包含的元素个数
+             long lLbound;//起始索引值
+            } SAFEARRAYBOUND;
+
+
+       5.2 赋值
+           HRESULT SafeArrayPutElement( 
+             SAFEARRAY *  psa, //安全数组的地址 
+             long *  rgIndices,//数组元素的位置 
+             void FAR*  pv //数组元素的值        
+           );
+
+       5.3 取值
+           SafeArrayGetElement，它的参数与赋值时完全相同
+       5.4 释放
+           SafeArrayDestroy
+
+三 开发支持接口调度的组件
+   1 使用COM向导创建工程。
+   2 右击工程，添加New ATL Object时，在选项中，选择默认的
+     "dual"选项。
+   3 添加接口函数，并且在实现类中实现该函数
+   4 工程中代码的变化：
+     4.1 IDL文件的变化
+        接口IMath父接口由原来的IUnknown变成现在的IDispatch
+        接口函数增加了相应的编号 
+     4.2 CMath组件实现类的变化  
+        父类多了IDispatchImpl，作用实现IDispatch接口  
+      CMath:IMath:IDispatch:IUnknown 
+      -CMath实现3个接口，IMath接口的实现，IUnknown接口是由
+       CComObject实现的。继承自IDispatchImpl为了实现IDispatch
+       接口。 
+   5 使用支持接口调度的组件(不能包含相关的任何头文件)
+     5.0 创建组件对象，返回IDispatch接口
+     5.1 IDispatch::GetIDsOfNames
+        根据接口函数的名称，得到接口函数的编号
+        HRESULT GetIDsOfNames( 
+         REFIID riid,//IID_NULL 
+         LPOLESTR* rgszNames,//接口函数名称字符串数组的地址 
+         UINT cNames,// 数组的长度
+         LCID lcid, //语言ID，LOCAL_SYSTEM_DEFAULT
+         DISPID* rgdispid //返回接口函数的编号
+        );
+
+ 
+     5.2 IDispatch::Invoke
+        根据接口函数的编号，调用该接口函数 
+        HRESULT Invoke( 
+          DISPID  dispIdMember, //接口函数的编号     
+          REFIID  riid, //保留参数，IID_NULL             
+          LCID  lcid, //语言ID，LOCAL_SYSTEM_DEFAULT               
+          WORD  wFlags,//DISPATCH_METHOD,表示是接口函数              
+          DISPPARAMS *  pDispParams,//被调用的接口函数参数  
+          VARIANT FAR*  pVarResult,//被调用的接口函数返回值  
+          EXCEPINFO FAR*  pExcepInfo,//异常信息  
+          unsigned int FAR*  puArgErr //错误代码 
+          );
+    注意：别忘了COM库的初始化
+四 自动化服务
+   1 自动化服务是基于接口调度。
+   2 概念：指的是除软件本身可以直接运行外，还可以通过接口的
+     方式对外为其它软件提供服务。
+     服务器，提供自动化服务的软件
+     客户端，使用自动化服务的软件
+   3 客户端的使用步骤(以Word为例，类型库文件：msword.olb)
+     3.1 创建工程后，注意COM库的初始化
+     3.2 导入服务器的类型库文件 
+     3.3 创建自动化服务器对象
+         CreateDispatch(ProgID);    
+     3.4 使用类的成员函数完成相应的功能。
+   4 服务器端的使用步骤
+     4.1 使用MFC向导创建工程，需要有文档视图架构的支持，选中
+         "Automation"选项，在生成的类视图中多了一个接口
+     4.2 在接口上添加接口函数
+     4.3 在文档类中实现接口函数        
+五 ActiveX控件(ocx控件)
+   1 ActiveX控件是基于接口调度 
+
+      
+
+     
+
+
+
+
+       
+ 
