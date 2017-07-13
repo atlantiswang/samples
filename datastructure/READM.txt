@@ -1,0 +1,5 @@
+LIST:
+链表的建立：三个NODE指针
+pHead为最后的头指针
+pMove为移动指针，移动着指向新建立的NODE
+pCreate为新建节点用的指针。
