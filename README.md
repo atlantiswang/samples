@@ -20,9 +20,8 @@
   Remote Server Name: computer name or IP  
   when a thread is debug, others also run slowly.  
 
-* vs  shortcutkey  
-  函数提示：ctrl+shift+space  
-  找到对应的.h/.cpp文件：Alt + O  
+* vs  由def文件生成lib(不需要dll,既可以生成32位，也可以生成64位)
+  lib /machine:ix86 /def:sqlite3.def
   
 * makefile  
   Build Command Line: nmake
