@@ -38,7 +38,7 @@ qt下载： www.qt.io/download-open-source/
 
 git的分支不是用来做定制的。而是用来帮助协同工作的。版本定制请在代码中使用宏开关。这样才能更高效地利用git且减少工作量。
 * git init  
- git config --global user.name "Your Name"
+ git config --global user.name "Your Name"  
  git config --global user.email "email@example.com"
 
 * git add  
