@@ -97,7 +97,7 @@ driver & server programm
 
 | type          | style         | note  |
 | ------------- | ------------- | ----- |
-| object        | {"key":value} | 值 可以做开头 可以重复|
+| object        | {"key":value, "key2":value} | 值 可以做开头|
 | array         | [value1,value2]| 值 可以做开头 | 
 | num           | 1 or 1.1      | 值  |
 | string        | "string"      | 键、值 |
