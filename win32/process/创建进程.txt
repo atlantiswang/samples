@@ -1,0 +1,9 @@
+system();阻塞
+下面的非阻塞
+WinExce -早期16位 最简单，只可执行exe
+ShellExecute - Shell操作 可以执行任意的文件，以默认的程序打开
+CreateProcess - 目前最多使用/vfork+exec()函数族 
+
+WinExec("D:\\Program Files\\Test\\Test.exe",SW_SHOWMAXIMIZED); 
+ShellExecute(NULL,"open","C:\\Test.txt",NULL,NULL,SW_SHOWNORMAL); 
+bool fRet=CreateProcess("D:\\putty.exe",NULL,NULL,FALSE,NULL,NULL,NULL,NULL,&si,&pi)
