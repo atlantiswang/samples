@@ -97,9 +97,9 @@ driver & server programm
 
 | type          | style         | note  |
 | ------------- | ------------- | ----- |
-| object        | {"key":value, "key2":value} | 值 可以做开头|
-| array         | [value1,value2]| 值 可以做开头 | 
-| num           | 1 or 1.1      | 值  |
-| string        | "string"      | 键、值 |
-| logic value   | true or false | 值 |
-| null          | null          | 值 |
+| object        | {"key":value, "key":value} | value 可以做开头|
+| array         | [value,value]| value 可以做开头 | 
+| num           | 1 or 1.1      | value  |
+| string        | "string"      | key、value |
+| logic value   | true or false | value |
+| null          | null          | value |
