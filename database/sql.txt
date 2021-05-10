@@ -1,307 +1,308 @@
-SQLÓïÑÔ¹²·ÖÎªËÄ´óÀà£ºÊı¾İ²éÑ¯ÓïÑÔDQL£¬Êı¾İ²Ù×İÓïÑÔDML£¬Êı¾İ¶¨ÒåÓïÑÔDDL£¬Êı¾İ¿ØÖÆÓïÑÔDCL¡£
+###SQLè¯­è¨€å…±åˆ†ä¸ºå››å¤§ç±»ï¼šæ•°æ®æŸ¥è¯¢è¯­è¨€DQLï¼Œæ•°æ®æ“çºµè¯­è¨€DMLï¼Œæ•°æ®å®šä¹‰è¯­è¨€DDLï¼Œæ•°æ®æ§åˆ¶è¯­è¨€DCLã€‚
 
-from×Ó¾ä
+## DQL
+fromå­å¥
 select id,salary,nvl(manager_id,-1) from s_emp;
-8.Êı¾İµÄÅÅÖØÏÔÊ¾ distinct
+8.æ•°æ®çš„æ’é‡æ˜¾ç¤º distinct
 //select salary from s_emp;
 select distinct salary from s_emp;
-¶à×Ö¶ÎÅÅÖØ:µ±ËùÓĞ×Ö¶ÎµÄÖµÏàÍ¬Ê±ÅÅ³ı
+å¤šå­—æ®µæ’é‡:å½“æ‰€æœ‰å­—æ®µçš„å€¼ç›¸åŒæ—¶æ’é™¤
 //select salary,title from s_emp;
 select distinct salary,title from s_emp;
-ÌØÊâµÄwhereÌõ¼ş
+ç‰¹æ®Šçš„whereæ¡ä»¶
 select id,salary from s_emp;
-select id,salary from s_emp where 1=1;//ÓëÉÏÃæµÄÒ»Ñù
-select id,salary from s_emp where 1=2;//Ã»ÓĞÊı¾İ1=2,ËùÒÔÒ»ÌõÊı¾İ¶¼Ã»ÓĞ
-Êı×ÖÀàĞÍµÄÊı¾İµÄÏŞÖÆ
-ÁĞ³öÔÂĞ½´óÓÚ1400µÄÔ±¹¤µÄid first_name salary
+select id,salary from s_emp where 1=1;//ä¸ä¸Šé¢çš„ä¸€æ ·
+select id,salary from s_emp where 1=2;//æ²¡æœ‰æ•°æ®1=2,æ‰€ä»¥ä¸€æ¡æ•°æ®éƒ½æ²¡æœ‰
+æ•°å­—ç±»å‹çš„æ•°æ®çš„é™åˆ¶
+åˆ—å‡ºæœˆè–ªå¤§äº1400çš„å‘˜å·¥çš„id first_name salary
 select id,first_name from s_emp where salary>1400;//=,!=,<
-select id from s_emp where first_name='Mai';//Èç¹û²»¼Óµ¥ÒıºÅ£¬¾Í°ÑMaiµ±×÷Ò»¸ö×Ö¶Î
-×Ö·û´®µÄÖµÊÇÇø·Ö´óĞ¡Ğ´µÄ
-sqlÓï¾ä²»Çø·Ö´óĞ¡Ğ´
-sqlÌá¹©µÄÔËËã·û£º
-a.±í´ïÒ»¸ö±ÕÇø¼ä£ºwhere ×Ö¶Î between a and b;
+select id from s_emp where first_name='Mai';//å¦‚æœä¸åŠ å•å¼•å·ï¼Œå°±æŠŠMaiå½“ä½œä¸€ä¸ªå­—æ®µ
+å­—ç¬¦ä¸²çš„å€¼æ˜¯åŒºåˆ†å¤§å°å†™çš„
+sqlè¯­å¥ä¸åŒºåˆ†å¤§å°å†™
+sqlæä¾›çš„è¿ç®—ç¬¦ï¼š
+a.è¡¨è¾¾ä¸€ä¸ªé—­åŒºé—´ï¼šwhere å­—æ®µ between a and b;
 select id,first_name from s_emp where salary between 1500 and 2000;
-b.±í´ïÒ»¸öÖµ³öÏÖÔÚÒ»¸öÁĞ±íÖĞ
-where ×Ö¶Î in(1,2,7);
-select id,first_name,salary from s_emp where salary in(1400,2000,2500);//°Ñ³öÏÖ¸ÅÂÊ¸ßµÄ·ÅÇ°
-c.Ä£ºı²éÑ¯
-where ×Ö¶Î like 'Í¨Åä´®'
-Êı¾İ¿âÖĞ´ú±í0-n¸öÈÎÒâ×Ö·ûµÄÊÇ%¡¢´ú±íÒ»¸öÈÎÒâ×Ö·ûµÄÊÇ_
+b.è¡¨è¾¾ä¸€ä¸ªå€¼å‡ºç°åœ¨ä¸€ä¸ªåˆ—è¡¨ä¸­
+where å­—æ®µ in(1,2,7);
+select id,first_name,salary from s_emp where salary in(1400,2000,2500);//æŠŠå‡ºç°æ¦‚ç‡é«˜çš„æ”¾å‰
+c.æ¨¡ç³ŠæŸ¥è¯¢
+where å­—æ®µ like 'é€šé…ä¸²'
+æ•°æ®åº“ä¸­ä»£è¡¨0-nä¸ªä»»æ„å­—ç¬¦çš„æ˜¯%ã€ä»£è¡¨ä¸€ä¸ªä»»æ„å­—ç¬¦çš„æ˜¯_
 select id,first_name,salary from s_emp where first_name like '%a%';
-²é¿´Êı¾İ¿âÖĞÓĞ¶àÉÙ±í£º
+æŸ¥çœ‹æ•°æ®åº“ä¸­æœ‰å¤šå°‘è¡¨ï¼š
 desc user_tables;
-select table_name from user_tables where table_name like 'S_%';//_µ±³ÉÁËÈÎÒâÒ»×Ö·ûÁË
+select table_name from user_tables where table_name like 'S_%';//_å½“æˆäº†ä»»æ„ä¸€å­—ç¬¦äº†
 select table_name from user_tables where table_name like 'S\_%' escape '\';
-d.ÈçºÎÅĞ¶ÏÒ»¸ö×Ö¶ÎµÄÖµÊÇ·ñÊÇNULLÖµ
-where ×Ö¶Î is NULL;//Ö»ÄÜÕâÃ´À´ÅĞ¶Ï
+d.å¦‚ä½•åˆ¤æ–­ä¸€ä¸ªå­—æ®µçš„å€¼æ˜¯å¦æ˜¯NULLå€¼
+where å­—æ®µ is NULL;//åªèƒ½è¿™ä¹ˆæ¥åˆ¤æ–­
 select id,first_name,salary from s_emp where manager_id is NULL;
-Âß¼­Ìõ¼şÔËËã·û:and or not
+é€»è¾‘æ¡ä»¶è¿ç®—ç¬¦:and or not
 select id,first_name,salary from s_emp where salary>=1400 and salary <=2000;
 not ../is not null
 select id,first_name,commission_pct from s_emp where commission_pct is not null;
-Ìõ¼şµÄ×éºÏË³Ğò
+æ¡ä»¶çš„ç»„åˆé¡ºåº
 select id,first_name,salary from s_emp where salary>1000 dept_id=41 or dept_id=42;
-ÉÏÃæµÄÈİÒ×»ì¡£×îºÃ¼ÓÒ»¸öÀ¨ºÅ
+ä¸Šé¢çš„å®¹æ˜“æ··ã€‚æœ€å¥½åŠ ä¸€ä¸ªæ‹¬å·
 select id,first_name,salary from s_emp where (salary>1000 dept_id=41) or dept_id=42;
-order by ×Ó¾ä Êı¾İÅÅĞò
-order by³öÏÖÔÚsqlÓï¾ä×îºó
-order by ÅÅĞò±ê×¼ ÅÅĞò·½Ê½
-ÅÅĞò·½Ê½£ºÉıĞò£¨Ä¬ÈÏµÄË³Ğò,Ò²½Ğ×ÔÈ»Ë³Ğò¡¢×ÖµäË³Ğò£©asc¡¢½µĞò desc
+order by å­å¥ æ•°æ®æ’åº
+order byå‡ºç°åœ¨sqlè¯­å¥æœ€å
+order by æ’åºæ ‡å‡† æ’åºæ–¹å¼
+æ’åºæ–¹å¼ï¼šå‡åºï¼ˆé»˜è®¤çš„é¡ºåº,ä¹Ÿå«è‡ªç„¶é¡ºåºã€å­—å…¸é¡ºåºï¼‰ascã€é™åº desc
 select id,first_name,salary from s_emp order by salary;
 select id,first_name,manager_id from s_emp order by manager_id desc;
-//nullÖµÔÚÅÅĞòÖĞµ±×î´óÖµ´¦Àí
-¶à×Ö¶ÎÅÅĞò£ºµ±°´ÕÕµÚÒ»¸öÅÅĞòÊ±£¬Èç¹ûµÚÒ»¸ö×Ö¶ÎµÄÖµÏàÍ¬£¬ÎÒÃÇ¿ÉÒÔÆôÓÃµÚ¶ş¸ö×Ö¶Î£¬Èç¹ûµÚ¶ş¸öÒ²ÏàÍ¬£¬¿ÉÒÔÆôÓÃµ½µÚÈı¸ö
+//nullå€¼åœ¨æ’åºä¸­å½“æœ€å¤§å€¼å¤„ç†
+å¤šå­—æ®µæ’åºï¼šå½“æŒ‰ç…§ç¬¬ä¸€ä¸ªæ’åºæ—¶ï¼Œå¦‚æœç¬¬ä¸€ä¸ªå­—æ®µçš„å€¼ç›¸åŒï¼Œæˆ‘ä»¬å¯ä»¥å¯ç”¨ç¬¬äºŒä¸ªå­—æ®µï¼Œå¦‚æœç¬¬äºŒä¸ªä¹Ÿç›¸åŒï¼Œå¯ä»¥å¯ç”¨åˆ°ç¬¬ä¸‰ä¸ª
 select id,first_name,salary from s_emp order by salary asc,first_name desc;
 
-µ¥ĞĞº¯Êı£º
-Õë¶ÔsqlÓ°ÏìµÄÃ¿Ò»ĞĞÊı¾İ¶¼×ö´¦Àí£¬Ã¿Ò»ĞĞ¶¼»á·µ»ØÒ»¸ö½á¹û¡£sqlÓï¾äÓ°Ïì¶àÉÙĞĞ£¬¾Í·µ»Ø¶àÉÙ¸ö½á¹û
-×éº¯Êı£º
-Õë¶ÔÒ»×éÊı¾İ×ö´¦Àí£¬·µ»ØÒ»¸ö½á¹û¡£ÎŞÂÛsqlÓï¾äÓ°Ïì¶àÉÙĞĞ£¬¶¼·µ»ØÒ»¸ö½á¹û¡£
+å•è¡Œå‡½æ•°ï¼š
+é’ˆå¯¹sqlå½±å“çš„æ¯ä¸€è¡Œæ•°æ®éƒ½åšå¤„ç†ï¼Œæ¯ä¸€è¡Œéƒ½ä¼šè¿”å›ä¸€ä¸ªç»“æœã€‚sqlè¯­å¥å½±å“å¤šå°‘è¡Œï¼Œå°±è¿”å›å¤šå°‘ä¸ªç»“æœ
+ç»„å‡½æ•°ï¼š
+é’ˆå¯¹ä¸€ç»„æ•°æ®åšå¤„ç†ï¼Œè¿”å›ä¸€ä¸ªç»“æœã€‚æ— è®ºsqlè¯­å¥å½±å“å¤šå°‘è¡Œï¼Œéƒ½è¿”å›ä¸€ä¸ªç»“æœã€‚
 select count(id) from s_emp where id<1;
-µ¥ĞĞº¯Êı£º
-upper:±ä´óĞ´
+å•è¡Œå‡½æ•°ï¼š
+upper:å˜å¤§å†™
 select upper(first_name) from s_emp where id>1;
-ÎªÁË²âÊÔµ¥ĞĞº¯Êı£¬ÒıÈëÁË²âÊÔ±ídual£¬´Ë±íµ¥ĞĞµ¥ÁĞ
-´¦Àí×Ö·û´®µÄµ¥ĞĞº¯Êı
+ä¸ºäº†æµ‹è¯•å•è¡Œå‡½æ•°ï¼Œå¼•å…¥äº†æµ‹è¯•è¡¨dualï¼Œæ­¤è¡¨å•è¡Œå•åˆ—
+å¤„ç†å­—ç¬¦ä¸²çš„å•è¡Œå‡½æ•°
 upper(par1)
 lower(par1)
 select lower('HELLO') from dual;
-initcap(par1)//Ê××ÖÄ¸´ó×Ö
+initcap(par1)//é¦–å­—æ¯å¤§å­—
 length(par1)
-substr(par1,par2,par3);par1 Òª´¦ÀíµÄÊı¾İ par2´ÓÊ²Ã´Î»ÖÃ¿ªÊ¼½ØÈ¡£¬±àºÅ´Ó1¿ªÊ¼ par3½ØÈ¡¶àÉÙ¸ö×Ö·û
-select substr('hello',1,2) from dual; par2¿ÉÒÔÊÇ¸ºÊı£º-1´ú±í×îºóÒ»¸ö×Ö·û
+substr(par1,par2,par3);par1 è¦å¤„ç†çš„æ•°æ® par2ä»ä»€ä¹ˆä½ç½®å¼€å§‹æˆªå–ï¼Œç¼–å·ä»1å¼€å§‹ par3æˆªå–å¤šå°‘ä¸ªå­—ç¬¦
+select substr('hello',1,2) from dual; par2å¯ä»¥æ˜¯è´Ÿæ•°ï¼š-1ä»£è¡¨æœ€åä¸€ä¸ªå­—ç¬¦
 select substr(first_name,2,3) from s_emp;
-select substr(first_name,-3,3) from s_emp;//°ÑºóÈı¸ö×Ö·ûÏÔÊ¾³öÀ´
-concat(par1,par2) Á¬½Ó×Ö·û´®£¬ÓÃµÄºÜÉÙ£¬ÒòÎªÓĞ||¶øÇÒ±Èconcat·½±ã
+select substr(first_name,-3,3) from s_emp;//æŠŠåä¸‰ä¸ªå­—ç¬¦æ˜¾ç¤ºå‡ºæ¥
+concat(par1,par2) è¿æ¥å­—ç¬¦ä¸²ï¼Œç”¨çš„å¾ˆå°‘ï¼Œå› ä¸ºæœ‰||è€Œä¸”æ¯”concatæ–¹ä¾¿
 select first_name||last_name from s_emp;
 select concat(first_name,last_name) from s_emp;
-´¦Àí×Ö·û´®×ª»»³ÉÊı×ÖµÄº¯Êı
+å¤„ç†å­—ç¬¦ä¸²è½¬æ¢æˆæ•°å­—çš„å‡½æ•°
 to_number
 select id,first_name from s_emp where id=1;//id='1';//id=to_number('1');
-¸ñÊ½×ª»»º¯Êı
+æ ¼å¼è½¬æ¢å‡½æ•°
 to_char(par1,par2)
-par2ÊÇÏÔÊ¾¸ñÊ½£¬¿ÉÒÔÊ¡ÂÔ£¬Ê¡ÂÔÊ±´ú±í°ÑÒ»¸öÀàĞÍ±ä³É×Ö·û´®ÀàĞÍ
-par2ÒÔfm¿ªÍ· formatµÄËõĞ´
-9  0-9µÄÈÎÒâÊı¾İ//Ğ¡ÊıµãÇ°´ú±í0-9£¬Ğ¡Êıµãºó´ú±í1-9
-0  Ç¿ÖÆÏÔÊ¾Ç°µ¼Áã//Ğ¡Êıµãºó´ú±í1-9
-$  ÃÀÔª·ûºÅ
-L  ±¾µØ»õ±Ò·ûºÅ//ºÍÏµÍ³µÄ±¾µØÓïÑÔÏà¹Ø
-,  ·Ö¸ô·ûºÅ
-.  Ğ¡Êıµã
+par2æ˜¯æ˜¾ç¤ºæ ¼å¼ï¼Œå¯ä»¥çœç•¥ï¼Œçœç•¥æ—¶ä»£è¡¨æŠŠä¸€ä¸ªç±»å‹å˜æˆå­—ç¬¦ä¸²ç±»å‹
+par2ä»¥fmå¼€å¤´ formatçš„ç¼©å†™
+9  0-9çš„ä»»æ„æ•°æ®//å°æ•°ç‚¹å‰ä»£è¡¨0-9ï¼Œå°æ•°ç‚¹åä»£è¡¨1-9
+0  å¼ºåˆ¶æ˜¾ç¤ºå‰å¯¼é›¶//å°æ•°ç‚¹åä»£è¡¨1-9
+$  ç¾å…ƒç¬¦å·
+L  æœ¬åœ°è´§å¸ç¬¦å·//å’Œç³»ç»Ÿçš„æœ¬åœ°è¯­è¨€ç›¸å…³
+,  åˆ†éš”ç¬¦å·
+.  å°æ•°ç‚¹
 select to_char(salary,'fm$099,999.00') from s_emp;
-Êı×Ö´¦Àíº¯Êı
-round ËÄÉáÎåÈë
-trunc ½ØÈ¡º¯Êı
+æ•°å­—å¤„ç†å‡½æ•°
+round å››èˆäº”å…¥
+trunc æˆªå–å‡½æ•°
 select round(9.58) from dual;//10
 select round(9.58,1) from dual;//9.6
 select trunc(9.585,2) from dual;//9.58
-º¯ÊıÇ¶Ì×£º°ÑÒ»¸öº¯ÊıµÄ·µ»ØÖµ×÷ÎªÁíÒ»¸öº¯ÊıµÄ²ÎÊı
-¶à±í²éÑ¯£º
+å‡½æ•°åµŒå¥—ï¼šæŠŠä¸€ä¸ªå‡½æ•°çš„è¿”å›å€¼ä½œä¸ºå¦ä¸€ä¸ªå‡½æ•°çš„å‚æ•°
+å¤šè¡¨æŸ¥è¯¢ï¼š
 select s_emp.id,first_name,dept_id,name from s_emp,s_dept;
-//µ«ÕâÑù×ö³öÀ´µÄÊÇµÏ¿¨¶û»ı£¬²»·ûºÏÒªÇó
+//ä½†è¿™æ ·åšå‡ºæ¥çš„æ˜¯è¿ªå¡å°”ç§¯ï¼Œä¸ç¬¦åˆè¦æ±‚
 select s_emp.id,first_name,dept_id,name from s_emp,s_dept where s_emp.id=s_dept.id;
 select s_dept.name,s_region.name from s_dept,s_region where region_id=s_region.id;
-Ê¹ÓÃ±íµÄ±ğÃûÀ´¼ò»¯sql
-Ò»µ©¸ø±íÆğÁË±ğÃû ±íÔ­À´µÄÃû×Ö²»ÔÙÓĞĞ§¡£
+ä½¿ç”¨è¡¨çš„åˆ«åæ¥ç®€åŒ–sql
+ä¸€æ—¦ç»™è¡¨èµ·äº†åˆ«å è¡¨åŸæ¥çš„åå­—ä¸å†æœ‰æ•ˆã€‚
 select d.name,r.name from s_dept d,s_region r where region_id=r.id;
-Ö´ĞĞË³Ğò£ºfrom¡¢where¡¢select
-¶à±í²éÑ¯µÄÁíÒ»ÖÖĞ´·¨£º
-a ±í join b ±í on Á¬½ÓÌõ¼ş;
-select d.name,r.name from s_dept join s_region on region_id=s_region.id;//²»³£ÓÃ£¬¿ÉÒÔ²»¼Ç
+æ‰§è¡Œé¡ºåºï¼šfromã€whereã€select
+å¤šè¡¨æŸ¥è¯¢çš„å¦ä¸€ç§å†™æ³•ï¼š
+a è¡¨ join b è¡¨ on è¿æ¥æ¡ä»¶;
+select d.name,r.name from s_dept join s_region on region_id=s_region.id;//ä¸å¸¸ç”¨ï¼Œå¯ä»¥ä¸è®°
 select first_name,name 
 from s_emp e join s_dept d 
 on dept_id=id;
-¶à±í²éÑ¯µÄ¹Ø¼ü¾ÍÊÇÕÒ³öÁ½ÕÅ±íµÄ¹ØÏµ
-ÉÏÃæ½²µÄ²éÑ¯ Á½¸ö±íµÄÁ¬½ÓÌõ¼ş¶¼ÊÇÓÃµÈºÅ±í´ïµÄ£¬ÕâÖÖÁ¬½Ó½ĞµÈÖµÁ¬½Ó¡£
-·ÇµÈÖµÁ¬½Ó
-±í´ïÁ½ÕÅ±íµÄÁ¬½ÓÌõ¼ş²»Ê¹ÓÃµÈºÅ
-desc salgrade;//¹¤×Ê¼¶±ğ±í
+å¤šè¡¨æŸ¥è¯¢çš„å…³é”®å°±æ˜¯æ‰¾å‡ºä¸¤å¼ è¡¨çš„å…³ç³»
+ä¸Šé¢è®²çš„æŸ¥è¯¢ ä¸¤ä¸ªè¡¨çš„è¿æ¥æ¡ä»¶éƒ½æ˜¯ç”¨ç­‰å·è¡¨è¾¾çš„ï¼Œè¿™ç§è¿æ¥å«ç­‰å€¼è¿æ¥ã€‚
+éç­‰å€¼è¿æ¥
+è¡¨è¾¾ä¸¤å¼ è¡¨çš„è¿æ¥æ¡ä»¶ä¸ä½¿ç”¨ç­‰å·
+desc salgrade;//å·¥èµ„çº§åˆ«è¡¨
 
-Ò»ÕÅ±íÖĞÓĞ¶à²ãº¬ÒåµÄÊı¾İ ¾ÍĞèÒªÂß¼­ÉÏ°ÑÒ»ÕÅ±í¿´³É¶àÕÅ±í¡£//ÖØµã
+ä¸€å¼ è¡¨ä¸­æœ‰å¤šå±‚å«ä¹‰çš„æ•°æ® å°±éœ€è¦é€»è¾‘ä¸ŠæŠŠä¸€å¼ è¡¨çœ‹æˆå¤šå¼ è¡¨ã€‚//é‡ç‚¹
 select distinct m.id,m.first_name
 from s_emp e,s_emp m where e.manager_id=m.id;
-µÈÖµÁ¬½Ó ·ÇµÈÖµÁ¬½Ó ×ÔÁ¬½Ó
-ÕâĞ©Á¬½Ó¶¼·ûºÏwhereÌõ¼şµÄÊı¾İ¾Í±»Ñ¡ÖĞ ²»·ûºÏwhereÌõ¼şµÄÊı¾İ¾Í±»¹ıÂËµô£¬Í³³ÆÎªÄÚÁ¬½Ó
-ÍâÁ¬½Ó£ºÍâÁ¬½ÓµÄ½á¹û¼¯=ÄÚÁ¬½ÓµÄ½á¹û¼¯+Æ¥Åä²»ÉÏµÄ¼ÇÂ¼£¨Ò»¸öÒ²²»ÄÜÉÙ£©
-oracle ÖĞÊ¹ÓÃ(+)°Ñ²»Æ¥ÅäµÄ¼ÇÂ¼ÕÒ»ØÀ´
-(+)¶ÔÃæ±íµÄËùÓĞµÄÊı¾İ±»Æ¥Åä³öÀ´
+ç­‰å€¼è¿æ¥ éç­‰å€¼è¿æ¥ è‡ªè¿æ¥
+è¿™äº›è¿æ¥éƒ½ç¬¦åˆwhereæ¡ä»¶çš„æ•°æ®å°±è¢«é€‰ä¸­ ä¸ç¬¦åˆwhereæ¡ä»¶çš„æ•°æ®å°±è¢«è¿‡æ»¤æ‰ï¼Œç»Ÿç§°ä¸ºå†…è¿æ¥
+å¤–è¿æ¥ï¼šå¤–è¿æ¥çš„ç»“æœé›†=å†…è¿æ¥çš„ç»“æœé›†+åŒ¹é…ä¸ä¸Šçš„è®°å½•ï¼ˆä¸€ä¸ªä¹Ÿä¸èƒ½å°‘ï¼‰
+oracle ä¸­ä½¿ç”¨(+)æŠŠä¸åŒ¹é…çš„è®°å½•æ‰¾å›æ¥
+(+)å¯¹é¢è¡¨çš„æ‰€æœ‰çš„æ•°æ®è¢«åŒ¹é…å‡ºæ¥
 select d.name,r.name from s_dept d,s_region r where region_id=r.id(+);
 select first_name,name from s_emp,s_dept where dept_id=id(+);
 update s_emp set dept_id=NULL;
 	where id=1;
-commit;//°ÑÀÏ°åµÄ²¿ÃÅidÉèÎªNULL
+commit;//æŠŠè€æ¿çš„éƒ¨é—¨idè®¾ä¸ºNULL
 select first_name,nvl(name,'no dept') from s_emp,s_dept where dept_id=id(+) and id is null;
 select e.id,salary,s.id from s_emp e,salgrade s where salary between losal(+) and hisal(+) order by e.id;
-Á¬½Ó£ºÄÚÁ¬½Ó £¨µÈÖµÁ¬½Ó£¬·ÇµÈÖµÁ¬½Ó£¬×ÔÁ¬½Ó£©
-ÍâÁ¬½Ó£¨µÈÖµÁ¬½Ó£¬·ÇµÈÖµÁ¬½Ó£¬×ÔÁ¬½Ó£©£¨+£©Ïàµ±ÓÚÔÚ±¾×Ö¶Î¼ÓÁËÒ»Ğ©null×Ö¶ÎÖµ
-£¨+£©ÊÇoracleÊı¾İ¿âµÄ£¬SQL99Àï¹æ¶¨ÁËÄÚÍâÁ¬½ÓµÄ±ê×¼ (inner) join on
-ÍâÁ¬½Ó£º a left(right\full) outer join b on Á¬½ÓÌõ¼ş;//×¢ÒâonºóÃæÒ»¶¨ÊÇÁ½ÕÅ±íµÄÁ¬½ÓÌõ¼ş£¬Èç¹ûÊÇ¹ıÂËÌõ¼ş£¬¾Í±ØĞëÓÃwhere;
+è¿æ¥ï¼šå†…è¿æ¥ ï¼ˆç­‰å€¼è¿æ¥ï¼Œéç­‰å€¼è¿æ¥ï¼Œè‡ªè¿æ¥ï¼‰
+å¤–è¿æ¥ï¼ˆç­‰å€¼è¿æ¥ï¼Œéç­‰å€¼è¿æ¥ï¼Œè‡ªè¿æ¥ï¼‰ï¼ˆ+ï¼‰ç›¸å½“äºåœ¨æœ¬å­—æ®µåŠ äº†ä¸€äº›nullå­—æ®µå€¼
+ï¼ˆ+ï¼‰æ˜¯oracleæ•°æ®åº“çš„ï¼ŒSQL99é‡Œè§„å®šäº†å†…å¤–è¿æ¥çš„æ ‡å‡† (inner) join on
+å¤–è¿æ¥ï¼š a left(right\full) outer join b on è¿æ¥æ¡ä»¶;//æ³¨æ„onåé¢ä¸€å®šæ˜¯ä¸¤å¼ è¡¨çš„è¿æ¥æ¡ä»¶ï¼Œå¦‚æœæ˜¯è¿‡æ»¤æ¡ä»¶ï¼Œå°±å¿…é¡»ç”¨where;
 select e.id,salary,s.id
-from s_emp e left outer join salgrade s on salary between losal and hisal order by e.id;//×ó±ßµÄ¶¼±£´æ
+from s_emp e left outer join salgrade s on salary between losal and hisal order by e.id;//å·¦è¾¹çš„éƒ½ä¿å­˜
 55daymorning
-initcap½«µÚÒ»¸ö×ÖÄ¸±ä³É´óĞ´
-to_char(par1,par2)par2ÒÔfm¿ªÍ·
-È«ÍâÁ¬½Ó£ºÖ»ÊÇÂß¼­¸ÅÄî È«ÍâÁ¬½ÓµÄ½á¹û¼¯µÈÓÚ×óÍâÁ¬½ÓµÄ½á¹û¼¯+ÓÒÍâÁ¬½ÓµÄ½á¹û¼¯È»ºó¼õÈ¥ÖØ¸´µÄ¼ÇÂ¼¡£
-oracle ²»Ö±½ÓÖ§³ÖÈ«ÍâÁ¬½Ó¡££¨²»ÊÇÍ¨¹ıÁ½¶Ë¼Ó£¨+£©ÊµÏÖµÄ£©
-union	ºÏ²¢Á½¸ö½á¹û¼¯£¬²¢ÅÅÖØ
-union all ºÏ²¢Á½¸ö½á¹û¼¯¡££¨Í¨¹ıÕâÁ½¸öÀ´´ïµ½È«ÍâÁ¬½ÓµÄĞ§¹û£©
+initcapå°†ç¬¬ä¸€ä¸ªå­—æ¯å˜æˆå¤§å†™
+to_char(par1,par2)par2ä»¥fmå¼€å¤´
+å…¨å¤–è¿æ¥ï¼šåªæ˜¯é€»è¾‘æ¦‚å¿µ å…¨å¤–è¿æ¥çš„ç»“æœé›†ç­‰äºå·¦å¤–è¿æ¥çš„ç»“æœé›†+å³å¤–è¿æ¥çš„ç»“æœé›†ç„¶åå‡å»é‡å¤çš„è®°å½•ã€‚
+oracle ä¸ç›´æ¥æ”¯æŒå…¨å¤–è¿æ¥ã€‚ï¼ˆä¸æ˜¯é€šè¿‡ä¸¤ç«¯åŠ ï¼ˆ+ï¼‰å®ç°çš„ï¼‰
+union	åˆå¹¶ä¸¤ä¸ªç»“æœé›†ï¼Œå¹¶æ’é‡
+union all åˆå¹¶ä¸¤ä¸ªç»“æœé›†ã€‚ï¼ˆé€šè¿‡è¿™ä¸¤ä¸ªæ¥è¾¾åˆ°å…¨å¤–è¿æ¥çš„æ•ˆæœï¼‰
 select id from s_emp union select id from s_emp;
 select id from s_emp union all select id from s_emp;
 ---------------------------------
-×éº¯ÊıºÍ·Ö×é
-×éº¯ÊıµÄ¸ÅÄî£º
-1.¶ÔÒ»×éÊı¾İ´¦ÀíÖ®ºóµÃµ½Ò»¸ö½á¹û
-2.³£¼û×éº¯Êı
+ç»„å‡½æ•°å’Œåˆ†ç»„
+ç»„å‡½æ•°çš„æ¦‚å¿µï¼š
+1.å¯¹ä¸€ç»„æ•°æ®å¤„ç†ä¹‹åå¾—åˆ°ä¸€ä¸ªç»“æœ
+2.å¸¸è§ç»„å‡½æ•°
 count  max   min  sum  avg
-3.Í³¼Æs_emp±íÖĞÓĞ¶àÉÙÔ±¹¤ Ô±¹¤µÄ×î¸ß¹¤×ÊºÍ×îµÍ¹¤×Ê¡£
+3.ç»Ÿè®¡s_empè¡¨ä¸­æœ‰å¤šå°‘å‘˜å·¥ å‘˜å·¥çš„æœ€é«˜å·¥èµ„å’Œæœ€ä½å·¥èµ„ã€‚
 select count(id),max(salary),min(salary) from s_emp;
-4.Í³¼Æs_emp±íÖĞ ¹¤×ÊµÄºÍ ºÍ ¹¤×ÊµÄÆ½¾ùÖµ¡£
+4.ç»Ÿè®¡s_empè¡¨ä¸­ å·¥èµ„çš„å’Œ å’Œ å·¥èµ„çš„å¹³å‡å€¼ã€‚
 select sum(salary),sum(distinct salary),avg(distinct salary),avg(salary) from s_emp;
-5.×éº¯Êı¶ÔNULLÖµµÄ´¦Àí·½Ê½¡£
-Çós_emp±íÖĞÌá³ÉµÄºÍ ºÍ Ìá³ÉµÄ¸öÊı
-select sum(commission_pct),avg(commission_pct) from s_emp;//×éº¯Êı¶Ô¿ÕÖµºöÂÔ
-·Ö×é£º
-°´ÕÕÒ»¶¨µÄ±ê×¼°ÑÊı¾İ·Ö³ÉÈô¸É×é
-group by ·Ö×é±ê×¼;group by ³öÏÖÔÚwhereÖ®ºó
+5.ç»„å‡½æ•°å¯¹NULLå€¼çš„å¤„ç†æ–¹å¼ã€‚
+æ±‚s_empè¡¨ä¸­ææˆçš„å’Œ å’Œ ææˆçš„ä¸ªæ•°
+select sum(commission_pct),avg(commission_pct) from s_emp;//ç»„å‡½æ•°å¯¹ç©ºå€¼å¿½ç•¥
+åˆ†ç»„ï¼š
+æŒ‰ç…§ä¸€å®šçš„æ ‡å‡†æŠŠæ•°æ®åˆ†æˆè‹¥å¹²ç»„
+group by åˆ†ç»„æ ‡å‡†;group by å‡ºç°åœ¨whereä¹‹å
 select dept_id,count(id) from s_emp group by dept_id;
 select dept_id,avg(salary),sum(salary) from s_emp group by dept_id;
-Ö´ĞĞË³Ğò£ºfrom, where, group by, having, select, order by
+æ‰§è¡Œé¡ºåºï¼šfrom, where, group by, having, select, order by
 select count(id),dept_id from s_emp group by dept_id having count(id)>2;
 //select name from s_emp s,s_dept d where e.dept_id=d.id group by dept_id,name having count(id)>2;
-//ÈËÎª·ÖÎöºó
+//äººä¸ºåˆ†æå
 select max(name) from s_emp s,s_dept d where e.dept_id=d.id group by dept_id having count(id)>2;
-ÔÚ·Ö×éÓï¾äÖĞ select ºóµÄ×Ö¶ÎÒªÃ´ÊÇ·Ö×é±ê×¼ ÒªÃ´ÊÇ¾­¹ıºÏÊÊµÄ×éº¯Êı´¦Àí¹ıµÄ¡£
-having ÊÇ¶Ô×éÊı¾İ¹ıÂËµÄ¡£whereÊÇ¶Ô±íÊı¾İ¹ıÂËµÄ¡£on ÊÇ¶Ô±íÁ¬½Ó¹ıÂËµÄ¡£
+åœ¨åˆ†ç»„è¯­å¥ä¸­ select åçš„å­—æ®µè¦ä¹ˆæ˜¯åˆ†ç»„æ ‡å‡† è¦ä¹ˆæ˜¯ç»è¿‡åˆé€‚çš„ç»„å‡½æ•°å¤„ç†è¿‡çš„ã€‚
+having æ˜¯å¯¹ç»„æ•°æ®è¿‡æ»¤çš„ã€‚whereæ˜¯å¯¹è¡¨æ•°æ®è¿‡æ»¤çš„ã€‚on æ˜¯å¯¹è¡¨è¿æ¥è¿‡æ»¤çš„ã€‚
 
-×Ó²éÑ¯
-°ÑÒ»¸ö²éÑ¯µÄ½á¹û×÷ÎªÁíÒ»¸ö²éÑ¯µÄ»ù´¡£¨sqlÇ¶Ì×£©
-1.whereÖ®ºó¡£
+å­æŸ¥è¯¢
+æŠŠä¸€ä¸ªæŸ¥è¯¢çš„ç»“æœä½œä¸ºå¦ä¸€ä¸ªæŸ¥è¯¢çš„åŸºç¡€ï¼ˆsqlåµŒå¥—ï¼‰
+1.whereä¹‹åã€‚
 select distinct manager_id from s_emp;
 select id,first_name from s_emp
 where id in(select distinct manager_id from s_emp);
-2.having ºó
+2.having å
 select dept_id ,avg(salary) from s_emp group by dept_id having avg(salary)>();
-3.from ºó
-°Ñselect Óï¾äµ±×öÒ»ÕÅÄÚ´æ±í
-DDL£º
-1.½¨±íÓï¾ä
-create table ±íÃû(
-	×Ö¶ÎÃû	ÀàĞÍ£¬
-	×Ö¶ÎÃû 	ÀàĞÍ£¬
-	×Ö¶ÎÃû 	ÀàĞÍ
+3.from å
+æŠŠselect è¯­å¥å½“åšä¸€å¼ å†…å­˜è¡¨
+## DDLï¼š
+1.å»ºè¡¨è¯­å¥
+create table è¡¨å(
+	å­—æ®µå	ç±»å‹ï¼Œ
+	å­—æ®µå 	ç±»å‹ï¼Œ
+	å­—æ®µå 	ç±»å‹
 );
-2.É¾³ı±í
-drop table ±íÃû;
-3.Êı¾İÀàĞÍ
-number Êı×ÖÀàĞÍ
-number(7,2) ×Ü¹²µÄÎ»ÊıÊÇ7Î»£¬Ğ¡ÊıÕ¼Á½Î»£¬ÕûÊıÎ»×î¶à5Î»¡£
-char  ¶¨³¤×Ö·û´® Êı¾İ²»¹»¾Í²¹¿Õ¸ñ
-varchar2 ±ä³¤×Ö·û´® Ê¡¿Õ¼ä
-4.ÈÕÆÚÀàĞÍ
-a.date ÀàĞÍ
-ºÍÏµÍ³ÓïÑÔÏà¹Ø
+2.åˆ é™¤è¡¨
+drop table è¡¨å;
+3.æ•°æ®ç±»å‹
+number æ•°å­—ç±»å‹
+number(7,2) æ€»å…±çš„ä½æ•°æ˜¯7ä½ï¼Œå°æ•°å ä¸¤ä½ï¼Œæ•´æ•°ä½æœ€å¤š5ä½ã€‚
+char  å®šé•¿å­—ç¬¦ä¸² æ•°æ®ä¸å¤Ÿå°±è¡¥ç©ºæ ¼
+varchar2 å˜é•¿å­—ç¬¦ä¸² çœç©ºé—´
+4.æ—¥æœŸç±»å‹
+a.date ç±»å‹
+å’Œç³»ç»Ÿè¯­è¨€ç›¸å…³
 NLS_LANG
-ÏµÍ³Ä¬ÈÏµÄÈÕÆÚ¸ñÊ½
-'dd-MON-yy'	'dd-nÔÂ-yy'
+ç³»ç»Ÿé»˜è®¤çš„æ—¥æœŸæ ¼å¼
+'dd-MON-yy'	'dd-næœˆ-yy'
 b.select start_date from s_emp;
-ÒÔÄ¬ÈÏ¸ñÊ½·ÅÈëÊı¾İ
+ä»¥é»˜è®¤æ ¼å¼æ”¾å…¥æ•°æ®
 
 insert into myorder_10086 values
 ('bj001','test',12.85,'17-OCT-14');
 commit;
-c.´òÆÆÈÕÆÚµÄÄ¬ÈÏ±íÏÖ
+c.æ‰“ç ´æ—¥æœŸçš„é»˜è®¤è¡¨ç°
 to_char(par1,par2)
-par1 Òª´¦ÀíµÄÈÕÆÚÀàĞÍµÄÊı¾İ
-par2 Òª±íÏÖµÄÈÕÆÚ¸ñÊ½×Ö·û´®
-yyyy ËÄÎ»Äê	mm Á½Î»ÔÂ	dd Á½Î»Ìì	hh 12Ğ¡Ê±ÖÆµÄĞ¡Ê±	hh24	mi ·ÖÖÓ ssÃë
-mon ÈıÎ»Ó¢ÎÄÔÂ	month Ó¢ÎÄµÄÈ«Ğ´ day ĞÇÆÚ¼¸	pm ÉÏÎç»¹ÊÇÏÂÎç		
+par1 è¦å¤„ç†çš„æ—¥æœŸç±»å‹çš„æ•°æ®
+par2 è¦è¡¨ç°çš„æ—¥æœŸæ ¼å¼å­—ç¬¦ä¸²
+yyyy å››ä½å¹´	mm ä¸¤ä½æœˆ	dd ä¸¤ä½å¤©	hh 12å°æ—¶åˆ¶çš„å°æ—¶	hh24	mi åˆ†é’Ÿ ssç§’
+mon ä¸‰ä½è‹±æ–‡æœˆ	month è‹±æ–‡çš„å…¨å†™ day æ˜ŸæœŸå‡ 	pm ä¸Šåˆè¿˜æ˜¯ä¸‹åˆ		
 select to_char(odate,'yyyy-mm-dd hh24:mi:ss day pm') from myorder_10086;
-ÏµÍ³Ä¬ÈÏ¸ñÊ½·ÅÈëµÄÈÕÆÚ Ê±·ÖÃëĞÅÏ¢¶¼ÊÇ0
-d.ÈçºÎ·ÅÈë´øÊ±·ÖÃëĞÅÏ¢µÄÈÕÆÚ
-sysdate ¿ÉÒÔÖ±½Ó»ñµÃÏµÍ³µÄµ±Ç°Ê±¼ä
+ç³»ç»Ÿé»˜è®¤æ ¼å¼æ”¾å…¥çš„æ—¥æœŸ æ—¶åˆ†ç§’ä¿¡æ¯éƒ½æ˜¯0
+d.å¦‚ä½•æ”¾å…¥å¸¦æ—¶åˆ†ç§’ä¿¡æ¯çš„æ—¥æœŸ
+sysdate å¯ä»¥ç›´æ¥è·å¾—ç³»ç»Ÿçš„å½“å‰æ—¶é—´
 insert into myorder_10086 values
 ('bj002','test2',12.85,sysdate);
 commit;
 insert into myorder_10086 values
 ('bj2008','test2008',280000,to_date('2008-08-08 20:08:08','yyyy-mm-dd hh24:mi:ss'));l
-to_dateÓëto_charÊÇÒ»¶Ô
+to_dateä¸to_charæ˜¯ä¸€å¯¹
 select to_char(odate,'yyyy-mm-dd hh24:mi:ss pm day')
 from myorder_10086 where oid='bj2008';
-f.ÈÕÆÚµ÷Õû
-ÈçºÎ°´ÕÕÌìÀ´µ÷Õû
+f.æ—¥æœŸè°ƒæ•´
+å¦‚ä½•æŒ‰ç…§å¤©æ¥è°ƒæ•´
 select to_char(sysdate,'yyyy-mm-dd hh24:mi:ss'),
 to_char(sysdate+1,'yyyy-mm-dd hh24:mi:ss') from dual;
-ÈçºÎ°´ÕÕĞ¡Ê±µ÷Õû
+å¦‚ä½•æŒ‰ç…§å°æ—¶è°ƒæ•´
 select to_char(sysdate,'yyyy-mm-dd hh24:mi:ss'),
 to_char(sysdate+1/24,'yyyy-mm-dd hh24:mi:ss') from dual;
-°Ñµ±Ç°Ê±¼äÏòºóµ÷Ò»Ãë
+æŠŠå½“å‰æ—¶é—´å‘åè°ƒä¸€ç§’
 select to_char(sysdate,'yyyy-mm-dd hh24:mi:ss'),
 to_char(sysdate+1/(24*60*60),'yyyy-mm-dd hh24:mi:ss') from dual;
-g.µ±Ç°Ê±¼äÍùºóµ÷Ò»¸öÔÂ
-add_months(ÈÕÆÚ,n)
-nÎªÕıÊıÏòºóµ÷£¬nÊÇ¸ºÊıÏòÇ°µ÷
+g.å½“å‰æ—¶é—´å¾€åè°ƒä¸€ä¸ªæœˆ
+add_months(æ—¥æœŸ,n)
+nä¸ºæ­£æ•°å‘åè°ƒï¼Œnæ˜¯è´Ÿæ•°å‘å‰è°ƒ
 select to_char(sysdate,'yyyy-mm-dd hh24:mi:ss'),
 to_char(add_months(sysdate,2),'yyyy-mm-dd hh24:mi:ss') from dual;
-last_day(ÈÕÆÚ£© µÃµ½ÈÕÆÚ¶ÔÓ¦ÔÂ×îºóÒ»ÌìµÄÈÕÆÚÊ±¼ä
+last_day(æ—¥æœŸï¼‰ å¾—åˆ°æ—¥æœŸå¯¹åº”æœˆæœ€åä¸€å¤©çš„æ—¥æœŸæ—¶é—´
 select to_char(sysdate,'yyyy-mm-dd hh24:mi:ss'),
 to_char(last_day(sysdate),'yyyy-mm-dd hh24:mi:ss') from dual;
-next_day(ÈÕÆÚ£¬'ĞÇÆÚ¼¸')
-ÏÂÒ»¸öĞÇÆÚ¼¸µÄÊ±¼äµã
+next_day(æ—¥æœŸï¼Œ'æ˜ŸæœŸå‡ ')
+ä¸‹ä¸€ä¸ªæ˜ŸæœŸå‡ çš„æ—¶é—´ç‚¹
 select to_char(next_day(sysdate,'monday'),'yyyy-mm-dd hh24:mi:ss')
 from dual;
-h.¶ÔÈÕÆÚµÄÒ»Ğ©ÊıÑ§²Ù×÷
-months_between(par1,par2) Á½¸öÈÕÆÚÏà²îÁË¶àÉÙ¸öÔÂ//²»ÖØÒª
+h.å¯¹æ—¥æœŸçš„ä¸€äº›æ•°å­¦æ“ä½œ
+months_between(par1,par2) ä¸¤ä¸ªæ—¥æœŸç›¸å·®äº†å¤šå°‘ä¸ªæœˆ//ä¸é‡è¦
 select months_between(sysdate,to_date('2008-08-08 20:08:08,'yyyy-mm-dd hh24:mi:ss')) from dual;
-round ¶ÔÈÕÆÚ½øĞĞËÄÉáÎåÈë
-1.Ä¬ÈÏÒÔÌìÎªµ¥Î»½øĞĞËÄÉáÎåÈë
-select to_char(round(sysdate),'yyyy-mm-dd hh24:mi:ss') from dual;//¹ıÁË°ëÌìÁË¾Íµ½ÏÂÒ»ÌìÈ¥
-2.Ö¸¶¨ËÄÉáÎåÈëµÄµ¥Î»
-select to_char(round(sysdate,'dd'),'yyyy-mm-dd hh24:mi:ss') from dual;//ÓëÉÏÃæÒ»Ñù
-trunc ¶ÔÈÕÆÚ½øĞĞ½ØÈ¡
-1.Ä¬ÈÏÒÔÌìÎªµ¥Î»½øĞĞ½ØÈ¡
-2.¡£¡£
-3.¡£¡£//¶¼ÊÇ¶ÔsysdateµÄ²Ù×÷
-55ÌìÏÂÎç3:10:00
-DML
+round å¯¹æ—¥æœŸè¿›è¡Œå››èˆäº”å…¥
+1.é»˜è®¤ä»¥å¤©ä¸ºå•ä½è¿›è¡Œå››èˆäº”å…¥
+select to_char(round(sysdate),'yyyy-mm-dd hh24:mi:ss') from dual;//è¿‡äº†åŠå¤©äº†å°±åˆ°ä¸‹ä¸€å¤©å»
+2.æŒ‡å®šå››èˆäº”å…¥çš„å•ä½
+select to_char(round(sysdate,'dd'),'yyyy-mm-dd hh24:mi:ss') from dual;//ä¸ä¸Šé¢ä¸€æ ·
+trunc å¯¹æ—¥æœŸè¿›è¡Œæˆªå–
+1.é»˜è®¤ä»¥å¤©ä¸ºå•ä½è¿›è¡Œæˆªå–
+2.ã€‚ã€‚
+3.ã€‚ã€‚//éƒ½æ˜¯å¯¹sysdateçš„æ“ä½œ
+55å¤©ä¸‹åˆ3:10:00
+## DML
 account
 create table account007(
 aid number not null,
 aname varchar2(30),
 apasswd varchar2(30)
 );
-1.Ôö¼ÓÊı¾İ//²»¼ÓcommitÖ»ÄÜÔÚµ±Ç°ÖÕ¶Ë½øĞĞ²Ù×÷
-a.insert into ±íÃû values(Öµ1£¬Öµ2);//ÈÕÆÚÓĞÈÕÆÚµÄ¸ñÊ½£¬»òÕßto_date
+1.å¢åŠ æ•°æ®//ä¸åŠ commitåªèƒ½åœ¨å½“å‰ç»ˆç«¯è¿›è¡Œæ“ä½œ
+a.insert into è¡¨å values(å€¼1ï¼Œå€¼2);//æ—¥æœŸæœ‰æ—¥æœŸçš„æ ¼å¼ï¼Œæˆ–è€…to_date
 insert into account007 values(1,'007','band');
-b.Ñ¡ÔñÒ»Ğ©×Ö¶Î½øĞĞÊı¾İ²åÈë
-	insert into ±íÃû£¨×Ö¶Î1£¬×Ö¶Î3£© values(Öµ1£¬Öµ2£©;
-insert into account007 (aid,apasswd) values(2,'ss');//×Ö¶Î2Îª¿ÕÖµ
-2.É¾³ıÊı¾İ
-delete from ±íÃû where Ìõ¼ş;//Èç¹û²»¼ÓwhereÌõ¼ş¾Í°ÑÈ«²¿±í¶¼É¾³ıÁË
+b.é€‰æ‹©ä¸€äº›å­—æ®µè¿›è¡Œæ•°æ®æ’å…¥
+	insert into è¡¨åï¼ˆå­—æ®µ1ï¼Œå­—æ®µ3ï¼‰ values(å€¼1ï¼Œå€¼2ï¼‰;
+insert into account007 (aid,apasswd) values(2,'ss');//å­—æ®µ2ä¸ºç©ºå€¼
+2.åˆ é™¤æ•°æ®
+delete from è¡¨å where æ¡ä»¶;//å¦‚æœä¸åŠ whereæ¡ä»¶å°±æŠŠå…¨éƒ¨è¡¨éƒ½åˆ é™¤äº†
 delete from account007 where aid=1;
-3.¸üĞÂÊı¾İ
-update ±íÃû set ×Ö¶ÎÃû=Öµ1,×Ö¶ÎÃû=Öµ2 where Ìõ¼ş;
+3.æ›´æ–°æ•°æ®
+update è¡¨å set å­—æ®µå=å€¼1,å­—æ®µå=å€¼2 where æ¡ä»¶;
 update account007 set aid=100,aname='test100' where aid=2;
 from where group by having (select) order by
-//ÏÈµÃÖªµÀÊı¾İ´ÓÄÄÀïÀ´£¬ÔõÃ´·Ö×é£¬·Ö×éÔõÃ´¹ıÂË£¬È»ºó²éÑ¯£¬×îºó²éÑ¯µÄÊı¾İ°´Ê²Ã´ÅÅĞò
-date ÀàĞÍ
-1.Ä¬ÈÏ¸ñÊ½  'dd-MM-yy' Ê±·ÖÃëĞÅÏ¢¶¼ÎªÁã
+//å…ˆå¾—çŸ¥é“æ•°æ®ä»å“ªé‡Œæ¥ï¼Œæ€ä¹ˆåˆ†ç»„ï¼Œåˆ†ç»„æ€ä¹ˆè¿‡æ»¤ï¼Œç„¶åæŸ¥è¯¢ï¼Œæœ€åæŸ¥è¯¢çš„æ•°æ®æŒ‰ä»€ä¹ˆæ’åº
+date ç±»å‹
+1.é»˜è®¤æ ¼å¼  'dd-MM-yy' æ—¶åˆ†ç§’ä¿¡æ¯éƒ½ä¸ºé›¶
 2.to_char yyyy mm dd hh24 mi ss    //mon month day pm
-ÒÔÖ¸¶¨¸ñÊ½ÏÔÊ¾ÈÕÆÚ
-3.°ÑÈÕÆÚµÄÊ±·ÖÃë·ÅÈëÊı¾İ¿â
+ä»¥æŒ‡å®šæ ¼å¼æ˜¾ç¤ºæ—¥æœŸ
+3.æŠŠæ—¥æœŸçš„æ—¶åˆ†ç§’æ”¾å…¥æ•°æ®åº“
 sysdate
-to_date(ÈÕÆÚ×Ö·û´®£¬ÈÕÆÚ¸ñÊ½×Ö·û´®)
-4.°´ÕÕÌì Ğ¡Ê± ·ÖÖÓ ÃëÎªµ¥Î»½øĞĞµ÷Õû
+to_date(æ—¥æœŸå­—ç¬¦ä¸²ï¼Œæ—¥æœŸæ ¼å¼å­—ç¬¦ä¸²)
+4.æŒ‰ç…§å¤© å°æ—¶ åˆ†é’Ÿ ç§’ä¸ºå•ä½è¿›è¡Œè°ƒæ•´
 5.add_months
 last_day
 next_day
-6.ÈÕÆÚµÄ¼ÆËã
+6.æ—¥æœŸçš„è®¡ç®—
 months_between
 round
 trunc
-DML ºÍ ÊÂÎñ¿ØÖÆ
-DML²Ù×÷ÊÇÓĞÊÂÎñÌØĞÔµÄ
-ÊÂÎñÒ²½Ğ½»Ò×--transation 
-Ô­×ÓĞÔ£¨²»¿É·Ö¸ô£©
+DML å’Œ äº‹åŠ¡æ§åˆ¶
+DMLæ“ä½œæ˜¯æœ‰äº‹åŠ¡ç‰¹æ€§çš„
+äº‹åŠ¡ä¹Ÿå«äº¤æ˜“--transation 
+åŸå­æ€§ï¼ˆä¸å¯åˆ†éš”ï¼‰
 	create table account(
 		id varchar2(10) primary key,
 		money number
@@ -311,40 +312,40 @@ DML²Ù×÷ÊÇÓĞÊÂÎñÌØĞÔµÄ
 	commit;
 update account set money=money-5000 where id='a';
 update account set money=money+5000 where id='b';
-if(a&&b) commit;else rollback;-- Ò»Æğ³É¹¦£¬Ò»ÆğÊ§°Ü 
--- µ¥ĞĞ×¢ÊÍ
-/* ¶àĞĞ×¢ÊÍ*/
-¸ôÀëĞÔ
-ÊÂÎñÖĞµÄ²Ù×÷ÔÚÃ»ÓĞÌá½»ÒÔÇ°¶ÔÁíÒ»¸öÊÂÎñÊı¾İµÄ±ä»¯ÊÇ²»¿É¼ûµÄ
-µ«ÊÂÎñ»áËø¶¨ÕâÌõÊı¾İ£¬Ã»Ìá½»ÒÔÇ°±ğµÄÊÂÎñ¶ÔÕâÌõÊı¾İµÄ²Ù×÷»á²úÉúËø¶¨×´Ì¬
-commit»òrollback//rollbackÖ»ÄÜ³·ÏúÎ´Ìá½»µÄÊı¾İ
-Ò»ÖÂĞÔ¡¢³Ö¾ÃĞÔ
+if(a&&b) commit;else rollback;-- ä¸€èµ·æˆåŠŸï¼Œä¸€èµ·å¤±è´¥ 
+-- å•è¡Œæ³¨é‡Š
+/* å¤šè¡Œæ³¨é‡Š*/
+éš”ç¦»æ€§
+äº‹åŠ¡ä¸­çš„æ“ä½œåœ¨æ²¡æœ‰æäº¤ä»¥å‰å¯¹å¦ä¸€ä¸ªäº‹åŠ¡æ•°æ®çš„å˜åŒ–æ˜¯ä¸å¯è§çš„
+ä½†äº‹åŠ¡ä¼šé”å®šè¿™æ¡æ•°æ®ï¼Œæ²¡æäº¤ä»¥å‰åˆ«çš„äº‹åŠ¡å¯¹è¿™æ¡æ•°æ®çš„æ“ä½œä¼šäº§ç”Ÿé”å®šçŠ¶æ€
+commitæˆ–rollback//rollbackåªèƒ½æ’¤é”€æœªæäº¤çš„æ•°æ®
+ä¸€è‡´æ€§ã€æŒä¹…æ€§
 -------------------
-ÊÂÎñµÄÔ­×ÓĞÔÌ«ÑÏ¸ñ£¬ÓĞÊ±Òª×ö²¿·Ö³É¹¦£¬²¿·ÖÊ§°Ü¡£
+äº‹åŠ¡çš„åŸå­æ€§å¤ªä¸¥æ ¼ï¼Œæœ‰æ—¶è¦åšéƒ¨åˆ†æˆåŠŸï¼Œéƒ¨åˆ†å¤±è´¥ã€‚
 insert into account values('E',1);
 savepoint a;
 insert into account values('F',2);
 savepoint b;
 insert into account values('G',1);
-rollback to b;//Ö»Ìá½»Ç°ÃæÁ½Ìõ
+rollback to b;//åªæäº¤å‰é¢ä¸¤æ¡
 commit;
 -----------------------------------
-Êı¾İ¿âÖĞµÄÔ¼Êø£ºconstraints
-¶ÔÊı¾İ¿â±íÖĞµÄ×Ö¶Î¼ÓµÄÏŞÖÆ
-5ÖÖ¾ßÌåµÄÔ¼Êø
-a.Ö÷¼üÔ¼Êø primary key-- ·Ç¿ÕÇÒÎªÎ¨Ò»
-	Ò»¸ö±íµÄÖ÷¼üÖ»ÄÜÓĞÒ»¸ö
-b.Î¨Ò»ĞÔÔ¼Êø unique
-Öµ²»ÄÜÖØ¸´
-c.·Ç¿ÕÔ¼Êø not null -- Öµ²»ÄÜÎª¿ÕÖµ
-d.¼ì²ìÔ¼Êø check -- ±íÖĞµÄ×Ö¶ÎµÄÖµ±ØĞë·ûºÏ¼ì²éÌõ¼ş
-e.Íâ¼üÔ¼Êø references(¹ØÁªÒıÓÃ) foreign key
-2.±íÖĞÔ¼ÊøµÄ·ÖÀà
-a.ÁĞ¼¶Ô¼Êø
-ÔÚ¶¨Òå±íµÄÄ³Ò»ÁĞÊ±Ö±½Ó¶Ô±íµÄÕâÒ»ÁĞ¼ÓÔ¼ÊøÏŞÖÆ
-b.±í¼¶Ô¼Êø
-ÔÚ¶¨ÒåÍê±íµÄËùÓĞÁĞÖ®ºó ÔÙÑ¡ÔñÄ³Ğ©ÁĞ¼ÓÔ¼ÊøÏŞÖÆ¡£
-Ö÷¼üµÄÁĞ¼¶Ô¼Êø
+æ•°æ®åº“ä¸­çš„çº¦æŸï¼šconstraints
+å¯¹æ•°æ®åº“è¡¨ä¸­çš„å­—æ®µåŠ çš„é™åˆ¶
+5ç§å…·ä½“çš„çº¦æŸ
+a.ä¸»é”®çº¦æŸ primary key-- éç©ºä¸”ä¸ºå”¯ä¸€
+	ä¸€ä¸ªè¡¨çš„ä¸»é”®åªèƒ½æœ‰ä¸€ä¸ª
+b.å”¯ä¸€æ€§çº¦æŸ unique
+å€¼ä¸èƒ½é‡å¤
+c.éç©ºçº¦æŸ not null -- å€¼ä¸èƒ½ä¸ºç©ºå€¼
+d.æ£€å¯Ÿçº¦æŸ check -- è¡¨ä¸­çš„å­—æ®µçš„å€¼å¿…é¡»ç¬¦åˆæ£€æŸ¥æ¡ä»¶
+e.å¤–é”®çº¦æŸ references(å…³è”å¼•ç”¨) foreign key
+2.è¡¨ä¸­çº¦æŸçš„åˆ†ç±»
+a.åˆ—çº§çº¦æŸ
+åœ¨å®šä¹‰è¡¨çš„æŸä¸€åˆ—æ—¶ç›´æ¥å¯¹è¡¨çš„è¿™ä¸€åˆ—åŠ çº¦æŸé™åˆ¶
+b.è¡¨çº§çº¦æŸ
+åœ¨å®šä¹‰å®Œè¡¨çš„æ‰€æœ‰åˆ—ä¹‹å å†é€‰æ‹©æŸäº›åˆ—åŠ çº¦æŸé™åˆ¶ã€‚
+ä¸»é”®çš„åˆ—çº§çº¦æŸ
 create table testcol_cons(
 	id number primary key,
 	name varchar2(30)
@@ -352,8 +353,8 @@ create table testcol_cons(
 insert into testcol_cons values(1,'a');
 insert into testcol_cons values (NULL,'b');
 insert into testcol_cons values(1,'c');
-//±ØĞëÊÇÎ¨Ò»ÇÒ·Ç¿Õ
-4.½¨Á¢×Ö¶ÎµÄÔ¼ÊøÊ±£¬×Ô¼º¸øÔ¼ÊøÃüÃû
+//å¿…é¡»æ˜¯å”¯ä¸€ä¸”éç©º
+4.å»ºç«‹å­—æ®µçš„çº¦æŸæ—¶ï¼Œè‡ªå·±ç»™çº¦æŸå‘½å
 create table testcol_cons(
 	id number constraint
 	testcol_cons_id_pk primary key,
@@ -365,22 +366,22 @@ create table testcol_cons(
 );
 pk uk nn ck fk
 insert into testcol_cons values(1,'c',3400);
-7.±í¼¶Ô¼ÊøµÄÖ÷¼üÔ¼Êø
-ÔÚ¶¨ÒåÍê±íµÄËùÓĞÁĞÖ®ºó ÔÙÑ¡ÔñÄ³Ğ©ÁĞ¼ÓÔ¼ÊøÏŞÖÆ¡£
+7.è¡¨çº§çº¦æŸçš„ä¸»é”®çº¦æŸ
+åœ¨å®šä¹‰å®Œè¡¨çš„æ‰€æœ‰åˆ—ä¹‹å å†é€‰æ‹©æŸäº›åˆ—åŠ çº¦æŸé™åˆ¶ã€‚
 create table testtable_cons(
 	id number,
 	fname varchar2(30),
 	sname varchar2(30),
 	salary number,
 	constraint testtable_cons_id_pk
-	primary key(id,fname),//¿ÉÒÔ½¨ÁªºÏÖ÷¼ü£¬±ÈÁĞ¼¶Ô¼ÊøµÄÓÅµã
+	primary key(id,fname),//å¯ä»¥å»ºè”åˆä¸»é”®ï¼Œæ¯”åˆ—çº§çº¦æŸçš„ä¼˜ç‚¹
 	constraint testtable_cons_sname_nn
 	not null(sname),
 	constraint testtable_cons_salary_ck
 	check(salary>3500)
 );
-Íâ¼üÔ¼Êø£ºÉæ¼°µ½Á½ÕÅÓĞ Ò»ÕÅ½Ğ¸¸±í£¨Ö÷±í£©ÁíÒ»ÕÅ½Ğ×Ó±í£¨´Ó±í£©¡£×Ó±íÖĞÒ»¸ö×Ö¶Î³ÆÖ®Íâ¼ü
-×Ó±íÀïÍâ¼üµÄÖµÒıÓÃÖ÷±íÀïµÄÖµ£ºÍâ¼üµÄÈ¡Öµ ÒªÃ´ÊÇNULL ÒªÃ´ÊÇÄãÖ÷±íÖĞ×Ö¶ÎµÄÈ¡Öµ¡£
+å¤–é”®çº¦æŸï¼šæ¶‰åŠåˆ°ä¸¤å¼ æœ‰ ä¸€å¼ å«çˆ¶è¡¨ï¼ˆä¸»è¡¨ï¼‰å¦ä¸€å¼ å«å­è¡¨ï¼ˆä»è¡¨ï¼‰ã€‚å­è¡¨ä¸­ä¸€ä¸ªå­—æ®µç§°ä¹‹å¤–é”®
+å­è¡¨é‡Œå¤–é”®çš„å€¼å¼•ç”¨ä¸»è¡¨é‡Œçš„å€¼ï¼šå¤–é”®çš„å–å€¼ è¦ä¹ˆæ˜¯NULL è¦ä¹ˆæ˜¯ä½ ä¸»è¡¨ä¸­å­—æ®µçš„å–å€¼ã€‚
 create table parent(
 	id number primary key,
 	name varchar2(30)
@@ -391,145 +392,145 @@ create table child(
 	fid number constraint child_fid_fk
 	references parent(id) on delete cascade/on delete set null
 );
-1.ÏÈ½¨¸¸±í ºó½¨×Ó±í
-//ÊÇ²»ÊÇÁ½ÕÅ±í¾ÍÊÇÍ¨¹ıÖ÷¡¢Íâ¼üÁªÏµÆğÀ´µÄ£¿
-2.²åÈëÊı¾İÒ»°ãÏÈ²åÈë¸¸±í ºó²åÈë×Ó±íÊı¾İ ³ı·Ç×Ó±íµÄÍâ¼üÖµÊÇNULL
-3.É¾³ıÊı¾İ
-ÏÈÉ¾×Ó±íÊı¾İºóÉ¾¸¸±íÊı¾İ ³ı·Ç×Ó±íÖĞÃ»ÓĞºÍÖ÷±í×Ö¶Î¶ÔÓ¦µÄÊı¾İ
-»òÕßÊÇÉèÖÃÁË¼¶Áª£¨on delete cascade¡¢
-		on delete set null£©
-4.ĞŞ¸ÄÊı¾İ ÉèÖÃÍâ¼üµÄÖµÒªÃ´Îª¿Õ ÒªÃ´ÉèÖÃ³É¸¸±íÖĞ×Ö¶Î¶ÔÓ¦µÄÖµ
-5.É¾³ı±í
-	ÏÈÉ¾×Ó±íºóÉ¾¸¸±í ³ı·ÇÄãÊ¹ÓÃÏÈ½â³ıÖ÷Íâ¼ü¹ØÏµ ÔÙÉ¾³ı±í
+1.å…ˆå»ºçˆ¶è¡¨ åå»ºå­è¡¨
+//æ˜¯ä¸æ˜¯ä¸¤å¼ è¡¨å°±æ˜¯é€šè¿‡ä¸»ã€å¤–é”®è”ç³»èµ·æ¥çš„ï¼Ÿ
+2.æ’å…¥æ•°æ®ä¸€èˆ¬å…ˆæ’å…¥çˆ¶è¡¨ åæ’å…¥å­è¡¨æ•°æ® é™¤éå­è¡¨çš„å¤–é”®å€¼æ˜¯NULL
+3.åˆ é™¤æ•°æ®
+å…ˆåˆ å­è¡¨æ•°æ®ååˆ çˆ¶è¡¨æ•°æ® é™¤éå­è¡¨ä¸­æ²¡æœ‰å’Œä¸»è¡¨å­—æ®µå¯¹åº”çš„æ•°æ®
+æˆ–è€…æ˜¯è®¾ç½®äº†çº§è”ï¼ˆon delete cascadeã€
+		on delete set nullï¼‰
+4.ä¿®æ”¹æ•°æ® è®¾ç½®å¤–é”®çš„å€¼è¦ä¹ˆä¸ºç©º è¦ä¹ˆè®¾ç½®æˆçˆ¶è¡¨ä¸­å­—æ®µå¯¹åº”çš„å€¼
+5.åˆ é™¤è¡¨
+	å…ˆåˆ å­è¡¨ååˆ çˆ¶è¡¨ é™¤éä½ ä½¿ç”¨å…ˆè§£é™¤ä¸»å¤–é”®å…³ç³» å†åˆ é™¤è¡¨
 	drop table parent cascade constraints;
-È¡µŞÒ»¸ö²¿ÃÅ
+å–ç¼”ä¸€ä¸ªéƒ¨é—¨
 delete from deptparent133 where id=1;
 -------------------------------------------------
-Êı¾İ¿âµÄÆäËü¶ÔÏó(Óë±íÍ¬¼¶±ğ)
-1.ĞòÁĞ
-Éú³ÉÖ÷¼üµÄÖµ
-´´½¨ĞòÁĞ
-create sequence ĞòÁĞÃû;
+æ•°æ®åº“çš„å…¶å®ƒå¯¹è±¡(ä¸è¡¨åŒçº§åˆ«)
+1.åºåˆ—
+ç”Ÿæˆä¸»é”®çš„å€¼
+åˆ›å»ºåºåˆ—
+create sequence åºåˆ—å;
 create sequence testseq123;
-²âÊÔĞòÁĞ
+æµ‹è¯•åºåˆ—
 select testseq123.nextval from dual;
-Ê¹ÓÃĞòÁĞ
+ä½¿ç”¨åºåˆ—
 create table testpkuseseq(
 	id number primary key,
 	name varchar2(30),	
 );
 insert into testpkuse_seq values(testseq123.nextval,'test'||testseq123.currval);
-É¾³ıĞòÁĞ
-drop sequence ĞòÁĞÃû;
+åˆ é™¤åºåˆ—
+drop sequence åºåˆ—å;
 drop sequence testseq123;
-2.Ë÷Òı
-ÓÃÀ´¼ÓËÙ²éÑ¯
-ÏûºÄÁË´óÁ¿µÄ¿Õ¼äºÍÊ±¼äÀ´Íê³É
-3ÒÚÌõÊı¾İ ²»ÓÃË÷ÒıÓÃ7-8·ÖÖÓ
-½¨Á¢Ë÷Òı °ë¸ö¶àĞ¡Ê±30G½¨Á¢ ²éÑ¯ÓÃÁË0.01Ãë
-ÈçºÎ½¨Á¢Ë÷Òı
-1.Î¨Ò»ĞÔ×Ö¶ÎÉÏÏµÍ³»á×Ô¶¯½¨Á¢Ë÷Òı£¨Î¨Ò»ĞÔË÷Òı£©
-2.ÔÚ·ÇÎ¨Ò»ĞÔ×Ö¶ÎÉÏ ¿ÉÒÔÈËÎªµØ´´½¨Ë÷Òı
-create index Ë÷ÒıÃû on ±íÃû(×Ö¶Î);
-3.É¾³ıË÷Òı
-Ë÷ÒıºÍ±íÕ¼µÄ²»ÊÇÒ»¸ö¿Õ¼ä
-drop index Ë÷ÒıÃû;
+2.ç´¢å¼•
+ç”¨æ¥åŠ é€ŸæŸ¥è¯¢
+æ¶ˆè€—äº†å¤§é‡çš„ç©ºé—´å’Œæ—¶é—´æ¥å®Œæˆ
+3äº¿æ¡æ•°æ® ä¸ç”¨ç´¢å¼•ç”¨7-8åˆ†é’Ÿ
+å»ºç«‹ç´¢å¼• åŠä¸ªå¤šå°æ—¶30Gå»ºç«‹ æŸ¥è¯¢ç”¨äº†0.01ç§’
+å¦‚ä½•å»ºç«‹ç´¢å¼•
+1.å”¯ä¸€æ€§å­—æ®µä¸Šç³»ç»Ÿä¼šè‡ªåŠ¨å»ºç«‹ç´¢å¼•ï¼ˆå”¯ä¸€æ€§ç´¢å¼•ï¼‰
+2.åœ¨éå”¯ä¸€æ€§å­—æ®µä¸Š å¯ä»¥äººä¸ºåœ°åˆ›å»ºç´¢å¼•
+create index ç´¢å¼•å on è¡¨å(å­—æ®µ);
+3.åˆ é™¤ç´¢å¼•
+ç´¢å¼•å’Œè¡¨å çš„ä¸æ˜¯ä¸€ä¸ªç©ºé—´
+drop index ç´¢å¼•å;
 drop index testemp101_id_ind;
-3.ÊÓÍ¼
-ÊÓÍ¼±¾ÖÊÉÏÊÇÒ»Ìõsql Ïà¶ÔÓÚÊÓÍ¼¶ÔÓ¦µÄÊı¾İ ÊÓÍ¼µÄ¿Õ¼äÊÇ¿ÉÒÔºöÂÔµÄ
+3.è§†å›¾
+è§†å›¾æœ¬è´¨ä¸Šæ˜¯ä¸€æ¡sql ç›¸å¯¹äºè§†å›¾å¯¹åº”çš„æ•°æ® è§†å›¾çš„ç©ºé—´æ˜¯å¯ä»¥å¿½ç•¥çš„
 create or replace view myview
 as select id,first_name,salary from s_emp;
 create or replace view myview2
 as select id,first_name,salary from s_emp;
-¿ÉÒÔ¶ÔÍ¬Ò»·İÎïÀíÊı¾İ ×ö²»Í¬µÄ±íÏÖ
-Ê¹ÓÃ£º
+å¯ä»¥å¯¹åŒä¸€ä»½ç‰©ç†æ•°æ® åšä¸åŒçš„è¡¨ç°
+ä½¿ç”¨ï¼š
 select * from myview;
 select * from myview2;
 ----------------------------------
-Èı·¶Ê½£º
- µÚÒ»·¶Ê½£º±íÖĞµÄ×Ö¶Î²»¿ÉÔÙ·Ö
-	ÈÎºÎµÄ¹ØÏµĞÍÊı¾İ¿â±ØĞëÂú×ãµÚÒ»·¶Ê½
- µÚ¶ş·¶Ê½£ºÂú×ãµÚÒ»·¶Ê½µÄ»ù´¡ÉÏ£¬ËùÓĞµÄ·ÇÖ÷ÊôĞÔ ÍêÈ«ÒÀÀµÖ÷ÊôĞÔ
-	±íÖĞµÄÊı¾İ ¿ÉÒÔ±»Î¨Ò»Çø·Ö£¨Ö»ÒªÓĞÖ÷¼ü¾Í¿ÉÒÔ£©£¨¼ÇÂ¼¶øÑÔ£©
-	ºÃ´¦ ·½±ã²éÑ¯
-	»µ´¦ Êı¾İÈßÓà Ôö É¾ ¸Ä ²»·½±ã
- µÚÈı·¶Ê½£ºµÚ¶ş·¶Ê½µÄ»ù´¡ÉÏ£¬Ïû³ıÁË´«µİÒÀÀµ£¨..->..->..£©
-	Ïû³ı´«µİÒÀÀµ----²ğ±í
+ä¸‰èŒƒå¼ï¼š
+ ç¬¬ä¸€èŒƒå¼ï¼šè¡¨ä¸­çš„å­—æ®µä¸å¯å†åˆ†
+	ä»»ä½•çš„å…³ç³»å‹æ•°æ®åº“å¿…é¡»æ»¡è¶³ç¬¬ä¸€èŒƒå¼
+ ç¬¬äºŒèŒƒå¼ï¼šæ»¡è¶³ç¬¬ä¸€èŒƒå¼çš„åŸºç¡€ä¸Šï¼Œæ‰€æœ‰çš„éä¸»å±æ€§ å®Œå…¨ä¾èµ–ä¸»å±æ€§
+	è¡¨ä¸­çš„æ•°æ® å¯ä»¥è¢«å”¯ä¸€åŒºåˆ†ï¼ˆåªè¦æœ‰ä¸»é”®å°±å¯ä»¥ï¼‰ï¼ˆè®°å½•è€Œè¨€ï¼‰
+	å¥½å¤„ æ–¹ä¾¿æŸ¥è¯¢
+	åå¤„ æ•°æ®å†—ä½™ å¢ åˆ  æ”¹ ä¸æ–¹ä¾¿
+ ç¬¬ä¸‰èŒƒå¼ï¼šç¬¬äºŒèŒƒå¼çš„åŸºç¡€ä¸Šï¼Œæ¶ˆé™¤äº†ä¼ é€’ä¾èµ–ï¼ˆ..->..->..ï¼‰
+	æ¶ˆé™¤ä¼ é€’ä¾èµ–----æ‹†è¡¨
 -------------------------------------
-·ÖÒ³¼¼Êõ£º
-ÔÚ²»Í¬µÄÊı¾İ¿âÀïÊµÏÖ¼¼Êõ²»Ò»Ñù
+åˆ†é¡µæŠ€æœ¯ï¼š
+åœ¨ä¸åŒçš„æ•°æ®åº“é‡Œå®ç°æŠ€æœ¯ä¸ä¸€æ ·
 oracle rownum
 mysql  limit
 sqlserver top
 select id,first_name,salary from s_emp;
-select rownum,first_name,salary from s_emp;//id²»ÊÇÓĞĞòµÄ,µ«rownumÊÇÓĞĞòµÄ
-¼ÙÉèÒ»Ò³ÏÔÊ¾7Ìõ£¬ÒªµÚÒ»Ò³Êı¾İ
+select rownum,first_name,salary from s_emp;//idä¸æ˜¯æœ‰åºçš„,ä½†rownumæ˜¯æœ‰åºçš„
+å‡è®¾ä¸€é¡µæ˜¾ç¤º7æ¡ï¼Œè¦ç¬¬ä¸€é¡µæ•°æ®
 select rownum,first_name,salary from s_emp where rownum<8;
 select rownum+7,first_name,salary from s_emp where rownum<8;
 select * from(select rownum r,first_name,salary from s_emp where rownum<15)where r>7;
-//ÒòÎªrownumÓĞ¸öÃ«²¡£ºÖ»ÒªÊÇ²»ÕıÈ·µÄ¾Í²»ÍùÏÂ×ßÁË¡£µ«¸ørownumÆğµÄ±ğÃûÃ»ÓĞÕâ¸öÎÊÌâ
-°´ÕÕ¹¤×ÊÅÅĞò Ã¿Ò³ÏÔÊ¾7Ìõ ÏÔÊ¾µÚ¶şÒ³Êı¾İ:ÒªÏÈÅÅĞò
+//å› ä¸ºrownumæœ‰ä¸ªæ¯›ç—…ï¼šåªè¦æ˜¯ä¸æ­£ç¡®çš„å°±ä¸å¾€ä¸‹èµ°äº†ã€‚ä½†ç»™rownumèµ·çš„åˆ«åæ²¡æœ‰è¿™ä¸ªé—®é¢˜
+æŒ‰ç…§å·¥èµ„æ’åº æ¯é¡µæ˜¾ç¤º7æ¡ æ˜¾ç¤ºç¬¬äºŒé¡µæ•°æ®:è¦å…ˆæ’åº
 select * from(
 select rownum r,first_name,salary from
 (select first_name,salary from s_emp order by salary)
 where rownum<2*7+1)
 where r>7;
 ----------------------------------
-sqlÖĞºÍNULLÏà¹ØµÄÖªÊ¶µã£º
+sqlä¸­å’ŒNULLç›¸å…³çš„çŸ¥è¯†ç‚¹ï¼š
 ----------------------------------
-plsql:¹ı³Ì»¯ÓïÑÔµÄsql	procedure(´æ´¢¹ı³Ì)
+plsql:è¿‡ç¨‹åŒ–è¯­è¨€çš„sql	procedure(å­˜å‚¨è¿‡ç¨‹)
 1.plsql
 2.proc/c++
-3.odbc/ado	vcÖĞ·ÃÎÊÊı¾İ¿âµÄ¼¼Êõ
-4.jdbc/sqlj	java·ÃÎÊÊı¾İ¿âµÄ¼¼Êõ
-5.OCI		oracleµ×²ãÁ¬½Ó½Ó¿Ú
-plsql£ºoracle¿Í»§¶Ë¹¤¾ß·ÃÎÊoracle·şÎñÆ÷µÄ²Ù×÷ÓïÑÔ
-plsqlÀ©Õ¹ÁËsql
-±äÁ¿ºÍÊı¾İÀàĞÍ
-¿ØÖÆÓï¾ä
-¹ı³ÌºÍº¯Êı
-plsqlµÄ³ÌĞò½á¹¹£º
+3.odbc/ado	vcä¸­è®¿é—®æ•°æ®åº“çš„æŠ€æœ¯
+4.jdbc/sqlj	javaè®¿é—®æ•°æ®åº“çš„æŠ€æœ¯
+5.OCI		oracleåº•å±‚è¿æ¥æ¥å£
+plsqlï¼šoracleå®¢æˆ·ç«¯å·¥å…·è®¿é—®oracleæœåŠ¡å™¨çš„æ“ä½œè¯­è¨€
+plsqlæ‰©å±•äº†sql
+å˜é‡å’Œæ•°æ®ç±»å‹
+æ§åˆ¶è¯­å¥
+è¿‡ç¨‹å’Œå‡½æ•°
+plsqlçš„ç¨‹åºç»“æ„ï¼š
 declare
-ÉêÃ÷Çø
+ç”³æ˜åŒº
 begin
-Ö´ĞĞÇø
+æ‰§è¡ŒåŒº
 exception
-Òì³£´¦ÀíÇø
+å¼‚å¸¸å¤„ç†åŒº
 end;
-ÉêÃ÷Çø£ºÓÃÀ´¶¨Òå±äÁ¿ »òÕß ÀàĞÍµÄ
-Ö´ĞĞÇø£ºÓÃÀ´Ö´ĞĞsqlÓï¾ä»òÕßplsqlÓï¾äµÄ
-Òì³£´¦ÀíÇø£ºµ±sqlÓï¾ä³ö´íÖ®ºó×Ô¶¯×ªµ½Òì³£´¦ÀíÇø×ö´íÎó´¦Àí
+ç”³æ˜åŒºï¼šç”¨æ¥å®šä¹‰å˜é‡ æˆ–è€… ç±»å‹çš„
+æ‰§è¡ŒåŒºï¼šç”¨æ¥æ‰§è¡Œsqlè¯­å¥æˆ–è€…plsqlè¯­å¥çš„
+å¼‚å¸¸å¤„ç†åŒºï¼šå½“sqlè¯­å¥å‡ºé”™ä¹‹åè‡ªåŠ¨è½¬åˆ°å¼‚å¸¸å¤„ç†åŒºåšé”™è¯¯å¤„ç†
 begin
 	dbms_output.put_line('hello plsql!');
 end;
-plsqlµÄ¿ª·¢¹¤¾ß£º
-sqlplus ÃüÁîĞĞÏÂµÄ¿ª·¢¹¤¾ß
-sqlprogrammer\sqlnavigator\sqldeveleperÍ¼ĞÎ½çÃæµÄ
-´ò¿ªÊä³ö
+plsqlçš„å¼€å‘å·¥å…·ï¼š
+sqlplus å‘½ä»¤è¡Œä¸‹çš„å¼€å‘å·¥å…·
+sqlprogrammer\sqlnavigator\sqldeveleperå›¾å½¢ç•Œé¢çš„
+æ‰“å¼€è¾“å‡º
 set serveroutput on
-57ÌìÉÏ1£º00£º00
-±êÊ¾·û
-×î´ó³¤¶ÈÎª30¸ö×Ö·û ×ÖÄ¸¿ªÍ·
-¸ø±äÁ¿ ÀàĞÍ ¹ı³Ì º¯Êı ÓÎ±êµÈ¶ÔÏóÆğÃû×ÖµÄ¡£
-×¢ÊÍ
--- µ¥ĞĞ×¢ÊÍ
-/* ÕâÊÇ¶àĞĞ×¢ÊÍ */
+57å¤©ä¸Š1ï¼š00ï¼š00
+æ ‡ç¤ºç¬¦
+æœ€å¤§é•¿åº¦ä¸º30ä¸ªå­—ç¬¦ å­—æ¯å¼€å¤´
+ç»™å˜é‡ ç±»å‹ è¿‡ç¨‹ å‡½æ•° æ¸¸æ ‡ç­‰å¯¹è±¡èµ·åå­—çš„ã€‚
+æ³¨é‡Š
+-- å•è¡Œæ³¨é‡Š
+/* è¿™æ˜¯å¤šè¡Œæ³¨é‡Š */
 ----------------------
-±äÁ¿µÄ¶¨Òå
-1.ÔÚÉêÃ÷Çø
-±äÁ¿Ãû ÀàĞÍ;
-2.¾ÙÀı
+å˜é‡çš„å®šä¹‰
+1.åœ¨ç”³æ˜åŒº
+å˜é‡å ç±»å‹;
+2.ä¸¾ä¾‹
 declare
  var_id number:=9527;
  var_name  varchar2(30):='tangbohu';
- -- Ê¹ÓÃÃ°ºÅ³õÊ¼»¯
+ -- ä½¿ç”¨å†’å·åˆå§‹åŒ–
 begin
 	dbms_output.put_line(var_id||':'||var_name);	
 	var_id:=1234;
 	var_name:='test';
 	dbms_output.put_line(var_id||'@'||var_name);
 end;
-3.±äÁ¿µÄĞŞÊÎ
+3.å˜é‡çš„ä¿®é¥°
 constant	not null
 declare
 	var_id constant number:=9527;
@@ -540,22 +541,22 @@ begin
 	var_name:='test';
 	dbms output.put_line(var_id||'@'||var_name);
 end;
-4.±äÁ¿µÄÊı¾İÀàĞÍ
-±êÁ¿ÀàĞÍ£º
-number Êı×ÖÀàĞÍ
-binary_integer ¶ş½øÖÆÕûÊıÀàĞÍ
-char ¶¨³¤×Ö·û´®
-date ÈÕÆÚÀàĞÍ	boolean ²¼¶ûÀàĞÍ
-¸´ºÏÀàĞÍ
-record ¼ÇÂ¼ÀàĞÍ
-table ±íÀàĞÍ
-²Î¿¼ÀàĞÍ£º
-ref ²Î¿¼ÀàĞÍ
+4.å˜é‡çš„æ•°æ®ç±»å‹
+æ ‡é‡ç±»å‹ï¼š
+number æ•°å­—ç±»å‹
+binary_integer äºŒè¿›åˆ¶æ•´æ•°ç±»å‹
+char å®šé•¿å­—ç¬¦ä¸²
+date æ—¥æœŸç±»å‹	boolean å¸ƒå°”ç±»å‹
+å¤åˆç±»å‹
+record è®°å½•ç±»å‹
+table è¡¨ç±»å‹
+å‚è€ƒç±»å‹ï¼š
+ref å‚è€ƒç±»å‹
 ref cursor
-´óÀàĞÍ£º
-BLOB ´ó¶ş½øÖÆÀàĞÍ£¨ÁË½â£©
-CLOB ´ó×Ö·ûÀàĞÍ
-BFILE ÎÄ¼şÀàĞÍ
+å¤§ç±»å‹ï¼š
+BLOB å¤§äºŒè¿›åˆ¶ç±»å‹ï¼ˆäº†è§£ï¼‰
+CLOB å¤§å­—ç¬¦ç±»å‹
+BFILE æ–‡ä»¶ç±»å‹
 ---------------------------
 declare
 	falg boolean:=true;
@@ -565,8 +566,8 @@ begin:
 		dbms_output.put_line(jobno);
 	end if;
 end;
-5.È¡µÃ±íÖĞ×Ö¶Î¶ÔÓ¦µÄÀàĞÍ ±íÃû.×Ö¶ÎÃû%type
-¶¨ÒåÁ½¸ö±äÁ¿ ·Ö±ğºÍs_emp±íÖĞ id ºÍ first_name µÄÀàĞÍÏàÍ¬ È»ºó°Ñid=1µÄfirst_name¸³Öµ¸ø¶¨ÒåµÄ±äÁ¿
+5.å–å¾—è¡¨ä¸­å­—æ®µå¯¹åº”çš„ç±»å‹ è¡¨å.å­—æ®µå%type
+å®šä¹‰ä¸¤ä¸ªå˜é‡ åˆ†åˆ«å’Œs_empè¡¨ä¸­ id å’Œ first_name çš„ç±»å‹ç›¸åŒ ç„¶åæŠŠid=1çš„first_nameèµ‹å€¼ç»™å®šä¹‰çš„å˜é‡
 declare
 	var_id s_emp.id%type:=1;
 	var_name s_emp.first_name%type;
@@ -575,14 +576,14 @@ begin
 	dbms_output.put_line(var_name);
 end;
 -------------------------------
-6.ÀàËÆÓÚcÓïÑÔ½á¹¹ÌåµÄÀàĞÍ recordÀàĞÍ
-¶¨ÒårecordÀàĞÍ
-type ¼ÇÂ¼ÀàĞÍÃû is record (
-	×Ö¶ÎÃû ÀàĞÍ,
-	×Ö¶ÎÃû ÀàĞÍ,
-	×Ö¶ÎÃû ÀàĞÍ,	
+6.ç±»ä¼¼äºcè¯­è¨€ç»“æ„ä½“çš„ç±»å‹ recordç±»å‹
+å®šä¹‰recordç±»å‹
+type è®°å½•ç±»å‹å is record (
+	å­—æ®µå ç±»å‹,
+	å­—æ®µå ç±»å‹,
+	å­—æ®µå ç±»å‹,	
 );
-±äÁ¿Ãû ¼ÇÂ¼ÀàĞÍµÄÃû×Ö;
+å˜é‡å è®°å½•ç±»å‹çš„åå­—;
 declare
 type emptype is record(
 	var_id s_emp.id%type,
@@ -593,34 +594,34 @@ var_emp emptype;
 var_emp2 emptype;
 begin
 	select id, first_name,salary into var_emp from s_emp where id=3;
-	-- ¼ÇÂ¼ÀàĞÍ±äÁ¿Ö®¼äµÄ¸³Öµ
+	-- è®°å½•ç±»å‹å˜é‡ä¹‹é—´çš„èµ‹å€¼
 	var_emp2:=var_emp;
-	var_emp2.var_name:=var_emp.var_name;//¾Ö²¿¸³Öµ
+	var_emp2.var_name:=var_emp.var_name;//å±€éƒ¨èµ‹å€¼
 	dbms_output.put_line(var_emp2.var_id||':'||var_emp2.var_name||':'||var_emp2.salary);
 end;
-°Ñs_emp±íÖĞid=1µÄËùÓĞÊı¾İ·ÅÈëÒ»¸ö¼ÇÂ¼ÀàĞÍµÄ±äÁ¿ÖĞ£¨Èç¹ûÓÃrecordÌ«Âé·³£©
-ÓÃ ±íÃû%rowtype ¿ÉÒÔ»ñµÃ
+æŠŠs_empè¡¨ä¸­id=1çš„æ‰€æœ‰æ•°æ®æ”¾å…¥ä¸€ä¸ªè®°å½•ç±»å‹çš„å˜é‡ä¸­ï¼ˆå¦‚æœç”¨recordå¤ªéº»çƒ¦ï¼‰
+ç”¨ è¡¨å%rowtype å¯ä»¥è·å¾—
 declare
 	var_emp s_emp%rowtype;
 begin
 	select * into var_emp from s_emp where id=1;
 	dbms_output.put_line(var_emp.id||var_emp.first_name||..);
 end;
-°Ñid=50²¿ÃÅĞÅÏ¢·ÅÈëÒ»¸örowtypeÀàĞÍµÄ±äÁ¿ÖĞ
+æŠŠid=50éƒ¨é—¨ä¿¡æ¯æ”¾å…¥ä¸€ä¸ªrowtypeç±»å‹çš„å˜é‡ä¸­
 declare
 var_emp s_dept%rowtype;
 begin
 select * into var_dept from s_dept where id=50;
 dbms_output.put_line(var_dept.id||':'||var_dept.name||':'||var_dept.salary);
 end;
-8.table ÀàĞÍ
-Ïàµ±ÓÚCÓïÑÔµÄÊı×éÀàĞÍ
-¶¨ÒåÒ»¸ötableÀàĞÍ
-type ÀàĞÍÃû is table of ±íÖĞÊı¾İÀàĞÍ index by binary_integer;
+8.table ç±»å‹
+ç›¸å½“äºCè¯­è¨€çš„æ•°ç»„ç±»å‹
+å®šä¹‰ä¸€ä¸ªtableç±»å‹
+type ç±»å‹å is table of è¡¨ä¸­æ•°æ®ç±»å‹ index by binary_integer;
 declare
--- ¶¨ÒåÒ»¸ö±íÀàĞÍ
+-- å®šä¹‰ä¸€ä¸ªè¡¨ç±»å‹
 type numstype is  table of number index by binary_integer;
---Ê¹ÓÃ±íÀàĞÍ¶¨Òå±äÁ¿
+--ä½¿ç”¨è¡¨ç±»å‹å®šä¹‰å˜é‡
 var_nums numstype;
 var_ind   binary_integer:=-1;
 begin
@@ -631,11 +632,11 @@ dbms_output.put_line('var_nums('||var_ind||')='||var_nums(var_ind));
 var_ind:=var_ind+1;
 dbms_output.put_line('var_nums('||var_ind||')='||var_nums(var_ind));
 end;
-ÏÂ±ê²»Á¬ĞøÊ±µÄ·ÃÎÊ
-µü´úÆ÷Ë¼Ïë£º¸ù¾İÒ»¸öÔªËØµÄĞÅÏ¢¿ÉÒÔµÃµ½ÏÂÒ»¸öÔªËØµÄĞÅÏ¢ Èı¸öº¯Êı
-first()¿ÉÒÔ·µ»ØµÚÒ»¸öÔªËØ¶ÔÓ¦µÄÏÂ±ê
-next(n)n ÊÇÉÏÒ»¸öÔªËØµÄÏÂ±ê£¬¸ù¾İÒ»¸öÔªËØµÄÏÂ±êµÃµ½ÏÂÒ»¸öÔªËØµÄÏÂ±ê
-last()µÃµ½×îºóÒ»¸öÔªËØ¶ÔÓ¦µÄÏÂ±ê£º¸úC++ÖĞµÄend²»Ò»Ñù
+ä¸‹æ ‡ä¸è¿ç»­æ—¶çš„è®¿é—®
+è¿­ä»£å™¨æ€æƒ³ï¼šæ ¹æ®ä¸€ä¸ªå…ƒç´ çš„ä¿¡æ¯å¯ä»¥å¾—åˆ°ä¸‹ä¸€ä¸ªå…ƒç´ çš„ä¿¡æ¯ ä¸‰ä¸ªå‡½æ•°
+first()å¯ä»¥è¿”å›ç¬¬ä¸€ä¸ªå…ƒç´ å¯¹åº”çš„ä¸‹æ ‡
+next(n)n æ˜¯ä¸Šä¸€ä¸ªå…ƒç´ çš„ä¸‹æ ‡ï¼Œæ ¹æ®ä¸€ä¸ªå…ƒç´ çš„ä¸‹æ ‡å¾—åˆ°ä¸‹ä¸€ä¸ªå…ƒç´ çš„ä¸‹æ ‡
+last()å¾—åˆ°æœ€åä¸€ä¸ªå…ƒç´ å¯¹åº”çš„ä¸‹æ ‡ï¼šè·ŸC++ä¸­çš„endä¸ä¸€æ ·
 var_ind:=var_nums.first();
 var_ind:=var_nums.next(var_ind); 
 var_ind:=var_nums.last();
@@ -664,8 +665,8 @@ begin
 	);
 end;
 ---------------------------
-±äÁ¿µÄ×÷ÓÃÓòÓë¿É¼ûĞÔ
-plsql¿éµÄÇ¶Ì×
+å˜é‡çš„ä½œç”¨åŸŸä¸å¯è§æ€§
+plsqlå—çš„åµŒå¥—
 <<outerblock>>
 declare
 var_m number:=1;
@@ -679,7 +680,7 @@ var_m number:=100;
 ----------------------------
 end;
 ----------------------------
-plsqlÖĞµÄ¿ØÖÆÓï¾ä
+plsqlä¸­çš„æ§åˆ¶è¯­å¥
 1.
 if a>b then
 end if;
@@ -690,7 +691,7 @@ if a<b then
 elsif a<c then
 elsif a<d then
 end if;
--- ifºóÃæ±Ø´øthen
+-- ifåé¢å¿…å¸¦then
 if a<b then
 elsif a<c then
 elsif a<d then
@@ -713,13 +714,13 @@ begin
 		null;
 	end if;
 end;
-Ñ­»·
-a.¼òµ¥Ñ­»·
+å¾ªç¯
+a.ç®€å•å¾ªç¯
 loop
 exit when;
 end loop;
-b.whileÑ­»·
-while Ñ­»·Ìõ¼ş loop
+b.whileå¾ªç¯
+while å¾ªç¯æ¡ä»¶ loop
 end loop;
 declare
 	var_i number:=1;
@@ -729,20 +730,20 @@ begin
 		var_i:=var_i+1;
 	end loop;
 end;
-c.forÑ­»· ----ÖÇÄÜÑ­»·
-for ±äÁ¿ in Çø¼ä loop
+c.forå¾ªç¯ ----æ™ºèƒ½å¾ªç¯
+for å˜é‡ in åŒºé—´ loop
 
 end loop;
-ÕûÊıµÄÇø¼ä 1..10
+æ•´æ•°çš„åŒºé—´ 1..10
 --------
 begin
-	for var_i in (reverse) 1..10 loop -- reverse·´Ïò
+	for var_i in (reverse) 1..10 loop -- reverseåå‘
 		dbms_output.put_line(var_i);
 		exit when var_i=5;
-	end loop; -- forÑ­»·ÖĞµÄ±äÁ¿²»ÓÃÔÚdelcareÖĞ¸³Öµ£¬Ò²²»ÄÜ±»ĞŞ¸Ä
+	end loop; -- forå¾ªç¯ä¸­çš„å˜é‡ä¸ç”¨åœ¨delcareä¸­èµ‹å€¼ï¼Œä¹Ÿä¸èƒ½è¢«ä¿®æ”¹
 end;
 ---------------------
-¶àÖØÑ­»·µÄÍË³ö£¨ÈıÖÖ·½°¸£©£¨ĞŞ¸ÄÍâ²ãÑ­»·µÄ±äÁ¿µÄÖµ£¬È»ºóÌø¹ıÈ¥£©
+å¤šé‡å¾ªç¯çš„é€€å‡ºï¼ˆä¸‰ç§æ–¹æ¡ˆï¼‰ï¼ˆä¿®æ”¹å¤–å±‚å¾ªç¯çš„å˜é‡çš„å€¼ï¼Œç„¶åè·³è¿‡å»ï¼‰
 declare
 	var_m number;
 	var_n number;
@@ -757,7 +758,7 @@ begin
 		var_m:=var_m+1;
 	end loop;
 end;
-3.goto Óï¾ä
+3.goto è¯­å¥
 declare
 var_m number:=1;
 begin
@@ -769,14 +770,14 @@ if var_m<11 then
 end if;
 dbms_output.put_line('game over!');
 end;
-sqlµÄ±êÇ©ºóÃæ±ØĞëÓĞÓï¾ä
+sqlçš„æ ‡ç­¾åé¢å¿…é¡»æœ‰è¯­å¥
 ---------------
-sqlÓï¾äÔÚplsqlÖĞµÄ·ÖÀà
-1.select Óï¾äÔÚplsqlÖĞÊ¹ÓÃÊÇ ÒªºÍinto½áºÏ±äÁ¿Ê¹ÓÃ
+sqlè¯­å¥åœ¨plsqlä¸­çš„åˆ†ç±»
+1.select è¯­å¥åœ¨plsqlä¸­ä½¿ç”¨æ˜¯ è¦å’Œintoç»“åˆå˜é‡ä½¿ç”¨
 select first_name into var_name from s_emp where id=var_id;
 2.insert delete update dml
 commit rollback savepint tcl
-ÕâĞ©Óï¾ä¿ÉÒÔÖ±½ÓÔÚplsqlÖĞÊ¹ÓÃ
+è¿™äº›è¯­å¥å¯ä»¥ç›´æ¥åœ¨plsqlä¸­ä½¿ç”¨
 declare
 var_id number:=1;
 var_name varchar2(30):='test';
@@ -788,35 +789,35 @@ end;
 3.ddl 	create table
 	drop table
 	alter table
-ÕâĞ©Óï¾ä²»ÄÜÖ±½ÓÔÚplsqlÖĞÊ¹ÓÃ£¬ĞèÒªÊ¹ÓÃ¶¯Ì¬sqlµÄÓï·¨
+è¿™äº›è¯­å¥ä¸èƒ½ç›´æ¥åœ¨plsqlä¸­ä½¿ç”¨ï¼Œéœ€è¦ä½¿ç”¨åŠ¨æ€sqlçš„è¯­æ³•
 begin
 	create table testplsql(id number,
 	name varchar2(30));
 end;
-¶¯Ì¬ sql:
-°ÑsqlÓï¾ä±ä³É×Ö·û´®
-°ÑÒ»¸ö×Ö·û´®¶ÔÓ¦µÄsqlÓï¾ä µ±×÷ÕæÕısqlÀ´Ö´ĞĞ
+åŠ¨æ€ sql:
+æŠŠsqlè¯­å¥å˜æˆå­—ç¬¦ä¸²
+æŠŠä¸€ä¸ªå­—ç¬¦ä¸²å¯¹åº”çš„sqlè¯­å¥ å½“ä½œçœŸæ­£sqlæ¥æ‰§è¡Œ
 declare
 sqlstr varchar2(100);
 begin
 	sqlstr:='create table testplsql(id number)';
 	sqlstr:=substr(sqlstr,1,length(sqlstr)-1);
 	sqlstr:=sqlstr||','||'namevarchar(30)';
-	-- °Ñ×Ö·û´®¶ÔÓ¦sqlµ±ÕæÕısqlÀ´Ö´ĞĞ
+	-- æŠŠå­—ç¬¦ä¸²å¯¹åº”sqlå½“çœŸæ­£sqlæ¥æ‰§è¡Œ
 	execute immediate sqlstr;
 end;
-4.dmlÓï¾ä¾²Ì¬sqlºÍ¶¯Ì¬sql
-5.select Óï¾ä¶¯Ì¬sql
-Ö»ÄÜ·µ»ØÒ»¸ö½á¹û£¬¶àÁËÉÙÁË¶¼»á±¨´í
+4.dmlè¯­å¥é™æ€sqlå’ŒåŠ¨æ€sql
+5.select è¯­å¥åŠ¨æ€sql
+åªèƒ½è¿”å›ä¸€ä¸ªç»“æœï¼Œå¤šäº†å°‘äº†éƒ½ä¼šæŠ¥é”™
 -----------------------------
-Ò»´Î¿ÉÒÔ·Å¶àÌõÊı¾İ
-´¦Àí¶àÌõÊı¾İµÄÊı¾İ½á¹¹ ÓÎ±ê cursor
-cursor µÄÊ¹ÓÃ²½Öè
-1.ÉùÃ÷ÓÎ±ê cursor ÓÎ±êÃû is sqlÓï¾ä;
-2.´ò¿ªÓÎ±ê open ÓÎ±êÃû;
-3.ÌáÈ¡Êı¾İ ´¦ÀíÊı¾İ fetch ÓÎ±êÃû into ±äÁ¿;
-4.¹Ø±ÕÓÎ±ê
-close ÓÎ±êÃû;
+ä¸€æ¬¡å¯ä»¥æ”¾å¤šæ¡æ•°æ®
+å¤„ç†å¤šæ¡æ•°æ®çš„æ•°æ®ç»“æ„ æ¸¸æ ‡ cursor
+cursor çš„ä½¿ç”¨æ­¥éª¤
+1.å£°æ˜æ¸¸æ ‡ cursor æ¸¸æ ‡å is sqlè¯­å¥;
+2.æ‰“å¼€æ¸¸æ ‡ open æ¸¸æ ‡å;
+3.æå–æ•°æ® å¤„ç†æ•°æ® fetch æ¸¸æ ‡å into å˜é‡;
+4.å…³é—­æ¸¸æ ‡
+close æ¸¸æ ‡å;
 declare
 	cursor empcursor is select * from s_emp;
 	var_emp empcursor%rowtype;
@@ -826,24 +827,24 @@ begin
 	dbms_output.put_line(var_emp.id||':'||var_emp.first_name||':'||var_emp.salary);
 	close empcursor;
 end;
-ÓÎ±êµÄ±éÀú
-ÓÎ±êµÄÊôĞÔ
-found	µ±ÌáÈ¡Êı¾İÊ± ÌáÈ¡µ½ĞÂÊı¾İ¾Í·µ»ØÕæ
-	Ã»ÓĞÌáÈ¡µ½ĞÂÊı¾İ¾Í·µ»Ø¼Ù
-	ÓÎ±ê±ØĞë´¦ÓÚ´ò¿ª×´Ì¬£¬²»´¦ÓÚ´ò¿ª×´Ì¬¾ÍÊÇ·Ç·¨ÓÎ±ê¡£
-	´ò¿ª²»fetchÊ¹ÓÃÕâ¸öÊôĞÔ¾Í·µ»ØNULLÖµ¡£
-notfoundÓÎ±ê±ØĞë´¦ÓÚ´ò¿ª×´Ì¬ ·ñÔò±¨´í
-	´ò¿ª²»fetch ·µ»ØNULL
-	Èç¹ûÌáÈ¡µ½ĞÂÊı¾İ ·µ»Ø¼Ù
-	Ã»ÓĞÌáÈ¡µ½ĞÂÊı¾İ ·µ»ØÕæ	
-isopen	ÓÎ±êÊÇ·ñ´ò¿ª
-	´ò¿ª¾Í·µ»ØÕæ
-	¹Ø±Õ¾Í·µ»Ø¼Ù
-	´ò¿ªµÄÓÎ±ê²»ÄÜÔÙ´ò¿ª ¹Ø±ÕµÄÓÎ±ê²»ÄÜÔÙ¹Ø±Õ
-rowcountÓÎ±êÖ¸ÕëÆ«ÒÆÁ¿
+æ¸¸æ ‡çš„éå†
+æ¸¸æ ‡çš„å±æ€§
+found	å½“æå–æ•°æ®æ—¶ æå–åˆ°æ–°æ•°æ®å°±è¿”å›çœŸ
+	æ²¡æœ‰æå–åˆ°æ–°æ•°æ®å°±è¿”å›å‡
+	æ¸¸æ ‡å¿…é¡»å¤„äºæ‰“å¼€çŠ¶æ€ï¼Œä¸å¤„äºæ‰“å¼€çŠ¶æ€å°±æ˜¯éæ³•æ¸¸æ ‡ã€‚
+	æ‰“å¼€ä¸fetchä½¿ç”¨è¿™ä¸ªå±æ€§å°±è¿”å›NULLå€¼ã€‚
+notfoundæ¸¸æ ‡å¿…é¡»å¤„äºæ‰“å¼€çŠ¶æ€ å¦åˆ™æŠ¥é”™
+	æ‰“å¼€ä¸fetch è¿”å›NULL
+	å¦‚æœæå–åˆ°æ–°æ•°æ® è¿”å›å‡
+	æ²¡æœ‰æå–åˆ°æ–°æ•°æ® è¿”å›çœŸ	
+isopen	æ¸¸æ ‡æ˜¯å¦æ‰“å¼€
+	æ‰“å¼€å°±è¿”å›çœŸ
+	å…³é—­å°±è¿”å›å‡
+	æ‰“å¼€çš„æ¸¸æ ‡ä¸èƒ½å†æ‰“å¼€ å…³é—­çš„æ¸¸æ ‡ä¸èƒ½å†å…³é—­
+rowcountæ¸¸æ ‡æŒ‡é’ˆåç§»é‡
 
-ÖÇÄÜÑ­»· ºÍ ÓÎ±ê±éÀú
-forÑ­»· »á×Ô¶¯´ò¿ªÓÎ±ê ×Ô¶¯ÌáÈ¡ ×Ô¶¯¹Ø±Õ
+æ™ºèƒ½å¾ªç¯ å’Œ æ¸¸æ ‡éå†
+forå¾ªç¯ ä¼šè‡ªåŠ¨æ‰“å¼€æ¸¸æ ‡ è‡ªåŠ¨æå– è‡ªåŠ¨å…³é—­
 declare
 	cursor empcursor is select * from s_emp;
 begin
@@ -851,26 +852,26 @@ begin
 	dbms_output.put_line();
 	end loop;
 end;
-´ø²ÎÓÎ±ê£º¶¯Ì¬sql ºÍ ÓÎ±êµÄ½áºÏ¡£
-plsqlÖĞµÄ²ÎÊı²»ÄÜÓĞÈÎºÎ³¤¶ÈĞŞÊÎ
-µ«ÊÇ¿ÉÒÔÊ¹ÓÃ %type 
-²Î¿¼ÓÎ±ê£¨ÒıÓÃÓÎ±ê£©
-¶¨ÒåÒıÓÃÓÎ±êÀàĞÍ
+å¸¦å‚æ¸¸æ ‡ï¼šåŠ¨æ€sql å’Œ æ¸¸æ ‡çš„ç»“åˆã€‚
+plsqlä¸­çš„å‚æ•°ä¸èƒ½æœ‰ä»»ä½•é•¿åº¦ä¿®é¥°
+ä½†æ˜¯å¯ä»¥ä½¿ç”¨ %type 
+å‚è€ƒæ¸¸æ ‡ï¼ˆå¼•ç”¨æ¸¸æ ‡ï¼‰
+å®šä¹‰å¼•ç”¨æ¸¸æ ‡ç±»å‹
 type myrefcursor is refcursor
-Ê¹ÓÃÀàĞÍ¶¨ÒåÓÎ±ê±äÁ¿
+ä½¿ç”¨ç±»å‹å®šä¹‰æ¸¸æ ‡å˜é‡
 emp_cursor myrefcursor;
-Ê¹ÓÃÒıÓÃÀàĞÍÓÎ±ê
+ä½¿ç”¨å¼•ç”¨ç±»å‹æ¸¸æ ‡
 open emp_cursor for sqlstr;
-Èç¹ûsqlstrÖĞÓĞÕ¼Î»·û
+å¦‚æœsqlsträ¸­æœ‰å ä½ç¬¦
 /*  */
 declare 
-	type myrefcursor is ref cursor;-- ¶¨Òå²Î¿¼ÓÎ±êÀàĞÍ
+	type myrefcursor is ref cursor;-- å®šä¹‰å‚è€ƒæ¸¸æ ‡ç±»å‹
 	empcursor myrefcursor;
 	sqlstr varchar2(100):='select * from s_emp' where id>:b0';
 	var_emp s_emp%rowtype;
 	var_id s_emp.id%type:=15;
 begin
-	-- ´ò¿ªÓÎ±ê ¹ØÁªµ½×Ö·û´®
+	-- æ‰“å¼€æ¸¸æ ‡ å…³è”åˆ°å­—ç¬¦ä¸²
 	open empcursor for sqlstr using var_id;
 	loop
 	fetch empcursor into var_emp;
@@ -880,10 +881,10 @@ begin
 	close empcursor;
 end;
 -------------------------------------------
-´æ´¢¹ı³Ì ºÍ º¯Êı
-1.´æ´¢¹ı³Ì procedure
-¸øÎÒÃÇµÄÄäÃû¿éÆğ¸öÃû×Ö È»ºó´æ´¢µ½Êı¾İ¿âÖĞ¡£
-Éè¼ÆÁ½¸öÕûÊı²ÎÊı ´òÓ¡ÆäÖĞµÄ×î´óÖµ
+å­˜å‚¨è¿‡ç¨‹ å’Œ å‡½æ•°
+1.å­˜å‚¨è¿‡ç¨‹ procedure
+ç»™æˆ‘ä»¬çš„åŒ¿åå—èµ·ä¸ªåå­— ç„¶åå­˜å‚¨åˆ°æ•°æ®åº“ä¸­ã€‚
+è®¾è®¡ä¸¤ä¸ªæ•´æ•°å‚æ•° æ‰“å°å…¶ä¸­çš„æœ€å¤§å€¼
 create or replace procedure getmax(x number,y number)
 is
 	var_x number;
@@ -897,19 +898,19 @@ begin
 		dbms_output.put_line(var_x);
 	end if;
 end;
-2.²é¿´´æ´¢¹ı³Ì
-desc ¹ı³ÌÃû;
+2.æŸ¥çœ‹å­˜å‚¨è¿‡ç¨‹
+desc è¿‡ç¨‹å;
 desc getmax;
-ÏÔÊ¾£º²ÎÊıµÄÃû×Ö¡¢²ÎÊıµÄÀàĞÍ¡¢²ÎÊıµÄÄ£Ê½
-²ÎÊıµÄÄ£Ê½£º
-in	¸ºÔğ¸ø´æ´¢¹ı³Ì´«ÈëÖµ
-out	×öÖ¸ÕëµÄĞ§¹û£¨´«³öÖµ£©
-in out	¼È¸ºÔğ´«ÈëÖµ ÓÖ¸ºÔğ´«³öÖµ outĞŞÊÎµÄ²ÎÊı±ØĞëÊÇ±äÁ¿
+æ˜¾ç¤ºï¼šå‚æ•°çš„åå­—ã€å‚æ•°çš„ç±»å‹ã€å‚æ•°çš„æ¨¡å¼
+å‚æ•°çš„æ¨¡å¼ï¼š
+in	è´Ÿè´£ç»™å­˜å‚¨è¿‡ç¨‹ä¼ å…¥å€¼
+out	åšæŒ‡é’ˆçš„æ•ˆæœï¼ˆä¼ å‡ºå€¼ï¼‰
+in out	æ—¢è´Ÿè´£ä¼ å…¥å€¼ åˆè´Ÿè´£ä¼ å‡ºå€¼ outä¿®é¥°çš„å‚æ•°å¿…é¡»æ˜¯å˜é‡
 
-3.µ÷ÓÃ´æ´¢¹ı³Ì
+3.è°ƒç”¨å­˜å‚¨è¿‡ç¨‹
 exec getmax(100,200);
 call getmax(1.201);
-ÄäÃû¿éµ÷ÓÃ »òÕß ÓĞÃû¿éµ÷ÓÃ
+åŒ¿åå—è°ƒç”¨ æˆ–è€… æœ‰åå—è°ƒç”¨
 declare
 	x number:=1;
 	y number:=99;
@@ -917,7 +918,7 @@ begin
 	getmax(x,y);
 end;
 -------------------------------------
-Éè¼ÆÒ»¸ö´æ´¢¹ı³Ì °ÑÁ½¸öÕûÊı²ÎÊıµÄºÍ·ÅÈëµÚÈı¸ö²ÎÊıÖĞ
+è®¾è®¡ä¸€ä¸ªå­˜å‚¨è¿‡ç¨‹ æŠŠä¸¤ä¸ªæ•´æ•°å‚æ•°çš„å’Œæ”¾å…¥ç¬¬ä¸‰ä¸ªå‚æ•°ä¸­
 create or replace procedure getmax(x number,y number,z out number)
 is
 begin
@@ -926,13 +927,13 @@ end;
 declare
 	var_z number:=0;
 begin
-	getsum(y=>1,x=>2,z=>var_z);-- ´«²ÎµÄÒ»ÖÖĞ´·¨¶øÒÑ£¬Ç°ĞÎ²Î
+	getsum(y=>1,x=>2,z=>var_z);-- ä¼ å‚çš„ä¸€ç§å†™æ³•è€Œå·²ï¼Œå‰å½¢å‚
 	dbms_output.put_line();
 end;
 ----------------------------------
-Éè¼ÆÒ»¸ö´æ´¢¹ı³Ì ´«ÈëÁ½¸öÕûÊı²ÎÊı
-ÒªÇóÊä³öÁ½¸öÕûÊı²ÎÊı×î´óÖµ »¹ÒªÇó°ÑÁ½¸ö²ÎÊıµÄºÍ·ÅÈëµÚ¶ş¸ö²ÎÊıÖĞ¡£
-²é¿´´æ´¢¹ı³Ì ²¢µ÷ÓÃÑéÖ¤¹ı³ÌµÄ¹¦ÄÜ¡£
+è®¾è®¡ä¸€ä¸ªå­˜å‚¨è¿‡ç¨‹ ä¼ å…¥ä¸¤ä¸ªæ•´æ•°å‚æ•°
+è¦æ±‚è¾“å‡ºä¸¤ä¸ªæ•´æ•°å‚æ•°æœ€å¤§å€¼ è¿˜è¦æ±‚æŠŠä¸¤ä¸ªå‚æ•°çš„å’Œæ”¾å…¥ç¬¬äºŒä¸ªå‚æ•°ä¸­ã€‚
+æŸ¥çœ‹å­˜å‚¨è¿‡ç¨‹ å¹¶è°ƒç”¨éªŒè¯è¿‡ç¨‹çš„åŠŸèƒ½ã€‚
 create or replace procedure fun(x in number,y out number)
 is
 begin
@@ -946,20 +947,20 @@ end;
 declare
 	var_z number:=0;
 begin
-	fun(y=>1,x=>var_z);-- ´«²ÎµÄÒ»ÖÖĞ´·¨¶øÒÑ£¬Ç°ĞÎ²Î
+	fun(y=>1,x=>var_z);-- ä¼ å‚çš„ä¸€ç§å†™æ³•è€Œå·²ï¼Œå‰å½¢å‚
 	dbms_output.put_line();
 end;
-º¯Êı
-º¯ÊıºÍ´æ´¢¹ı³ÌµÄÇø±ğ
-1.¹Ø¼ü×Ö²»Í¬
+å‡½æ•°
+å‡½æ•°å’Œå­˜å‚¨è¿‡ç¨‹çš„åŒºåˆ«
+1.å…³é”®å­—ä¸åŒ
 procedure function
-2.¹ı³ÌÃ»ÓĞ·µ»ØÖµ ºÍ ·µ»ØÖµÀàĞÍ
-º¯ÊıÓĞ·µ»ØÖµÀàĞÍ ºÍ ·µ»ØÖµ
+2.è¿‡ç¨‹æ²¡æœ‰è¿”å›å€¼ å’Œ è¿”å›å€¼ç±»å‹
+å‡½æ•°æœ‰è¿”å›å€¼ç±»å‹ å’Œ è¿”å›å€¼
 return
-3.´æ´¢¹ı³Ì¿ÉÒÔÖ±½ÓÔÚÄäÃû¿éÖĞ »òÕßÓĞÃû¿éÖĞµ÷ÓÃ¡£
-º¯Êı±ØĞë×é³É±í´ïÊ½ »òÕßÔÚsqlÖĞÊ¹ÓÃ¡£
-Éè¼ÆÒ»¸öº¯Êı ´«ÈëÁ½¸öÕûÊı²ÎÊı ·µ»ØÁ½¸ö²ÎÊıµÄ×î´óÖµ¡£
-create or replace function getmaxfun -- ²ÎÊıÄ¬ÈÏ¾ÍÊÇinÀàĞÍ
+3.å­˜å‚¨è¿‡ç¨‹å¯ä»¥ç›´æ¥åœ¨åŒ¿åå—ä¸­ æˆ–è€…æœ‰åå—ä¸­è°ƒç”¨ã€‚
+å‡½æ•°å¿…é¡»ç»„æˆè¡¨è¾¾å¼ æˆ–è€…åœ¨sqlä¸­ä½¿ç”¨ã€‚
+è®¾è®¡ä¸€ä¸ªå‡½æ•° ä¼ å…¥ä¸¤ä¸ªæ•´æ•°å‚æ•° è¿”å›ä¸¤ä¸ªå‚æ•°çš„æœ€å¤§å€¼ã€‚
+create or replace function getmaxfun -- å‚æ•°é»˜è®¤å°±æ˜¯inç±»å‹
 (x in number,y in number)return number
 is
 begin
@@ -968,9 +969,9 @@ begin
 	end if;
 	return x;
 end;
-²é¿´º¯Êı
-desc fungetmax; -- ¸ú´æ´¢¹ı³ÌÒ»Ñù£¨Ö»ÒªÃ»ÓĞËµ²»Ò»ÑùµÄ£¬¶¼ÊÇÒ»ÑùµÄ£©
-²âÊÔº¯Êı
+æŸ¥çœ‹å‡½æ•°
+desc fungetmax; -- è·Ÿå­˜å‚¨è¿‡ç¨‹ä¸€æ ·ï¼ˆåªè¦æ²¡æœ‰è¯´ä¸ä¸€æ ·çš„ï¼Œéƒ½æ˜¯ä¸€æ ·çš„ï¼‰
+æµ‹è¯•å‡½æ•°
 select fungetmax(1,2) from dual;
 declare
 	var_z number:=0;
@@ -999,9 +1000,9 @@ begin
 	dbms_output.put_lint();
 end;
 ---------------------------
-²ÎÊıµÄÄ¬ÈÏÖµ
+å‚æ•°çš„é»˜è®¤å€¼
 create or replace function testpardef
-(x number,y number:=123)return number -- ¸úCÓïÑÔÒ»Ñù
+(x number,y number:=123)return number -- è·ŸCè¯­è¨€ä¸€æ ·
 is 
 begin
 	if x<y then
@@ -1013,64 +1014,64 @@ end;
 
 select testpardef(1) from dual
 ----------------------------------
-1.½¨Á¢´æ´¢¹ı³ÌµÄÓï¾ä
-create or replace procedure ¹ı³ÌÃû
-(²ÎÊıÃû ²ÎÊıµÄÄ£Ê½ ÀàĞÍ£©
+1.å»ºç«‹å­˜å‚¨è¿‡ç¨‹çš„è¯­å¥
+create or replace procedure è¿‡ç¨‹å
+(å‚æ•°å å‚æ•°çš„æ¨¡å¼ ç±»å‹ï¼‰
 is
 begin
 end;
-2.²é¿´´æ´¢¹ı³Ì
-desc ¹ı³ÌÃû;
-²ÎÊıµÄÃû×Ö
-²ÎÊıµÄÀàĞÍ
-²ÎÊıµÄÄ£Ê½ £¨in out in out£©
-²ÎÊıµÄÄ¬ÈÏÖµ
-3.µ÷ÓÃ´æ´¢¹ı³Ì
+2.æŸ¥çœ‹å­˜å‚¨è¿‡ç¨‹
+desc è¿‡ç¨‹å;
+å‚æ•°çš„åå­—
+å‚æ•°çš„ç±»å‹
+å‚æ•°çš„æ¨¡å¼ ï¼ˆin out in outï¼‰
+å‚æ•°çš„é»˜è®¤å€¼
+3.è°ƒç”¨å­˜å‚¨è¿‡ç¨‹
 sqlplus call exec
-ÄäÃû¿é ÓĞÃû¿é
+åŒ¿åå— æœ‰åå—
 declare
 begin
 end;
-4.É¾³ı´æ´¢¹ı³Ì
-drop procedure ¹ı³ÌÃû;
-5.º¯ÊıÓë´æ´¢¹ı³ÌµÄÇø±ğ
+4.åˆ é™¤å­˜å‚¨è¿‡ç¨‹
+drop procedure è¿‡ç¨‹å;
+5.å‡½æ•°ä¸å­˜å‚¨è¿‡ç¨‹çš„åŒºåˆ«
 1.2.3.
-6.²ÎÊıµÄÄ¬ÈÏÖµ
+6.å‚æ•°çš„é»˜è®¤å€¼
 ---------------------------
-°ü£ºpackage
-ÏµÍ³Ìá¹©µÄ°ü
-dbms_output -- ÊäÈëÊä³ö°ü
-dbms_random -- Ëæ»úÊı°ü
+åŒ…ï¼špackage
+ç³»ç»Ÿæä¾›çš„åŒ…
+dbms_output -- è¾“å…¥è¾“å‡ºåŒ…
+dbms_random -- éšæœºæ•°åŒ…
 desc dbms_random
 select dbms_random.value(1,100)from dual;
 select trunc(dbms_random.value(1,100))from dual;
-dbms_job    -- ¶¨Ê±ÈÎÎñµ÷¶È°ü ¶¨Ê±µ÷ÓÃ´æ´¢¹ı³Ì	
+dbms_job    -- å®šæ—¶ä»»åŠ¡è°ƒåº¦åŒ… å®šæ—¶è°ƒç”¨å­˜å‚¨è¿‡ç¨‹	
 submit(job binary_integer,what varchar2,next_date date,interval varchar2);
-»á°Ñ¶¨Ê±ÈÎÎñÌá½»¸øÏµÍ³£¬ÏµÍ³»áÎªÕâ¸öÈÎÎñ·ÖÅäÒ»¸ö±àºÅ·ÅÈëjobÖĞ¡£
-what ¾ÍÊÇÒª¶¨Ê±µ÷ÓÃµÄ´æ´¢¹ı³Ì
-next_date µÚÒ»´Îµ÷ÓÃµÄÊ±¼ä
-interval ÏÂÒ»´Îµ÷ÓÃµÄÊ±¼ä
+ä¼šæŠŠå®šæ—¶ä»»åŠ¡æäº¤ç»™ç³»ç»Ÿï¼Œç³»ç»Ÿä¼šä¸ºè¿™ä¸ªä»»åŠ¡åˆ†é…ä¸€ä¸ªç¼–å·æ”¾å…¥jobä¸­ã€‚
+what å°±æ˜¯è¦å®šæ—¶è°ƒç”¨çš„å­˜å‚¨è¿‡ç¨‹
+next_date ç¬¬ä¸€æ¬¡è°ƒç”¨çš„æ—¶é—´
+interval ä¸‹ä¸€æ¬¡è°ƒç”¨çš„æ—¶é—´
 run(job binary_integer);
-ÔËĞĞ¶¨Ê±ÈÎÎñ
+è¿è¡Œå®šæ—¶ä»»åŠ¡
 remove(job binary_integer);
-É¾³ı¶¨Ê±ÈÎÎñ
+åˆ é™¤å®šæ—¶ä»»åŠ¡
 
-1.½¨Á¢Ò»ÕÅ±í
+1.å»ºç«‹ä¸€å¼ è¡¨
 create table testjob(
 	id number primary key,
 	name varchar2(30)
 );
-2.½¨Á¢Ò»¸öĞòÁĞ
+2.å»ºç«‹ä¸€ä¸ªåºåˆ—
 create sequence testjob_id;
-3.Ğ´Ò»¸ö´æ´¢¹ı³Ì Ïò±íÖĞÌí¼ÓÒ»ÌõÊı¾İ
+3.å†™ä¸€ä¸ªå­˜å‚¨è¿‡ç¨‹ å‘è¡¨ä¸­æ·»åŠ ä¸€æ¡æ•°æ®
 create or replace procedure insert_job
 is
 begin
 	insert into testjob values(
 	testjob_id,nextval,'test'||testjob.id.currval);
-	commit; -- ÊÂÎñ
+	commit; -- äº‹åŠ¡
 end;
-4.°Ñ´æ´¢¹ı³ÌµÄµ÷ÓÃ ½»¸ødbms_job
+4.æŠŠå­˜å‚¨è¿‡ç¨‹çš„è°ƒç”¨ äº¤ç»™dbms_job
 declare
 	jobno binary_integer;
 begin
@@ -1084,16 +1085,16 @@ begin
 	dbms_job.remove(1570);
 end;
 --------------------------------	
-×Ô¶¨Òå°ü		package
-°ÑÒ»×éÏà¹ØµÄº¯Êı ±äÁ¿ ¹ı³ÌµÈ·ÅÈëÒ»¸öÂß¼­½á¹¹ÖĞ¡£
-Ïàµ±ÓÚCÖĞµÄÍ·ÎÄ¼ş
+è‡ªå®šä¹‰åŒ…		package
+æŠŠä¸€ç»„ç›¸å…³çš„å‡½æ•° å˜é‡ è¿‡ç¨‹ç­‰æ”¾å…¥ä¸€ä¸ªé€»è¾‘ç»“æ„ä¸­ã€‚
+ç›¸å½“äºCä¸­çš„å¤´æ–‡ä»¶
 create or repalce package mypack
 is
 	procedure getmax(x number,y number);
 	function  getmin(x number,y number) return number;
 end;
 
-°üÌå Ïàµ±ÓÚCÖĞµÄÊµÏÖÎÄ¼ş
+åŒ…ä½“ ç›¸å½“äºCä¸­çš„å®ç°æ–‡ä»¶
 create or replace package body mypack
 is
 	procedure getmax(x number,y number)
@@ -1115,34 +1116,34 @@ is
 		return y;
 	end;
 end;
--- ÈçºÎµ÷ÓÃ°üÖĞµÄÊı¾İ
-ÔÚÊı¾İÇ°¼Ó °üÃû¼´¿É¡£
+-- å¦‚ä½•è°ƒç”¨åŒ…ä¸­çš„æ•°æ®
+åœ¨æ•°æ®å‰åŠ  åŒ…åå³å¯ã€‚
 begin
 	mypack.getmax(1,9527);
 end;
 -------------------------------
-¶¯Ì¬sql -- ÔÚ¿éÀïµÄsqlÓï¾ä£¬Ïà¶ÔÓÚÔÚ¿ØÖÆÌ¨ÀïµÄsqlÓï¾ä
+åŠ¨æ€sql -- åœ¨å—é‡Œçš„sqlè¯­å¥ï¼Œç›¸å¯¹äºåœ¨æ§åˆ¶å°é‡Œçš„sqlè¯­å¥
 select into
-dml tcl Ö±½Ó¿ÉÒÔÊ¹ÓÃ
-ddlĞèÒªÊ¹ÓÃ¶¯Ì¬sql
-dmlµÄ¶¯Ì¬sql Õ¼Î»·ûºÍ×Ö·û´®Æ´½Ó
-²é¿´Ô´´úÂë user_source
-²é¿´±àÒë´íÎó show errors
-ÔËĞĞÊ±´íÎó
-a.ÏµÍ³¶¨ÒåµÄÒì³£
+dml tcl ç›´æ¥å¯ä»¥ä½¿ç”¨
+ddléœ€è¦ä½¿ç”¨åŠ¨æ€sql
+dmlçš„åŠ¨æ€sql å ä½ç¬¦å’Œå­—ç¬¦ä¸²æ‹¼æ¥
+æŸ¥çœ‹æºä»£ç  user_source
+æŸ¥çœ‹ç¼–è¯‘é”™è¯¯ show errors
+è¿è¡Œæ—¶é”™è¯¯
+a.ç³»ç»Ÿå®šä¹‰çš„å¼‚å¸¸
 declare
 	var_name s_emp.first_name%type;
 begin
 	select first_name into var_name from s_emp where id=1;
 	dbms_output.put_line();
-exception --³ö´íºó×Ô¶¯Ìøµ½ÕâÀï
+exception --å‡ºé”™åè‡ªåŠ¨è·³åˆ°è¿™é‡Œ
 	when no_data_found then
 	dbms_output.put_line();
-b.×Ô¶¨ÒåÒì³£
-1.¶¨ÒåÒì³£
-2.¸ù¾İÌõ¼ş Å×³öÒì³£
-3.²¶»ñÒì³£
-4.´¦ÀíÒì³£
+b.è‡ªå®šä¹‰å¼‚å¸¸
+1.å®šä¹‰å¼‚å¸¸
+2.æ ¹æ®æ¡ä»¶ æŠ›å‡ºå¼‚å¸¸
+3.æ•è·å¼‚å¸¸
+4.å¤„ç†å¼‚å¸¸
 declare
 	many_emp exception;
 begin
@@ -1150,12 +1151,12 @@ begin
 		raise many_emp;
 	end if;
 exception
-	when others then -- othersÄÜ´ú±íËùÓĞµÄÒì³£
+	when others then -- othersèƒ½ä»£è¡¨æ‰€æœ‰çš„å¼‚å¸¸
 	dbms_output.put_line();
 end;
 ----------------------------------
-´¥·¢Æ÷£º
-ÔÚ×ödml²Ù×÷Ê±²Ù×÷¿ÉÒÔ±»ÏµÍ³µÃÖª²¢×öÏàÓ¦µÄ²Ù×÷¡£
+è§¦å‘å™¨ï¼š
+åœ¨åšdmlæ“ä½œæ—¶æ“ä½œå¯ä»¥è¢«ç³»ç»Ÿå¾—çŸ¥å¹¶åšç›¸åº”çš„æ“ä½œã€‚
 before after /insert delete update
 
 create or replace trigger myemptrigger
@@ -1164,9 +1165,9 @@ declare
 begin
 	dbms_output.put_line();
 end;
-ÎŞÂÛsqlÓï¾äÓ°Ïì¶àÉÙĞĞ¶¼´¥·¢Ò»´Î ÕâÖÖ´¥·¢Æ÷½ĞÓï¾ä¼¶´¥·¢Æ÷¡£
-ÎªÁËµÃµ½´¥·¢Æ÷Ó°ÏìµÄÃ¿Ò»ĞĞÊı¾İ
-ÒªÊ¹ÓÃĞĞ¼¶´¥·¢Æ÷¡£
+æ— è®ºsqlè¯­å¥å½±å“å¤šå°‘è¡Œéƒ½è§¦å‘ä¸€æ¬¡ è¿™ç§è§¦å‘å™¨å«è¯­å¥çº§è§¦å‘å™¨ã€‚
+ä¸ºäº†å¾—åˆ°è§¦å‘å™¨å½±å“çš„æ¯ä¸€è¡Œæ•°æ®
+è¦ä½¿ç”¨è¡Œçº§è§¦å‘å™¨ã€‚
 create or replace trigger myemp9537trigger
 before update on myemp9537 for each row
 declare
@@ -1175,8 +1176,8 @@ begin
 	dbms_output.put_line();
 	dbms_output.put_line();
 end;
-update--> :old :new -- dbms_output.put_line()ÀïÃæ
+update--> :old :new -- dbms_output.put_line()é‡Œé¢
 delete--> :old
 insert--> :new
-´¥·¢Æ÷µÄÏŞÖÆ£º
-²»ÄÜÓĞÊÂÎñ¿ØÖÆÓï¾ä:²»ÄÜ³öÏÖcommit\rollback\.
+è§¦å‘å™¨çš„é™åˆ¶ï¼š
+ä¸èƒ½æœ‰äº‹åŠ¡æ§åˆ¶è¯­å¥:ä¸èƒ½å‡ºç°commit\rollback\.
